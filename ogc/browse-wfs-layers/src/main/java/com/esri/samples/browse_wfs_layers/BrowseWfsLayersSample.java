@@ -82,7 +82,6 @@ public class BrowseWfsLayersSample extends Application {
 
     // create a progress indicator
     progressIndicator = new ProgressIndicator();
-    progressIndicator.setVisible(true);
 
     // create a map with the standard imagery basemap style
     map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
@@ -95,16 +94,18 @@ public class BrowseWfsLayersSample extends Application {
     wfsService = new WfsService("https://dservices2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/services/Seattle_Downtown_Features/WFSServer?service=wfs&request=getcapabilities");
     wfsService.loadAsync();
 
+    // show the progress indicator when the WFS service is loading
+    progressIndicator.visibleProperty().bind(wfsService.loadStatusProperty().isEqualTo(LoadStatus.LOADING));
+
     // when the WFS service has loaded, add its layer information to the list view for browsing
-    wfsService.addDoneLoadingListener(() -> {
-      progressIndicator.setVisible(false);
-      if (wfsService.getLoadStatus() == LoadStatus.LOADED) {
+    wfsService.loadStatusProperty().addListener((observable, oldValue, newValue) -> {
+      if (newValue == LoadStatus.LOADED) {
         // add the list of WFS layers to the list view
         List<WfsLayerInfo> wfsLayerInfos = wfsService.getServiceInfo().getLayerInfos();
         wfsLayerNamesListView.getItems().addAll(wfsLayerInfos);
-      } else {
-        Alert alert = new Alert(Alert.AlertType.ERROR, "WFS Service Failed to Load!");
-        alert.show();
+      } else if (newValue == LoadStatus.FAILED_TO_LOAD) {
+        new Alert(Alert.AlertType.ERROR, "WFS Service Failed to Load!\n" +
+          wfsService.loadErrorProperty().get().toString()).show();
       }
     });
 
@@ -140,8 +141,6 @@ public class BrowseWfsLayersSample extends Application {
    */
   private void updateMap(WfsLayerInfo wfsLayerInfo){
 
-    progressIndicator.setVisible(true);
-
     // clear the map's operational layers
     map.getOperationalLayers().clear();
 
@@ -157,10 +156,11 @@ public class BrowseWfsLayersSample extends Application {
     FeatureLayer wfsFeatureLayer = new FeatureLayer(wfsFeatureTable);
 
     // populate the table and then remove progress indicator and set the viewpoint to that of the layer's full extent when done.
-    wfsFeatureTable.populateFromServiceAsync(new QueryParameters(), false, null ).addDoneListener(()->{
-      progressIndicator.setVisible(false);
-      mapView.setViewpointGeometryAsync(wfsFeatureLayer.getFullExtent(), 50);
-    });
+    wfsFeatureTable.populateFromServiceAsync(new QueryParameters(), false, null ).addDoneListener(()->
+      mapView.setViewpointGeometryAsync(wfsFeatureLayer.getFullExtent(), 50));
+
+    // show progress indicator when feature layer is loading
+    progressIndicator.visibleProperty().bind(wfsFeatureTable.loadStatusProperty().isEqualTo(LoadStatus.LOADING));
 
     // apply a renderer to the feature layer once the table is loaded (the renderer is based on the table's geometry type)
     wfsFeatureTable.addDoneLoadingListener(()->{
