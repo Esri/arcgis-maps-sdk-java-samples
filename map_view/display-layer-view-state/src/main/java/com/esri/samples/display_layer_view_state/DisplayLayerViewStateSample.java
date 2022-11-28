@@ -21,7 +21,6 @@ import java.util.EnumSet;
 import java.util.List;
 
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -87,54 +86,48 @@ public class DisplayLayerViewStateSample extends Application {
       mapView.setViewpoint(new Viewpoint(new Point(-11e6, 45e5, SpatialReferences.getWebMercator()), 40000000));
 
       // create a label to display the view status
-      var layerViewStatusLabel = new Label("Current view status: ");
+      Label layerViewStatusLabel = new Label("Current view status: ");
 
       // create a checkbox UI that toggles the visibility of the feature layer
-      var visibilityCheckBox = new CheckBox();
-      visibilityCheckBox.setDisable(true);
-      visibilityCheckBox.setSelected(true);
+      CheckBox visibilityCheckBox = new CheckBox();
       visibilityCheckBox.setText("Layer visible");
+      visibilityCheckBox.setSelected(true);
+      visibilityCheckBox.setDisable(true);
       visibilityCheckBox.setOnAction(event -> featureLayer.setVisible(visibilityCheckBox.isSelected()));
 
-      // create a button and a listener to add the feature layer
-      var loadLayerButton = new Button("Load layer");
+      // create a button and a listener to load a feature layer
+      Button loadLayerButton = new Button("Load Layer");
       loadLayerButton.setOnAction(event -> {
 
-        // clear the map's operational layers
+        // disable the checkbox when loading/reloading the feature layer, and, if it exists, remove it by clearing the map's operational layers
+        if (!visibilityCheckBox.isDisabled()) {
+          visibilityCheckBox.setDisable(true);
+        }
+
         if (featureLayer != null) {
           map.getOperationalLayers().clear();
         }
 
         // create a new feature layer from a portal item
-        final var portalItem = new PortalItem(new Portal("https://runtime.maps.arcgis.com/"),
+        final PortalItem portalItem = new PortalItem(new Portal("https://runtime.maps.arcgis.com/"),
           "b8f4033069f141729ffb298b7418b653");
         featureLayer = new FeatureLayer(portalItem, 0);
         //  set a minimum and a maximum scale for the visibility of the feature layer
         featureLayer.setMinScale(40000000);
         featureLayer.setMaxScale(4000000);
-
-        // add the feature layer to the map and update its visibility
+        // add the feature layer to the map
         map.getOperationalLayers().add(featureLayer);
-        featureLayer.setVisible(visibilityCheckBox.isSelected());
 
-        // update the button text when the layer status changes
-        loadLayerButton.textProperty().bind(Bindings.createStringBinding(()-> {
-          var loadStatus = featureLayer.loadStatusProperty().get();
-          if (loadStatus == LoadStatus.LOADED || loadStatus == LoadStatus.FAILED_TO_LOAD) {
-            return "Reload layer";
+        // enable UI interactions once the feature layer has loaded
+        featureLayer.addDoneLoadingListener(() -> {
+          if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
+            visibilityCheckBox.setDisable(false);
+            featureLayer.setVisible(visibilityCheckBox.isSelected());
+            loadLayerButton.setText("Reload Layer");
           } else {
-            return "Load layer";
+            new Alert(Alert.AlertType.ERROR, "Feature layer failed to load").show();
           }
-        }, featureLayer.loadStatusProperty()));
-
-        // update the button disabled status
-        loadLayerButton.disableProperty().bind(Bindings.createBooleanBinding(()-> {
-          LoadStatus status = featureLayer.loadStatusProperty().get();
-          return status == LoadStatus.LOADED || status == LoadStatus.FAILED_TO_LOAD;
-        }));
-
-        // disable checkbox when the layer is not loaded
-        visibilityCheckBox.disableProperty().bind(featureLayer.loadStatusProperty().isNotEqualTo(LoadStatus.LOADED));
+        });
       });
 
       // create a listener that fires every time a layer's view status changes
@@ -175,7 +168,7 @@ public class DisplayLayerViewStateSample extends Application {
       });
 
       // create a control panel and add the label, checkbox and button UI components
-      var controlsVBox = new VBox(15);
+      VBox controlsVBox = new VBox(15);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"), CornerRadii.EMPTY,
         Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
