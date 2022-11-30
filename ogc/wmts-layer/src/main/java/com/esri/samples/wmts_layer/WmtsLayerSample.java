@@ -70,7 +70,7 @@ public class WmtsLayerSample extends Application {
           map.setBasemap(new Basemap(wmtsLayer));
         } else if (newValue == LoadStatus.FAILED_TO_LOAD) {
           new Alert(Alert.AlertType.ERROR, "Failed to load WMTS layer.\n" +
-            wmtsService.loadErrorProperty().get().getCause().toString()).show();
+            wmtsService.loadErrorProperty().get().getCause().getMessage()).show();
         }
       });
       wmtsService.loadAsync();

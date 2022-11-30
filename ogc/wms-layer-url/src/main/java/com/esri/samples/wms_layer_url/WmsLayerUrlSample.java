@@ -79,7 +79,7 @@ public class WmsLayerUrlSample extends Application {
       wmsLayer.loadStatusProperty().addListener((observable, oldValue, newValue) -> {
         if (newValue == LoadStatus.FAILED_TO_LOAD) {
           new Alert(Alert.AlertType.ERROR, "Failed to load WMS layer.\n" +
-            wmsLayer.loadErrorProperty().get().getCause().toString()).show();
+            wmsLayer.loadErrorProperty().get().getCause().getMessage()).show();
         }
       });
       map.getOperationalLayers().add(wmsLayer);
