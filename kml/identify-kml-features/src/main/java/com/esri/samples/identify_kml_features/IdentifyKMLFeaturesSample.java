@@ -18,16 +18,6 @@ package com.esri.samples.identify_kml_features;
 
 import java.util.concurrent.ExecutionException;
 
-import javafx.application.Application;
-import javafx.geometry.Point2D;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.web.WebView;
-import javafx.stage.Stage;
-
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Envelope;
@@ -41,6 +31,15 @@ import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.ogc.kml.KmlDataset;
 import com.esri.arcgisruntime.ogc.kml.KmlPlacemark;
+import javafx.application.Application;
+import javafx.geometry.Point2D;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 
 public class IdentifyKMLFeaturesSample extends Application {
 
@@ -109,9 +108,11 @@ public class IdentifyKMLFeaturesSample extends Application {
                   VBox vBox = new VBox();
                   WebView webView = new WebView();
                   webView.setMaxSize(400, 100);
+                  vBox.setMaxSize(430, 100);
                   webView.getEngine().loadContent(placemark.getBalloonContent());
                   vBox.getChildren().add(webView);
                   mapView.getCallout().setCustomView(vBox);
+                  mapView.getCallout().setMaxSize(430, 100);
                   Point interactionPoint = mapView.screenToLocation(screenPoint);
                   mapView.getCallout().showCalloutAt(geoElement, interactionPoint);
                   break;
