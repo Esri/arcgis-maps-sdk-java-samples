@@ -16,17 +16,6 @@
 
 package com.esri.samples.format_coordinates;
 
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-
 import com.esri.arcgisruntime.ArcGISRuntimeException;
 import com.esri.arcgisruntime.geometry.CoordinateFormatter;
 import com.esri.arcgisruntime.geometry.Point;
@@ -35,10 +24,26 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Callout;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class FormatCoordinatesSample extends Application {
 
   private MapView mapView;
+  private Callout callout;
+  private Label decimalDegreesLabel;
+  private Label degMinSecLabel;
+  private Label utmLabel;
+  private Label usngLabel;
 
   @Override
   public void start(Stage stage) {
@@ -58,10 +63,22 @@ public class FormatCoordinatesSample extends Application {
       // create a map with a wgs84 basemap and set it to the map view
       mapView = new MapView();
       ArcGISTiledLayer basemapLayer = new ArcGISTiledLayer("https://wi.maptiles.arcgis" +
-          ".com/arcgis/rest/services/World_Imagery/MapServer");
+        ".com/arcgis/rest/services/World_Imagery/MapServer");
       Basemap basemap = new Basemap(basemapLayer);
       ArcGISMap map = new ArcGISMap(basemap);
       mapView.setMap(map);
+
+      // configure the callout to show coordinate information
+      callout = mapView.getCallout();
+      decimalDegreesLabel = new Label();
+      degMinSecLabel = new Label();
+      utmLabel  = new Label();
+      usngLabel  = new Label();
+      var calloutVBox = new VBox();
+      calloutVBox.setMinWidth(400);
+      calloutVBox.setMaxWidth(400);
+      calloutVBox.getChildren().addAll(decimalDegreesLabel, degMinSecLabel, utmLabel, usngLabel);
+      callout.setCustomView(calloutVBox);
 
       // click event to display the callout with the formatted coordinates of the clicked location
       mapView.setOnMouseClicked(e -> {
@@ -117,27 +134,21 @@ public class FormatCoordinatesSample extends Application {
   }
 
   /**
-   * Shows a callout at the specified location with different coordinate formats in the callout.
+   * Shows a callout at the specified location with different coordinate formats displayed within the callout view.
    *
    * @param location coordinate to show coordinate formats for
    */
   private void showCalloutWithLocationCoordinates(Point location) {
-    Callout callout = mapView.getCallout();
-    callout.setTitle("Location:");
-    String latLonDecimalDegrees = CoordinateFormatter.toLatitudeLongitude(location, CoordinateFormatter
-        .LatitudeLongitudeFormat.DECIMAL_DEGREES, 4);
-    String latLonDegMinSec = CoordinateFormatter.toLatitudeLongitude(location, CoordinateFormatter
-        .LatitudeLongitudeFormat.DEGREES_MINUTES_SECONDS, 1);
-    String utm = CoordinateFormatter.toUtm(location, CoordinateFormatter.UtmConversionMode.LATITUDE_BAND_INDICATORS,
-        true);
-    String usng = CoordinateFormatter.toUsng(location, 4, true);
-    callout.setDetail(
-        "Decimal Degrees: " + latLonDecimalDegrees + "\n" +
-            "Degrees, Minutes, Seconds: " + latLonDegMinSec + "\n" +
-            "UTM: " + utm + "\n" +
-            "USNG: " + usng + "\n"
-    );
-    mapView.getCallout().showCalloutAt(location, new Duration(500));
+    // update callout content to show information for provided location
+    decimalDegreesLabel.setText("Decimal Degrees: " +
+      CoordinateFormatter.toLatitudeLongitude(location, CoordinateFormatter.LatitudeLongitudeFormat.DECIMAL_DEGREES, 4));
+    degMinSecLabel.setText("DMS: " +
+      CoordinateFormatter.toLatitudeLongitude(location, CoordinateFormatter.LatitudeLongitudeFormat.DEGREES_MINUTES_SECONDS, 1));
+    utmLabel.setText("UTM: " +
+      CoordinateFormatter.toUtm(location, CoordinateFormatter.UtmConversionMode.LATITUDE_BAND_INDICATORS, true));
+    usngLabel.setText("USNG: " + CoordinateFormatter.toUsng(location, 4, true));
+    // display the callout
+    callout.showCalloutAt(location);
   }
 
   /**
