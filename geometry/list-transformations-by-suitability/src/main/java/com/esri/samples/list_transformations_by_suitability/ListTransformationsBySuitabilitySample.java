@@ -23,6 +23,7 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListCell;
@@ -144,10 +145,14 @@ public class ListTransformationsBySuitabilitySample extends Application {
       transformButton.setOnAction(e -> {
         DatumTransformation transformation = transformationsListView.getSelectionModel().getSelectedItem();
         if (transformation != null) {
-          Point projectedPoint = (Point) GeometryEngine.project(originalGraphic.getGeometry(), mapView.getSpatialReference(),
-            transformation);
-          transformedGraphic.setVisible(true);
-          transformedGraphic.setGeometry(projectedPoint);
+          try {
+            Point projectedPoint = (Point) GeometryEngine.project(originalGraphic.getGeometry(), mapView.getSpatialReference(),
+              transformation);
+            transformedGraphic.setVisible(true);
+            transformedGraphic.setGeometry(projectedPoint);
+          } catch (Exception ex) {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
+          }
         }
       });
 
