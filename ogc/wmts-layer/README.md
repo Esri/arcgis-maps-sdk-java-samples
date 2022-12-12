@@ -15,9 +15,9 @@ Pan and zoom to explore the WMTS layer, which is displayed automatically.
 ## How it works
  
 1. Create a `WmtsService` using the URL of the WMTS Service.
-1. After loading the WMTS service, get the list of `WmtsLayerInfos` from the service info: `service.getServiceInfo().getLayerInfos()`
-1. Use one of the layer infos to create a new `WmtsLayer(layerInfos.get(0))`
-1. Set it as the map's basemap with `map.setBasemap(new Basemap(wmtsLayer))`.
+2. After loading the WMTS service, get the list of `WmtsLayerInfos` from the service info: `service.getServiceInfo().getLayerInfos()`
+3. Use one of the layer infos to create a new `WmtsLayer(layerInfo)`
+4. Set it as the map's basemap with `map.setBasemap(new Basemap(wmtsLayer))`.
 
 ## Relevant API
 
@@ -28,7 +28,7 @@ Pan and zoom to explore the WMTS layer, which is displayed automatically.
 
 ## About the data
 
-The map visualizes world time zones.
+We acknowledge the use of imagery provided by services from the [Global Imagery Browse Services (GIBS)](https://wiki.earthdata.nasa.gov/display/GIBS/), operated by the [NASA/GSFC/Earth Science Data and Information System (ESDIS)](https://earthdata.nasa.gov/) with funding provided by NASA/HQ.
 
 ## Tags
 
