@@ -28,7 +28,7 @@ Pan and zoom to explore the WMTS layer, which is displayed automatically.
 
 ## About the data
 
-We acknowledge the use of imagery provided by services from the [Global Imagery Browse Services (GIBS)](https://wiki.earthdata.nasa.gov/display/GIBS/), operated by the [NASA/GSFC/Earth Science Data and Information System (ESDIS)](https://earthdata.nasa.gov/) with funding provided by NASA/HQ.
+We acknowledge the use of imagery provided by services from the [Global Imagery Browse Services (GIBS)](https://wiki.earthdata.nasa.gov/display/GIBS/), operated by the [NASA/GSFC/Earth Science Data and Information System (ESDIS)](https://earthdata.nasa.gov/) with funding provided by NASA/HQ. This sample shows the Digital Elevation Model (Color Index, SRTM) layer from the WMTS service provided by GIBS, using the "SRTM_Color_Index" identifier. 
 
 ## Tags
 
