@@ -16,7 +16,7 @@ Pan and zoom to explore the WMTS layer, which is displayed automatically.
  
 1. Create a `WmtsService` using the URL of the WMTS Service.
 2. After loading the WMTS service, get the list of `WmtsLayerInfos` from the service info: `service.getServiceInfo().getLayerInfos()`
-3. Use one of the layer infos to create a new `WmtsLayer(layerInfo)`
+3. Create a new `WmtsLayer` from a `WmtsLayerInfo`
 4. Set it as the map's basemap with `map.setBasemap(new Basemap(wmtsLayer))`.
 
 ## Relevant API
