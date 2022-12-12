@@ -64,7 +64,7 @@ public class WmtsLayerSample extends Application {
       wmtsService.addDoneLoadingListener(() -> {
         if (wmtsService.getLoadStatus() == LoadStatus.LOADED) {
           WmtsServiceInfo wmtsServiceInfo = wmtsService.getServiceInfo();
-          // Obtain the read only list of WMTS layer info objects, and select the one with the desired Id value.
+          // obtain the read only list of WMTS layer info objects, and select the one with the desired Id value.
           List<WmtsLayerInfo> wmtsLayerInfos = wmtsServiceInfo.getLayerInfos();
           WmtsLayerInfo layerInfo = wmtsLayerInfos.stream()
             .filter(layer -> layer.getId().equals("SRTM_Color_Index")).collect(Collectors.toList()).get(0);
