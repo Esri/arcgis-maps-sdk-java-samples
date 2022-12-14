@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 module com.esri.samples.apply_scheduled_updates_to_preplanned_map_area {
-  // require ArcGIS Runtime module
+  // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules that the application uses

@@ -15,7 +15,7 @@
  */
 
 module com.esri.samples.local_server_map_image_layer {
-  // require ArcGIS Runtime module
+  // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules that the application uses

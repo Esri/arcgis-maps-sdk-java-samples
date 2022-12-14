@@ -15,7 +15,7 @@
  */
 
 module com.esri.samples.filter_by_definition_expression_or_display_filter {
-  // require ArcGIS Runtime module
+  // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules that the application uses

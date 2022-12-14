@@ -15,7 +15,7 @@
  */
 
 module com.esri.samples.orbit_the_camera_around_an_object {
-  // require ArcGIS Runtime module
+  // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules that the application uses

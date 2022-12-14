@@ -15,7 +15,7 @@
  */
 
 module com.esri.samples.generate_geodatabase_replica_from_feature_service {
-  // require ArcGIS Runtime module
+  // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules that the application uses

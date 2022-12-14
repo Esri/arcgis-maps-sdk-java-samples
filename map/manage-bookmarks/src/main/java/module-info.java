@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 module com.esri.samples.manage_bookmarks {
-  // require ArcGIS Runtime module
+  // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules that the application uses

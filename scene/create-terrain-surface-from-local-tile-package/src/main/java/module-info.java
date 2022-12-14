@@ -15,7 +15,7 @@
  */
 
 module com.esri.samples.create_terrain_surface_from_local_tile_package {
-  // require ArcGIS Runtime module
+  // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules that the application uses

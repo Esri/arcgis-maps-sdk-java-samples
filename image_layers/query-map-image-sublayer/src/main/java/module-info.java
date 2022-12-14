@@ -15,7 +15,7 @@
  */
 
 module com.esri.samples.query_map_image_sublayer {
-  // require ArcGIS Runtime module
+  // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules that the application uses

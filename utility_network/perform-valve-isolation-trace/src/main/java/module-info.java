@@ -15,7 +15,7 @@
  */
 
 module com.esri.samples.perform_valve_isolation_trace {
-  // require ArcGIS Runtime module
+  // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules that the application uses

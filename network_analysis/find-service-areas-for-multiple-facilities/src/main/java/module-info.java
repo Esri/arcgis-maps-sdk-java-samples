@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 module com.esri.samples.find_service_areas_for_multiple_facilities {
-  // require ArcGIS Runtime module
+  // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules that the application uses

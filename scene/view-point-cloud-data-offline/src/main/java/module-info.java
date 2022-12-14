@@ -15,7 +15,7 @@
  */
 
 module com.esri.samples.view_point_cloud_data_offline {
-  // require ArcGIS Runtime module
+  // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules that the application uses

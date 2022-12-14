@@ -15,7 +15,7 @@
  */
 
 module com.esri.samples.reverse_geocode_online {
-  // require ArcGIS Runtime module
+  // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules that the application uses

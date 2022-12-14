@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 module com.esri.samples.map_rotation {
-  // require ArcGIS Runtime module
+  // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules that the application uses
   requires javafx.graphics;
   requires javafx.controls;
 
-  // require ArcGIS Runtime Toolkit
-  requires arcgis.java.toolkit;
+  // require ArcGIS Maps SDK for Java Toolkit
+  requires com.esri.arcgisruntime.toolkit;
 
   exports com.esri.samples.map_rotation;
 }

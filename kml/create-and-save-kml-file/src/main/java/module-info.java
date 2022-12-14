@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 module com.esri.samples.create_and_save_kml_file {
-  // require ArcGIS Runtime module
+  // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules that the application uses

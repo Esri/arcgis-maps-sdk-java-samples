@@ -15,7 +15,7 @@
  */
 
 module com.esri.samples.viewshed_geoprocessing {
-  // require ArcGIS Runtime modules
+  // require ArcGIS Maps SDK for Java modules
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules that the application uses

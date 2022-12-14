@@ -15,7 +15,7 @@
  */
 
 module com.esri.samples.distance_composite_symbol {
-  // require ArcGIS Runtime module
+  // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules that the application uses

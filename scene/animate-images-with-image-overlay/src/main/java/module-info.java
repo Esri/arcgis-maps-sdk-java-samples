@@ -15,7 +15,7 @@
  */
 
 module com.esri.samples.animate_images_with_image_overlay {
-  // require ArcGIS Runtime module
+  // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
   // require JavaFX modules that the application uses
