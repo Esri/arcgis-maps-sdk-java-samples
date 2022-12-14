@@ -6,7 +6,7 @@ Create contour lines from local raster data using a local geoprocessing package 
 
 ## Use case
 
-For executing offline geoprocessing tasks in your ArcGIS Runtime apps via an offline (local) server.
+For executing offline geoprocessing tasks in your ArcGIS Maps SDK for Java apps via an offline (local) server.
 
 ## How to use the sample
 
@@ -54,9 +54,9 @@ Contour Line Controls (Top Left):
 
 Local Server can be downloaded for Windows and Linux platforms from your [ArcGIS Developers dashboard](https://developers.arcgis.com/java/local-server/install-local-server/). Local Server is not supported on macOS.
 
-Specific versions of ArcGIS Runtime Local Server are compatible with the version of ArcGIS Pro you use to create geoprocessing and map packages. For example, the ArcGIS Runtime API for Java v100.11.0 is configured for Local Server v100.10.0 which provides compatibility for packages created with ArcGIS Pro 2.7.x. For more information see the [ArcGIS Developers guide](https://developers.arcgis.com/java/reference/system-requirements/#local-server-version-compatibility-with-arcgis-desktop-and-arcgis-pro).
+Specific versions of ArcGIS Maps SDK for Local Server are compatible with the version of ArcGIS Pro you use to create geoprocessing and map packages. For example, the ArcGIS Maps SDK for Java v100.11.0 is configured for Local Server v100.10.0 which provides compatibility for packages created with ArcGIS Pro 2.7.x. For more information see the [ArcGIS Developers guide](https://developers.arcgis.com/java/reference/system-requirements/#local-server-version-compatibility-with-arcgis-desktop-and-arcgis-pro).
 
-To configure the ArcGIS Runtime API for Java v100.11.0 to work with Local Server 100.9.0:
+To configure the ArcGIS Maps SDK for Java v100.11.0 to work with ArcGIS Maps SDK for Local Server 100.9.0:
 
 * Development machine:
     * Locate the Local Server installation directory and rename the folder from `LocalServer100.9` to `LocalServer100.10`.

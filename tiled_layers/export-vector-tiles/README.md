@@ -32,7 +32,7 @@ When the vector tiled layer loads, zoom in to the extent you want to export. The
 
 ## Additional information
 
-Vector tiles have high drawing performance and smaller file size compared to regular tiled layers, due to consisting solely of points, lines, and polygons. However, in the ArcGIS Runtime API they cannot be displayed in scenes.
+Vector tiles have high drawing performance and smaller file size compared to regular tiled layers, due to consisting solely of points, lines, and polygons. However, in the ArcGIS Maps SDKs for Native Apps, they cannot be displayed in scenes.
 
 ## Tags
 

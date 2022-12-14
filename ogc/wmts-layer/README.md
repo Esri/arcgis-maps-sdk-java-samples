@@ -1,19 +1,19 @@
 # WMTS layer
 
 Display a layer from a Web Map Tile Service.
- 
+
 ![Image of WMTS layer](WmtsLayer.png)
 
 ## Use case
 
-WMTS services can have several layers. You can use ArcGIS Runtime to explore the layers available from a service. This would commonly be used to enable a browsing experience where users can choose which layers they want to display at run time.
+WMTS services can have several layers. You can use ArcGIS Maps SDKs for Native Apps to explore the layers available from a service. This would commonly be used to enable a browsing experience where users can choose which layers they want to display at run time.
 
 ## How to use the sample
 
 Pan and zoom to explore the WMTS layer, which is displayed automatically.
- 
+
 ## How it works
- 
+
 1. Create a `WmtsService` using the URL of the WMTS Service.
 2. After loading the WMTS service, get the list of `WmtsLayerInfos` from the service info: `service.getServiceInfo().getLayerInfos()`
 3. Create a new `WmtsLayer` from a `WmtsLayerInfo`

@@ -25,6 +25,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -75,10 +76,10 @@ public class ColormapRendererSample extends Application {
       // add the raster to the map's operational layers
       map.getOperationalLayers().add(rasterLayer);
 
-      // create a color map where values 0-149 are red (0xFFFF0000) and 150-250 are yellow (0xFFFFFF00)
-      List<Integer> colors = IntStream.range(0, 250)
+      // create a color map where values 0-149 are red and 150-250 are yellow
+      List<Color> colors = IntStream.range(0, 250)
           .boxed()
-          .map(i -> i < 150 ? 0xFFFF0000 : 0xFFFFFF00)
+          .map(i -> i < 150 ? Color.RED : Color.YELLOW)
           .collect(Collectors.toList());
 
       // create a colormap renderer

@@ -6,8 +6,8 @@
         "WmtsLayer.png"
     ],
     "keywords": [
-        "OGC",
         "layer",
+        "OGC",
         "raster",
         "tiled",
         "web map tile service",

@@ -16,7 +16,7 @@ Pan and zoom to explore the effect of the colormap applied to the raster.
 
 1. Create a `Raster` from a raster file.
 2. Create a `RasterLayer` from the raster.
-3. Create a `List<Integer>` representing colors. Colors at the beginning of the list replace the darkest values in the raster and colors at the end of the list replaced the brightest values of the raster.
+3. Create a `List<Color>` representing colors. Colors at the beginning of the list replace the darkest values in the raster and colors at the end of the list replaced the brightest values of the raster.
 4. Create a `ColormapRenderer` with the color list: `ColormapRenderer(colors)`, and apply it to the raster layer with `rasterLayer.setRasterRenderer(colormapRenderer)`.
 
 ## Relevant API
