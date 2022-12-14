@@ -6,13 +6,13 @@
         "WfsXmlQuery.png"
     ],
     "keywords": [
-        "OGC",
-        "WFS",
-        "XML",
         "feature",
+        "OGC",
         "query",
         "service",
         "web",
+        "WFS",
+        "XML",
         "FeatureLayer",
         "WfsFeatureTable"
     ],

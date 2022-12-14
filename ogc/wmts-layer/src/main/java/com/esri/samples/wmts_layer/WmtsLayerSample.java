@@ -17,11 +17,7 @@
 package com.esri.samples.wmts_layer;
 
 import java.util.List;
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import java.util.stream.Collectors;
 
 import com.esri.arcgisruntime.layers.WmtsLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
@@ -31,6 +27,11 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.ogc.wmts.WmtsLayerInfo;
 import com.esri.arcgisruntime.ogc.wmts.WmtsService;
 import com.esri.arcgisruntime.ogc.wmts.WmtsServiceInfo;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class WmtsLayerSample extends Application {
 
@@ -58,15 +59,17 @@ public class WmtsLayerSample extends Application {
       mapView.setMap(map);
 
       // create a WMTS service from a URL
-      String serviceURL = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/WorldTimeZones/MapServer/WMTS";
+      String serviceURL = "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best";
       wmtsService = new WmtsService(serviceURL);
       wmtsService.loadStatusProperty().addListener((observable, oldValue, newValue) -> {
         if (newValue == LoadStatus.LOADED) {
           WmtsServiceInfo wmtsServiceInfo = wmtsService.getServiceInfo();
-          // get the first layer's ID
-          List<WmtsLayerInfo> layerInfos = wmtsServiceInfo.getLayerInfos();
+          // obtain the read only list of WMTS layer info objects, and select the one with the desired Id value.
+          List<WmtsLayerInfo> wmtsLayerInfos = wmtsServiceInfo.getLayerInfos();
+          WmtsLayerInfo layerInfo = wmtsLayerInfos.stream()
+            .filter(layer -> layer.getId().equals("SRTM_Color_Index")).collect(Collectors.toList()).get(0);
           // create the WMTS layer with the LayerInfo
-          WmtsLayer wmtsLayer = new WmtsLayer(layerInfos.get(0));
+          WmtsLayer wmtsLayer = new WmtsLayer(layerInfo);
           map.setBasemap(new Basemap(wmtsLayer));
         } else if (newValue == LoadStatus.FAILED_TO_LOAD) {
           new Alert(Alert.AlertType.ERROR, "Failed to load WMTS layer.\n" +

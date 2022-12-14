@@ -6,7 +6,7 @@ plugins {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '200.0.0-3702'
+    arcgisVersion = '200.0.0'
 }
 
 javafx {
@@ -41,7 +41,7 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
     // handle SLF4J http://www.slf4j.org/codes.html#StaticLoggerBinder
     runtimeOnly 'org.slf4j:slf4j-nop:1.7.32'
-    implementation 'com.esri.arcgisruntime:arcgis-java-toolkit:100.15.0'
+    implementation 'com.esri.arcgisruntime:arcgis-java-toolkit:200.0.0'
 }
 
 task createGradlePropertiesAndWriteApiKey {

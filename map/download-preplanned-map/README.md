@@ -35,7 +35,7 @@ Select a map area from the Preplanned Map Areas list. Click the Download button 
 
 ## About the data
 
-The [Naperville stormwater network map](https://arcgisruntime.maps.arcgis.com/home/item.html?id=acc027394bc84c2fb04d1ed317aac674) is based on ArcGIS Solutions for Stormwater and provides a realistic depiction of a theoretical stormwater network.
+The [Naperville stormwater network map](https://www.arcgis.com/home/item.html?id=acc027394bc84c2fb04d1ed317aac674) is based on ArcGIS Solutions for Stormwater and provides a realistic depiction of a theoretical stormwater network.
 
 ## Additional information
 
