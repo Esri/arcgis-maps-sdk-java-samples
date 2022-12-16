@@ -113,7 +113,7 @@ public class LineOfSightGeoElementSample extends Application {
       scene.setBaseSurface(surface);
 
       // add buildings from New York City
-      String buildingsURL = "https://tiles.arcgis.com/tiles/z2tnIkrLQ2BRzr6P/arcgis/rest/services/New_York_LoD2_3D_Buildings/SceneServer/layers/0";
+      String buildingsURL = "https://tiles.arcgis.com/tiles/z2tnIkrLQ2BRzr6P/arcgis/rest/services/Buildings_NewYork_v18/SceneServer/layers/0";
       ArcGISSceneLayer buildings = new ArcGISSceneLayer(buildingsURL);
       scene.getOperationalLayers().add(buildings);
 
