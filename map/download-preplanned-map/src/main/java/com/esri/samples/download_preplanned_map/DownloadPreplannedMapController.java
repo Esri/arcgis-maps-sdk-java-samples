@@ -99,8 +99,8 @@ public class DownloadPreplannedMapController {
       areaOfInterestRenderer.setSymbol(areaOfInterestLineSymbol);
       areasOfInterestGraphicsOverlay.setRenderer(areaOfInterestRenderer);
 
-      // create an offline map task for the portal item
-      offlineMapTask = new OfflineMapTask(portalItem);
+      // create an offline map task for the map
+      offlineMapTask = new OfflineMapTask(onlineMap);
 
       // use a cell factory which shows the preplanned area's title
       preplannedAreasListView.setCellFactory(c -> new PreplannedMapAreaListCell());
