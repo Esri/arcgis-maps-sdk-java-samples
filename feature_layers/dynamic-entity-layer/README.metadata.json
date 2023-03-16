@@ -1,0 +1,33 @@
+{
+  "category": "Feature layers",
+  "description": "Display data from an ArcGIS stream service using a dynamic entity layer.",
+  "ignore": false,
+  "images": [
+    "DynamicEntityLayer.png"
+  ],
+  "keywords": [
+    "data",
+    "dynamic",
+    "entity",
+    "live",
+    "purge",
+    "real-time",
+    "service",
+    "stream",
+    "track"
+  ],
+  "redirect_from": "",
+  "relevant_apis": [
+    "ArcGISStreamService",
+    "ConnectionStatus",
+    "DynamicEntity",
+    "DynamicEntityFilter",
+    "DynamicEntityLayer",
+    "DynamicEntityPurgeOptions",
+    "TrackDisplayProperties"
+  ],
+  "snippets": [
+    "src/main/java/com/esri/samples/dynamic_entity_layer/DynamicEntityLayerSample.java"
+  ],
+  "title": "Dynamic entity layer"
+}
