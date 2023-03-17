@@ -242,7 +242,7 @@ public class DynamicEntityLayerSample extends Application {
   private void setUpControlsVBox() {
 
     // create labels for the connection status and the observations per track slider
-    connectionStatusLabel = new Label("Status: Loading...");
+    connectionStatusLabel = new Label("Status: ");
     observationSliderLabel = new Label("Observations per track: ");
 
     // create buttons to toggle the service connection and purge observations
@@ -256,7 +256,7 @@ public class DynamicEntityLayerSample extends Application {
     observationsChkBox = new CheckBox("Previous observations");
 
     // create a slider to update the number of previous observations
-    observationsSlider = new Slider(1, 16, 5);
+    observationsSlider = new Slider(1, 5, 5);
 
     // create hbox and add the observations label and slider
     HBox sliderHBox = new HBox();
