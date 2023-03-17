@@ -149,7 +149,6 @@ public class DynamicEntityLayerSample extends Application {
           streamService.disconnectAsync();
         } else {
           streamService.connectAsync();
-          System.out.println(streamService.getConnectionError().getCause().getMessage());
         }
       });
 
