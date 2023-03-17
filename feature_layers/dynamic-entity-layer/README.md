@@ -2,7 +2,7 @@
 
 Display data from an ArcGIS stream service using a dynamic entity layer.
 
-![DynamicEntityLayer](DisplayMap.png)
+![DynamicEntityLayer](DynamicEntityLayer.gif)
 
 ## Use case
 
@@ -33,9 +33,13 @@ Use the controls to connect to or disconnect from the stream service, modify dis
 * DynamicEntityPurgeOptions
 * TrackDisplayProperties
 
-## Additional information
+## About the data
 
 This sample uses a [stream service](https://realtimegis2016.esri.com:6443/arcgis/rest/services/SandyVehicles/StreamServer) that simulates live data coming from snowplows near Sandy, Utah. There are multiple vehicle types and multiple agencies operating the snowplows.
+
+## Additional information
+
+More information about dynamic entities can be found in the guide documentation.
 
 ## Tags
 
