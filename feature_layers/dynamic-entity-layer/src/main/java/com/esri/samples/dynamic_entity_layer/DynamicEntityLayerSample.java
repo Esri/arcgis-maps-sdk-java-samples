@@ -96,49 +96,49 @@ public class DynamicEntityLayerSample extends Application {
       mapView = new MapView();
       mapView.setMap(map);
 
-      // This envelope is a limited region around Sandy, Utah. It will be the extent used by the dynamic entity filter
-      var utahSandyEnvelope = new Envelope(new Point(-112.110052, 40.718083,
-        SpatialReferences.getWgs84()), new Point(-111.814782, 40.535247, SpatialReferences.getWgs84()));
+      // create an envelope around Sandy, Utah to be the extent used by the dynamic entity filter and viewpoint
+      var utahSandyEnvelope = new Envelope(new Point(-112.110052, 40.718083, SpatialReferences.getWgs84()),
+        new Point(-111.814782, 40.535247, SpatialReferences.getWgs84()));
 
       // set the viewpoint to the map view
       mapView.setViewpoint(new Viewpoint(utahSandyEnvelope));
 
-      // create a new graphics overlay and add a new graphic to show the envelope's extent using a simple line symbol
-      var graphicsOverlay = new GraphicsOverlay();
+      // create a graphics overlay and add a graphic to show the envelope's extent using a simple line symbol
       var borderLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.RED, 2);
+      var graphicsOverlay = new GraphicsOverlay();
       var graphic = new Graphic(utahSandyEnvelope, borderLineSymbol);
       graphicsOverlay.getGraphics().add(graphic);
 
       // add the graphics overlay to the map view
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // add a filter for the data source to limit the amount of data received by the application
-      var streamServiceFilter = new ArcGISStreamServiceFilter();
-      streamServiceFilter.setGeometry(utahSandyEnvelope);
-      streamServiceFilter.setWhereClause("Speed > 0");
+      // create a controls vbox containing the UI components
+      setUpControlsVBox();
 
       // create the stream service as a dynamic entity data source
       var streamServiceUrl = "https://realtimegis2016.esri.com:6443/arcgis/rest/services/SandyVehicles/StreamServer";
       var streamService = new ArcGISStreamService(streamServiceUrl);
+
+      // add a filter for the data source to limit the amount of data received by the application
+      var streamServiceFilter = new ArcGISStreamServiceFilter();
+      streamServiceFilter.setGeometry(utahSandyEnvelope);
+      streamServiceFilter.setWhereClause("speed > 0");
       streamService.setFilter(streamServiceFilter);
+
+      // set a duration of five minutes for how long observation data is stored in the data source
+      streamService.getPurgeOptions().setMaximumDuration(5);
 
       // create a layer to display the data from the stream service
       dynamicEntityLayer = new DynamicEntityLayer(streamService);
 
-      // Set a duration of five minutes for how long observation data is stored in the data source
-      dynamicEntityLayer.getDataSource().getPurgeOptions().setMaximumDuration(5);
-
-      // create a controls vbox containing the UI components
-      setUpControlsVBox();
-
-      // create renderers for customizing the observations and their track lines
+      // create renderers for customizing the dynamic entity layer appearance
       customizeRenderers();
 
-      // update the label according to the service connection status
+      // update the label with the service connection status
       connectionStatusLabel.textProperty().bind(Bindings.createStringBinding(() ->
         "Status: " + streamService.connectionStatusProperty().asString().get(), streamService.connectionStatusProperty()));
 
-      // update the text of the button according to the service connection status
+      // update the button text with the service connection status
       connectionButton.textProperty().bind(Bindings.createStringBinding(() ->
         streamService.getConnectionStatus() == ConnectionStatus.CONNECTED ?
           "Disconnect" : "Connect", streamService.connectionStatusProperty()));
@@ -149,18 +149,19 @@ public class DynamicEntityLayerSample extends Application {
           streamService.disconnectAsync();
         } else {
           streamService.connectAsync();
+          System.out.println(streamService.getConnectionError().getCause().getMessage());
         }
       });
 
-      // enable or disable track line visibility according to the checkbox
+      // enable or disable track line visibility with the checkbox
       trackLinesChkBox.selectedProperty().bindBidirectional(dynamicEntityLayer.trackDisplayPropertiesProperty().get().
         showTrackLineProperty());
 
-      // enable or disable previous observation tracks according to the checkbox
+      // enable or disable visibility of previous observation tracks with the checkbox
       observationsChkBox.selectedProperty().bindBidirectional(dynamicEntityLayer.trackDisplayPropertiesProperty().get().
         showPreviousObservationsProperty());
 
-      // update label according to the maximum number of observations
+      // update label with the maximum number of observations set in the slider
       observationSliderLabel.textProperty().bind(Bindings.createStringBinding(() -> "Observations per track (" +
         dynamicEntityLayer.trackDisplayPropertiesProperty().getValue().maximumObservationsProperty().asString().get() + ")",
         dynamicEntityLayer.trackDisplayPropertiesProperty().getValue().maximumObservationsProperty()));
@@ -189,21 +190,21 @@ public class DynamicEntityLayerSample extends Application {
   }
 
   /**
-   * Creates renderers for the observations and their track lines.
+   * Creates and sets renderers for the observations and their track lines.
    */
   private void customizeRenderers() {
 
-    // create array lists to hold the unique values for the entities and previous observations
+    // create lists to hold the unique values for the dynamic entities and previous observations
     var entityValues = new ArrayList<UniqueValueRenderer.UniqueValue>();
     var observationValues = new ArrayList<UniqueValueRenderer.UniqueValue>();
 
     // create simple marker symbols where the pink and lime symbols represent the agencies "3" and "4", respectively
-    // create a blue simple marker symbol to be used as an alternate and default symbol
+    // create a blue simple marker symbol to be used as alternate and default symbol
     var biggerSimplePinkSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.PINK, 8);
     var biggerSimpleLimeSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.LIME, 8);
     var biggerSimpleBlueSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLUE, 8);
 
-    // create simple marker symbols with a smaller size
+    // create simple marker symbols with a smaller size for the previous observation tracks
     var smallerSimplePinkSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.PINK, 3);
     var smallerSimpleLimeSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.LIME, 3);
     var smallerSimpleBlueSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLUE, 3);
