@@ -113,13 +113,14 @@ public class DynamicEntityLayerSample extends Application {
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
       // add a filter for the data source to limit the amount of data received by the application
-      ArcGISStreamServiceFilter filter = new ArcGISStreamServiceFilter();
-      filter.setGeometry(utahSandyEnvelope);
-      filter.setWhereClause("Speed > 0");
+      var streamServiceFilter = new ArcGISStreamServiceFilter();
+      streamServiceFilter.setGeometry(utahSandyEnvelope);
+      streamServiceFilter.setWhereClause("Speed > 0");
 
-      // create the stream service as dynamic entity data source
-      var streamService = new ArcGISStreamService("https://realtimegis2016.esri.com:6443/arcgis/rest/services/SandyVehicles/StreamServer");
-      //streamService.setFilter(filter);
+      // create the stream service as a dynamic entity data source
+      var streamServiceUrl = "https://realtimegis2016.esri.com:6443/arcgis/rest/services/SandyVehicles/StreamServer";
+      var streamService = new ArcGISStreamService(streamServiceUrl);
+      streamService.setFilter(streamServiceFilter);
 
       // create a layer to display the data from the stream service
       dynamicEntityLayer = new DynamicEntityLayer(streamService);
