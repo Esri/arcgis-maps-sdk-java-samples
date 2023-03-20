@@ -1,4 +1,4 @@
-# Add Dynamic entity layer
+# Add dynamic entity layer
 
 Display data from an ArcGIS stream service using a dynamic entity layer.
 
