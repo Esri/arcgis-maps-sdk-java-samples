@@ -18,7 +18,6 @@ package com.esri.samples.dynamic_entity_layer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Envelope;
