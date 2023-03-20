@@ -16,7 +16,6 @@
 
 package com.esri.samples.add_dynamic_entity_layer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -66,8 +65,8 @@ public class AddDynamicEntityLayerSample extends Application {
   private Label observationSliderLabel;
   private Button connectionButton;
   private Button purgeButton;
-  private CheckBox trackLinesChkBox;
-  private CheckBox observationsChkBox;
+  private CheckBox trackLinesCheckBox;
+  private CheckBox observationsCheckBox;
   private Slider observationsSlider;
 
   @Override
@@ -128,25 +127,58 @@ public class AddDynamicEntityLayerSample extends Application {
       // set a duration of five minutes for how long observation data is stored in the data source
       streamService.getPurgeOptions().setMaximumDuration(5);
 
-      // create a layer to display the data from the stream service
+      // create a dynamic entity layer to display the data from the stream service
       dynamicEntityLayer = new DynamicEntityLayer(streamService);
 
-      // create unique value renderers for customizing the dynamic entity layer appearance
-      var uniqueValueRenderers = createUniqueRenderers();
+      // create simple marker symbols to represent a default agency along with the agencies "3", "4"
+      var entityPinkSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.PINK, 8);
+      var entityLimeSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.LIME, 8);
+      var entityBlueSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLUE, 8);
 
-      // set the dynamic entity and previous observation renderers
-      dynamicEntityLayer.setRenderer(uniqueValueRenderers.get(0));
-      dynamicEntityLayer.getTrackDisplayProperties().setPreviousObservationRenderer(uniqueValueRenderers.get(1));
+      // create a pink unique value for the agency represented by value "3"
+      var entityPinkValue = new UniqueValueRenderer.UniqueValue("", "", entityPinkSymbol,
+        List.of(3), List.of(entityBlueSymbol));
+
+      // create a lime unique value for the agency represented by value "4"
+      var entityLimeValue = new UniqueValueRenderer.UniqueValue("", "", entityLimeSymbol,
+        List.of(4), List.of(entityBlueSymbol));
+
+      // create unique value renderer for the agencies
+      var entityRenderer = new UniqueValueRenderer(List.of("agency"),
+        List.of(entityPinkValue, entityLimeValue), "", entityBlueSymbol);
+
+      // set the dynamic entity renderer to the unique value renderer
+      dynamicEntityLayer.setRenderer(entityRenderer);
+
+      // create simple marker symbols for the observation tracks of a default agency and the agencies "3", and "4"
+      var observationPinkSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.PINK, 3);
+      var observationLimeSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.LIME, 3);
+      var observationBlueSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLUE, 3);
+
+      // create a pink unique value for the observation tracks of the agency represented by value "3"
+      var observationPinkValue = new UniqueValueRenderer.UniqueValue("", "", observationPinkSymbol,
+        List.of(3), List.of(observationBlueSymbol));
+
+      // create a lime unique value for the observation tracks of the agency represented by value "4"
+      var observationLimeValue = new UniqueValueRenderer.UniqueValue("", "", observationLimeSymbol,
+        List.of(4), List.of(observationBlueSymbol));
+
+      // create unique value renderer for the observation tracks
+      var observationsRenderer = new UniqueValueRenderer(List.of("agency"),
+        List.of(observationPinkValue, observationLimeValue), "", observationBlueSymbol);
+
+      // set the renderer for the previous observation tracks
+      dynamicEntityLayer.getTrackDisplayProperties().setPreviousObservationRenderer(observationsRenderer);
 
       // create a simple line renderer and set the track line renderer to it
       var trackLineRenderer = new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.LIGHTGRAY, 2));
       dynamicEntityLayer.getTrackDisplayProperties().setTrackLineRenderer(trackLineRenderer);
 
-      // update the label with the service connection status
+      // bind the label text property to the connection status property value
       connectionStatusLabel.textProperty().bind(Bindings.createStringBinding(() ->
-        "Status: " + streamService.connectionStatusProperty().asString().get(), streamService.connectionStatusProperty()));
+        "Status: " + streamService.connectionStatusProperty().getValue(), streamService.connectionStatusProperty()));
 
-      // update the button text with the service connection status
+      // update the button text depending on the connection status value
       connectionButton.textProperty().bind(Bindings.createStringBinding(() ->
         streamService.getConnectionStatus() == ConnectionStatus.CONNECTED ?
           "Disconnect" : "Connect", streamService.connectionStatusProperty()));
@@ -161,16 +193,16 @@ public class AddDynamicEntityLayerSample extends Application {
       });
 
       // enable or disable track line visibility with the checkbox
-      trackLinesChkBox.selectedProperty().bindBidirectional(dynamicEntityLayer.trackDisplayPropertiesProperty().get().
+      trackLinesCheckBox.selectedProperty().bindBidirectional(dynamicEntityLayer.trackDisplayPropertiesProperty().get().
         showTrackLineProperty());
 
       // enable or disable visibility of previous observation tracks with the checkbox
-      observationsChkBox.selectedProperty().bindBidirectional(dynamicEntityLayer.trackDisplayPropertiesProperty().get().
+      observationsCheckBox.selectedProperty().bindBidirectional(dynamicEntityLayer.trackDisplayPropertiesProperty().get().
         showPreviousObservationsProperty());
 
       // update label with the maximum number of observations set in the slider
       observationSliderLabel.textProperty().bind(Bindings.createStringBinding(() -> "Observations per track (" +
-        dynamicEntityLayer.trackDisplayPropertiesProperty().getValue().maximumObservationsProperty().asString().get() + ")",
+        dynamicEntityLayer.trackDisplayPropertiesProperty().getValue().maximumObservationsProperty().getValue() + ")",
         dynamicEntityLayer.trackDisplayPropertiesProperty().getValue().maximumObservationsProperty()));
 
       // update the slider value and maximum previous observation tracks simultaneously
@@ -178,7 +210,7 @@ public class AddDynamicEntityLayerSample extends Application {
         getValue().maximumObservationsProperty());
 
       // disable the slider when the observations checkbox is not selected
-      observationsSlider.disableProperty().bind(observationsChkBox.selectedProperty().not());
+      observationsSlider.disableProperty().bind(observationsCheckBox.selectedProperty().not());
 
       // purge all observations on button press
       purgeButton.setOnAction(a -> streamService.purgeAllAsync());
@@ -197,56 +229,6 @@ public class AddDynamicEntityLayerSample extends Application {
   }
 
   /**
-   * Creates and returns renderers for the entities and observations.
-   */
-  private ArrayList<UniqueValueRenderer> createUniqueRenderers() {
-
-    // create lists to hold the unique values for the dynamic entities and previous observations and the renderers
-    var entityValues = new ArrayList<UniqueValueRenderer.UniqueValue>();
-    var observationValues = new ArrayList<UniqueValueRenderer.UniqueValue>();
-    var uniqueValueRenderers = new ArrayList<UniqueValueRenderer>();
-
-    // create simple marker symbols where the pink and lime symbols represent the agencies "3" and "4", respectively
-    // create a blue simple marker symbol to be used as alternate and default symbol
-    var biggerSimplePinkSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.PINK, 8);
-    var biggerSimpleLimeSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.LIME, 8);
-    var biggerSimpleBlueSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLUE, 8);
-
-    // create simple marker symbols with a smaller size for the previous observation tracks
-    var smallerSimplePinkSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.PINK, 3);
-    var smallerSimpleLimeSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.LIME, 3);
-    var smallerSimpleBlueSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLUE, 3);
-
-    // create a pink unique value for the agency represented by value "3" and add it to the entity list
-    entityValues.add(new UniqueValueRenderer.UniqueValue("", "",
-      biggerSimplePinkSymbol, List.of(3), List.of(biggerSimpleBlueSymbol)));
-
-    // create a lime unique value for the agency represented by value "4" and add it to the entity list
-    entityValues.add(new UniqueValueRenderer.UniqueValue("", "",
-      biggerSimpleLimeSymbol, List.of(4), List.of(biggerSimpleBlueSymbol)));
-
-    // create a pink unique value for the agency represented by value "3" and add it to the observation list
-    observationValues.add(new UniqueValueRenderer.UniqueValue("", "",
-      smallerSimplePinkSymbol, List.of(3), List.of(smallerSimpleBlueSymbol)));
-
-    // create a lime unique value for the agency represented by value "4" and add it to the observation list
-    observationValues.add(new UniqueValueRenderer.UniqueValue("", "",
-      smallerSimpleLimeSymbol, List.of(4), List.of(smallerSimpleBlueSymbol)));
-
-    // create unique value renderers for the entities and tracks
-    var dynamicEntityRenderer = new UniqueValueRenderer(List.of("agency"),
-      entityValues, "", biggerSimpleBlueSymbol);
-    var previousObservationRenderer = new UniqueValueRenderer(List.of("agency"),
-      observationValues, "", smallerSimpleBlueSymbol);
-
-    // add the unique value renderers to the list
-    uniqueValueRenderers.add(dynamicEntityRenderer);
-    uniqueValueRenderers.add(previousObservationRenderer);
-
-    return uniqueValueRenderers;
-  }
-
-  /**
    * Creates user interface with labels, buttons, checkbox, and slider.
    */
   private void setUpControlsVBox() {
@@ -262,14 +244,14 @@ public class AddDynamicEntityLayerSample extends Application {
     purgeButton.setMaxWidth(Double.MAX_VALUE);
 
     // create checkbox to toggle visibility of track lines and previous observations
-    trackLinesChkBox = new CheckBox("Track lines");
-    observationsChkBox = new CheckBox("Previous observations");
+    trackLinesCheckBox = new CheckBox("Track lines");
+    observationsCheckBox = new CheckBox("Previous observations");
 
     // create a slider to update the number of previous observations
     observationsSlider = new Slider(1, 5, 5);
 
     // create hbox and add the observations label and slider
-    HBox sliderHBox = new HBox();
+    var sliderHBox = new HBox();
     sliderHBox.setSpacing(3.0);
     sliderHBox.getChildren().addAll(observationSliderLabel, observationsSlider);
 
@@ -280,8 +262,8 @@ public class AddDynamicEntityLayerSample extends Application {
     controlsVBox.setMaxSize(325, 120);
     controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255,255,255,1)"),
       CornerRadii.EMPTY, Insets.EMPTY)));
-    controlsVBox.getChildren().addAll(connectionStatusLabel, connectionButton, trackLinesChkBox,
-      observationsChkBox, sliderHBox, purgeButton);
+    controlsVBox.getChildren().addAll(connectionStatusLabel, connectionButton, trackLinesCheckBox,
+      observationsCheckBox, sliderHBox, purgeButton);
   }
 
   /**

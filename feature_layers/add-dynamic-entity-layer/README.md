@@ -16,9 +16,9 @@ Use the controls to connect to or disconnect from the stream service, modify dis
 
 ## How it works
 
-1. Create an `ArcGIStreamService` using a `Url`.
+1. Create an `ArcGIStreamService` using the service `URL`.
 2. Set a `DynamicEntityFilter` on the stream service to limit the amount of data coming from the server.
-3. Set the `MaximumDuration` property of the stream service PurgeOptions to limit the amount of data managed by the application.
+3. Set the `MaximumDuration` property of the stream service `PurgeOptions` to limit the amount of data managed by the application.
 4. Create a `DynamicEntityLayer` using the stream service.
 5. Update values in the layer's `TrackDisplayProperties` to customize the layer's appearance.
 6. Add the `DynamicEntityLayer` to the map.
@@ -39,7 +39,7 @@ This sample uses a [stream service](https://realtimegis2016.esri.com:6443/arcgis
 
 ## Additional information
 
-More information about dynamic entities can be found in the guide documentation.
+More information about dynamic entities can be found in the [guide documentation](https://developers.arcgis.com/java/).
 
 ## Tags
 
