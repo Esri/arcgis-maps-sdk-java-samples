@@ -1,8 +1,8 @@
-# Dynamic entity layer
+# Add Dynamic entity layer
 
 Display data from an ArcGIS stream service using a dynamic entity layer.
 
-![DynamicEntityLayer](DynamicEntityLayer.gif)
+![AddDynamicEntityLayer](AddDynamicEntityLayer.gif)
 
 ## Use case
 

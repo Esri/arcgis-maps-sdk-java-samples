@@ -3,7 +3,7 @@
     "description": "Display data from an ArcGIS stream service using a dynamic entity layer.",
     "ignore": false,
     "images": [
-        "DynamicEntityLayer.gif"
+        "AddDynamicEntityLayer.gif"
     ],
     "keywords": [
         "data",
@@ -34,8 +34,8 @@
         "TrackDisplayProperties"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/dynamic_entity_layer/DynamicEntityLayerSample.java",
+        "src/main/java/com/esri/samples/add_dynamic_entity_layer/AddDynamicEntityLayerSample.java",
         "src/main/java/module-info.java"
     ],
-    "title": "Dynamic entity layer"
+    "title": "Add dynamic entity layer"
 }

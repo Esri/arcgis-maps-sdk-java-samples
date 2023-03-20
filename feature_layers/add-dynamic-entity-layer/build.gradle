@@ -15,8 +15,8 @@ javafx {
 }
 
 application {
-    mainModule = "com.esri.samples.dynamic_entity_layer"
-    mainClass = "com.esri.samples.dynamic_entity_layer.DynamicEntityLayerSample"
+    mainModule = "com.esri.samples.add_dynamic_entity_layer"
+    mainClass = "com.esri.samples.add_dynamic_entity_layer.AddDynamicEntityLayerSample"
 }
 
 compileJava.options.encoding = 'UTF-8'

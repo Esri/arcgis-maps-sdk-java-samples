@@ -5,4 +5,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'dynamic-entity-layer'
+rootProject.name = 'add-dynamic-entity-layer'

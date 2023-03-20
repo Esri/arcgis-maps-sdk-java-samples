@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module com.esri.samples.dynamic_entity_layer {
+module com.esri.samples.add_dynamic_entity_layer {
   // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
@@ -21,5 +21,5 @@ module com.esri.samples.dynamic_entity_layer {
   requires javafx.graphics;
   requires javafx.controls;
 
-  exports com.esri.samples.dynamic_entity_layer;
+  exports com.esri.samples.add_dynamic_entity_layer;
 }

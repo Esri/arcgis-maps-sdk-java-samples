@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.dynamic_entity_layer;
+package com.esri.samples.add_dynamic_entity_layer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +57,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
-public class DynamicEntityLayerSample extends Application {
+public class AddDynamicEntityLayerSample extends Application {
 
   private MapView mapView;
   private DynamicEntityLayer dynamicEntityLayer;
@@ -79,7 +79,7 @@ public class DynamicEntityLayerSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Dynamic entity layer sample");
+      stage.setTitle("Add dynamic entity layer sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
