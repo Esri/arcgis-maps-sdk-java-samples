@@ -18,6 +18,7 @@ package com.esri.samples.dynamic_entity_layer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Envelope;
@@ -131,8 +132,16 @@ public class DynamicEntityLayerSample extends Application {
       // create a layer to display the data from the stream service
       dynamicEntityLayer = new DynamicEntityLayer(streamService);
 
-      // create renderers for customizing the dynamic entity layer appearance
-      customizeRenderers();
+      // create unique value renderers for customizing the dynamic entity layer appearance
+      var uniqueValueRenderers = createUniqueRenderers();
+
+      // set the dynamic entity and previous observation renderers
+      dynamicEntityLayer.setRenderer(uniqueValueRenderers.get(0));
+      dynamicEntityLayer.getTrackDisplayProperties().setPreviousObservationRenderer(uniqueValueRenderers.get(1));
+
+      // create a simple line renderer and set the track line renderer to it
+      var trackLineRenderer = new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.LIGHTGRAY, 2));
+      dynamicEntityLayer.getTrackDisplayProperties().setTrackLineRenderer(trackLineRenderer);
 
       // update the label with the service connection status
       connectionStatusLabel.textProperty().bind(Bindings.createStringBinding(() ->
@@ -189,13 +198,14 @@ public class DynamicEntityLayerSample extends Application {
   }
 
   /**
-   * Creates and sets renderers for the observations and their track lines.
+   * Creates and returns renderers for the entities and observations.
    */
-  private void customizeRenderers() {
+  private ArrayList<UniqueValueRenderer> createUniqueRenderers() {
 
-    // create lists to hold the unique values for the dynamic entities and previous observations
+    // create lists to hold the unique values for the dynamic entities and previous observations and the renderers
     var entityValues = new ArrayList<UniqueValueRenderer.UniqueValue>();
     var observationValues = new ArrayList<UniqueValueRenderer.UniqueValue>();
+    var uniqueValueRenderers = new ArrayList<UniqueValueRenderer>();
 
     // create simple marker symbols where the pink and lime symbols represent the agencies "3" and "4", respectively
     // create a blue simple marker symbol to be used as alternate and default symbol
@@ -225,14 +235,16 @@ public class DynamicEntityLayerSample extends Application {
       smallerSimpleLimeSymbol, List.of(4), List.of(smallerSimpleBlueSymbol)));
 
     // create unique value renderers for the entities and tracks
-    var dynamicEntityRenderer = new UniqueValueRenderer(List.of("agency"), entityValues, "", biggerSimpleBlueSymbol);
-    var previousObservationRenderer = new UniqueValueRenderer(List.of("agency"), observationValues, "", smallerSimpleBlueSymbol);
-    var trackLineRenderer = new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.LIGHTGRAY, 2));
+    var dynamicEntityRenderer = new UniqueValueRenderer(List.of("agency"),
+      entityValues, "", biggerSimpleBlueSymbol);
+    var previousObservationRenderer = new UniqueValueRenderer(List.of("agency"),
+      observationValues, "", smallerSimpleBlueSymbol);
 
-    // set the dynamic entity, previous observation, and line track renderers to the unique value renderers
-    dynamicEntityLayer.setRenderer(dynamicEntityRenderer);
-    dynamicEntityLayer.getTrackDisplayProperties().setPreviousObservationRenderer(previousObservationRenderer);
-    dynamicEntityLayer.getTrackDisplayProperties().setTrackLineRenderer(trackLineRenderer);
+    // add the unique value renderers to the list
+    uniqueValueRenderers.add(dynamicEntityRenderer);
+    uniqueValueRenderers.add(previousObservationRenderer);
+
+    return uniqueValueRenderers;
   }
 
   /**
