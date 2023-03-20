@@ -14,7 +14,14 @@
     "real-time",
     "service",
     "stream",
-    "track"
+    "track",
+    "ArcGISStreamService",
+    "ConnectionStatus",
+    "DynamicEntity",
+    "DynamicEntityFilter",
+    "DynamicEntityLayer",
+    "DynamicEntityPurgeOptions",
+    "TrackDisplayProperties"
   ],
   "redirect_from": "",
   "relevant_apis": [
