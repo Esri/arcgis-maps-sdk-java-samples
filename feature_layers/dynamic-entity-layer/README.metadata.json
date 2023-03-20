@@ -23,9 +23,7 @@
         "DynamicEntityPurgeOptions",
         "TrackDisplayProperties"
     ],
-    "redirect_from": [
-        ""
-    ],
+    "redirect_from":"",
     "relevant_apis": [
         "ArcGISStreamService",
         "ConnectionStatus",
@@ -36,8 +34,7 @@
         "TrackDisplayProperties"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/dynamic_entity_layer/DynamicEntityLayerSample.java",
-        "src/main/java/module-info.java"
+        "src/main/java/com/esri/samples/dynamic_entity_layer/DynamicEntityLayerSample.java"
     ],
     "title": "Dynamic entity layer"
 }
