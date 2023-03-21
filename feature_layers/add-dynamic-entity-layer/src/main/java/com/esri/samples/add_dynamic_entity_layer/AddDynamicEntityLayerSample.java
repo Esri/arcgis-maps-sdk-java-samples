@@ -192,14 +192,14 @@ public class AddDynamicEntityLayerSample extends Application {
         }
       });
 
-      // bind the visibility of track lines and previous observations to the checkbox selected property
+      // configure checkboxes to control the visibility of track lines and previous observations
       trackLinesCheckBox.selectedProperty().bindBidirectional(dynamicEntityLayer.trackDisplayPropertiesProperty()
         .get().showTrackLineProperty());
 
       observationsCheckBox.selectedProperty().bindBidirectional(dynamicEntityLayer.trackDisplayPropertiesProperty()
         .get().showPreviousObservationsProperty());
 
-      // bind the maximum number of observations to the slider value and label text properties
+      // configure the observations label and slider to update and control the maximum number of observations
       observationSliderLabel.textProperty().bind(Bindings.createStringBinding(() -> "Observations per track (" +
         dynamicEntityLayer.trackDisplayPropertiesProperty().getValue().maximumObservationsProperty().getValue() + ")",
         dynamicEntityLayer.trackDisplayPropertiesProperty().getValue().maximumObservationsProperty()));
