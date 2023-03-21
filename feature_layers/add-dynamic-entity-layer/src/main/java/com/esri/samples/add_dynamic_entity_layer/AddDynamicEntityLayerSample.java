@@ -192,24 +192,22 @@ public class AddDynamicEntityLayerSample extends Application {
         }
       });
 
-      // enable or disable track line visibility with the checkbox
-      trackLinesCheckBox.selectedProperty().bindBidirectional(dynamicEntityLayer.trackDisplayPropertiesProperty().get().
-        showTrackLineProperty());
+      // bind the visibility of track lines and previous observations to the checkbox selected property
+      trackLinesCheckBox.selectedProperty().bindBidirectional(dynamicEntityLayer.trackDisplayPropertiesProperty()
+        .get().showTrackLineProperty());
 
-      // enable or disable visibility of previous observation tracks with the checkbox
-      observationsCheckBox.selectedProperty().bindBidirectional(dynamicEntityLayer.trackDisplayPropertiesProperty().get().
-        showPreviousObservationsProperty());
+      observationsCheckBox.selectedProperty().bindBidirectional(dynamicEntityLayer.trackDisplayPropertiesProperty()
+        .get().showPreviousObservationsProperty());
 
-      // update label with the maximum number of observations set in the slider
+      // bind the maximum number of observations to the slider value and label text properties
       observationSliderLabel.textProperty().bind(Bindings.createStringBinding(() -> "Observations per track (" +
         dynamicEntityLayer.trackDisplayPropertiesProperty().getValue().maximumObservationsProperty().getValue() + ")",
         dynamicEntityLayer.trackDisplayPropertiesProperty().getValue().maximumObservationsProperty()));
 
-      // update the slider value and maximum previous observation tracks simultaneously
       observationsSlider.valueProperty().bindBidirectional(dynamicEntityLayer.trackDisplayPropertiesProperty().
         getValue().maximumObservationsProperty());
 
-      // disable the slider when the observations checkbox is not selected
+      // bind the slider disable property to the selected property of the observations checkbox
       observationsSlider.disableProperty().bind(observationsCheckBox.selectedProperty().not());
 
       // purge all observations on button press
