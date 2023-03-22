@@ -23,8 +23,7 @@
         "PortalItem"
     ],
     "snippets": [
-      "src/main/java/com/esri/samples/open_map_url/OpenMapURLSample.java",
-      "src/main/java/module-info.java"
+      "src/main/java/com/esri/samples/open_map_url/OpenMapURLSample.java"
     ],
     "title": "Open map (URL)"
 }
