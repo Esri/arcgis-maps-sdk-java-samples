@@ -114,7 +114,7 @@ public class AddDynamicEntityLayerSample extends Application {
       // create a controls vbox containing the UI components
       setUpControlsVBox();
 
-      // create the stream service as a dynamic entity data source
+      // create an ArcGIS stream service using a stream service URL
       var streamServiceUrl = "https://realtimegis2016.esri.com:6443/arcgis/rest/services/SandyVehicles/StreamServer";
       var streamService = new ArcGISStreamService(streamServiceUrl);
 
@@ -130,47 +130,51 @@ public class AddDynamicEntityLayerSample extends Application {
       // create a dynamic entity layer to display the data from the stream service
       dynamicEntityLayer = new DynamicEntityLayer(streamService);
 
-      // create simple marker symbols to represent a default agency along with the agencies "3", "4"
-      var entityPinkSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.PINK, 8);
-      var entityLimeSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.LIME, 8);
+      // create unique values for the different snow plow operating agencies represented in the data
+      // create a blue symbol to use as the default
       var entityBlueSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLUE, 8);
 
       // create a pink unique value for the agency represented by value "3"
+      var entityPinkSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.PINK, 8);
       var entityPinkValue = new UniqueValueRenderer.UniqueValue("", "", entityPinkSymbol,
         List.of(3), List.of(entityBlueSymbol));
 
       // create a lime unique value for the agency represented by value "4"
+      var entityLimeSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.LIME, 8);
       var entityLimeValue = new UniqueValueRenderer.UniqueValue("", "", entityLimeSymbol,
         List.of(4), List.of(entityBlueSymbol));
 
-      // create unique value renderer for the agencies
+      // create a unique value renderer using unique values for the different snow plow agencies represented in the data
       var entityRenderer = new UniqueValueRenderer(List.of("agency"),
         List.of(entityPinkValue, entityLimeValue), "", entityBlueSymbol);
 
-      // set the dynamic entity renderer to the unique value renderer
+      // set the renderer to the dynamic entity layer
       dynamicEntityLayer.setRenderer(entityRenderer);
 
-      // create simple marker symbols for the observation tracks of a default agency and the agencies "3", and "4"
-      var observationPinkSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.PINK, 3);
-      var observationLimeSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.LIME, 3);
-      var observationBlueSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLUE, 3);
+      // create unique values to represent observation tracks for the different snow plow operating agencies represented
+      // in the data. Create a blue symbol to use as the default
+      var previousObservationBlueSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLUE, 3);
 
       // create a pink unique value for the observation tracks of the agency represented by value "3"
-      var observationPinkValue = new UniqueValueRenderer.UniqueValue("", "", observationPinkSymbol,
-        List.of(3), List.of(observationBlueSymbol));
+      var previousObservationPinkSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.PINK, 3);
+      var previousObservationPinkValue = new UniqueValueRenderer.UniqueValue("", "", previousObservationPinkSymbol,
+        List.of(3), List.of(previousObservationBlueSymbol));
 
       // create a lime unique value for the observation tracks of the agency represented by value "4"
-      var observationLimeValue = new UniqueValueRenderer.UniqueValue("", "", observationLimeSymbol,
-        List.of(4), List.of(observationBlueSymbol));
+      var previousObservationLimeSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.LIME, 3);
+      var previousObservationLimeValue = new UniqueValueRenderer.UniqueValue("", "", previousObservationLimeSymbol,
+        List.of(4), List.of(previousObservationBlueSymbol));
 
-      // create unique value renderer for the observation tracks
-      var observationsRenderer = new UniqueValueRenderer(List.of("agency"),
-        List.of(observationPinkValue, observationLimeValue), "", observationBlueSymbol);
+      // create unique value renderer for the observation tracks using the unique values for the different snow plow
+      // operating agencies represented in the data
+      var previousObservationsRenderer = new UniqueValueRenderer(List.of("agency"),
+        List.of(previousObservationPinkValue, previousObservationLimeValue), "", previousObservationBlueSymbol);
 
-      // set the renderer for the previous observation tracks
-      dynamicEntityLayer.getTrackDisplayProperties().setPreviousObservationRenderer(observationsRenderer);
+      // set the previous observations renderer to the dynamic entity layer display properties
+      dynamicEntityLayer.getTrackDisplayProperties().setPreviousObservationRenderer(previousObservationsRenderer);
 
-      // create a simple line renderer and set the track line renderer to it
+      // create a simple renderer to represent track lines and set it as the track line renderer on the dynamic entity
+      // layer display properties
       var trackLineRenderer = new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.LIGHTGRAY, 2));
       dynamicEntityLayer.getTrackDisplayProperties().setTrackLineRenderer(trackLineRenderer);
 
