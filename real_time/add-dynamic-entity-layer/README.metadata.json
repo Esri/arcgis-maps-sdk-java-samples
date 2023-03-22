@@ -34,8 +34,7 @@
         "TrackDisplayProperties"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/add_dynamic_entity_layer/AddDynamicEntityLayerSample.java",
-        "src/main/java/module-info.java"
+        "src/main/java/com/esri/samples/add_dynamic_entity_layer/AddDynamicEntityLayerSample.java"
     ],
     "title": "Add dynamic entity layer"
 }
