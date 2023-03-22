@@ -1,5 +1,5 @@
 {
-    "category": "Real time",
+    "category": "Real-time",
     "description": "Display data from an ArcGIS stream service using a dynamic entity layer.",
     "ignore": false,
     "images": [
