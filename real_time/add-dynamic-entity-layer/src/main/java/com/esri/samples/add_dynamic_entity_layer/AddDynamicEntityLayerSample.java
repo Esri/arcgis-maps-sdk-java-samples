@@ -134,17 +134,17 @@ public class AddDynamicEntityLayerSample extends Application {
       // create a blue symbol to use as the default
       var entityBlueSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLUE, 8);
 
-      // create a pink unique value for the agency represented by value "3"
+      // create a unique value with a pink marker symbol for the agency represented by value "3"
       var entityPinkSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.PINK, 8);
       var entityPinkValue = new UniqueValueRenderer.UniqueValue("", "", entityPinkSymbol,
         List.of(3), List.of(entityBlueSymbol));
 
-      // create a lime unique value for the agency represented by value "4"
+      // create a unique value with a lime marker symbol for the agency represented by value "4"
       var entityLimeSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.LIME, 8);
       var entityLimeValue = new UniqueValueRenderer.UniqueValue("", "", entityLimeSymbol,
         List.of(4), List.of(entityBlueSymbol));
 
-      // create a unique value renderer using unique values for the different snow plow agencies represented in the data
+      // create a unique value renderer using the configured unique values
       var entityRenderer = new UniqueValueRenderer(List.of("agency"),
         List.of(entityPinkValue, entityLimeValue), "", entityBlueSymbol);
 
@@ -155,22 +155,22 @@ public class AddDynamicEntityLayerSample extends Application {
       // in the data. Create a blue symbol to use as the default
       var previousObservationBlueSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLUE, 3);
 
-      // create a pink unique value for the observation tracks of the agency represented by value "3"
+      // create a unique value with a pink marker symbol for the agency represented by value "3"
       var previousObservationPinkSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.PINK, 3);
       var previousObservationPinkValue = new UniqueValueRenderer.UniqueValue("", "", previousObservationPinkSymbol,
         List.of(3), List.of(previousObservationBlueSymbol));
 
-      // create a lime unique value for the observation tracks of the agency represented by value "4"
+      // create a unique value with a lime marker symbol for the agency represented by value "4"
       var previousObservationLimeSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.LIME, 3);
       var previousObservationLimeValue = new UniqueValueRenderer.UniqueValue("", "", previousObservationLimeSymbol,
         List.of(4), List.of(previousObservationBlueSymbol));
 
-      // create unique value renderer for the observation tracks using the unique values for the different snow plow
+      // create a unique value renderer for the previous observations using the unique values for the different snow plow
       // operating agencies represented in the data
       var previousObservationsRenderer = new UniqueValueRenderer(List.of("agency"),
         List.of(previousObservationPinkValue, previousObservationLimeValue), "", previousObservationBlueSymbol);
 
-      // set the previous observations renderer to the dynamic entity layer display properties
+      // set the renderer to the dynamic entity layer display properties
       dynamicEntityLayer.getTrackDisplayProperties().setPreviousObservationRenderer(previousObservationsRenderer);
 
       // create a simple renderer to represent track lines and set it as the track line renderer on the dynamic entity
@@ -212,12 +212,13 @@ public class AddDynamicEntityLayerSample extends Application {
         getValue().maximumObservationsProperty());
 
       // bind the slider disable property to the selected property of the observations checkbox
+      // disable the slider if the observations checkbox is not selected
       observationsSlider.disableProperty().bind(observationsCheckBox.selectedProperty().not());
 
       // purge all observations on button press
       purgeButton.setOnAction(a -> streamService.purgeAllAsync());
 
-      // add the map dynamic entity layer to the map's operational layers
+      // add the dynamic entity layer to the map's operational layers
       map.getOperationalLayers().add(dynamicEntityLayer);
 
       // add the map view and controls vbox to the stack pane
@@ -231,7 +232,7 @@ public class AddDynamicEntityLayerSample extends Application {
   }
 
   /**
-   * Creates user interface with labels, buttons, checkbox, and slider.
+   * Creates a VBox for the UI containing labels, buttons, checkbox, and slider.
    */
   private void setUpControlsVBox() {
 
