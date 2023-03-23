@@ -232,7 +232,7 @@ public class AddDynamicEntityLayerSample extends Application {
   }
 
   /**
-   * Creates a VBox for the UI containing labels, buttons, checkbox, and slider.
+   * Configure a VBox for the UI, containing labels, buttons, checkbox, and slider.
    */
   private void setUpControlsVBox() {
 
