@@ -51,7 +51,7 @@ categories = {
     'ogc',
     'portal',
     'raster',
-    'real_time'
+    'real_time',
     'scene',
     'search',
     'symbology',
