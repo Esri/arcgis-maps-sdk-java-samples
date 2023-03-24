@@ -24,6 +24,7 @@ categories = {
     'ogc',
     'portal',
     'raster',
+    'real_time'
     'scene',
     'search',
     'symbology',
