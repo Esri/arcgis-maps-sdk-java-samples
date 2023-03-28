@@ -199,18 +199,18 @@ public class AddDynamicEntityLayerSample extends Application {
       });
 
       // get the track display properties property value to control the display of previous observations and track lines
-      var layerTrackDisplayProperty = dynamicEntityLayer.getTrackDisplayProperties();
+      var layerTrackDisplayProperties = dynamicEntityLayer.getTrackDisplayProperties();
 
       // configure checkboxes to control the visibility of track lines and previous observations
-      trackLinesCheckBox.selectedProperty().bindBidirectional(layerTrackDisplayProperty.showTrackLineProperty());
-      observationsCheckBox.selectedProperty().bindBidirectional(layerTrackDisplayProperty.showPreviousObservationsProperty());
+      trackLinesCheckBox.selectedProperty().bindBidirectional(layerTrackDisplayProperties.showTrackLineProperty());
+      observationsCheckBox.selectedProperty().bindBidirectional(layerTrackDisplayProperties.showPreviousObservationsProperty());
 
       // configure the observations label and slider to update and control the maximum number of observations
       observationSliderLabel.textProperty().bind(Bindings.createStringBinding(() ->
-        "Observations per track (" + layerTrackDisplayProperty.maximumObservationsProperty().getValue() + ")",
-        layerTrackDisplayProperty.maximumObservationsProperty()));
+        "Observations per track (" + layerTrackDisplayProperties.maximumObservationsProperty().getValue() + ")",
+        layerTrackDisplayProperties.maximumObservationsProperty()));
 
-      observationsSlider.valueProperty().bindBidirectional(layerTrackDisplayProperty.maximumObservationsProperty());
+      observationsSlider.valueProperty().bindBidirectional(layerTrackDisplayProperties.maximumObservationsProperty());
 
       // bind the slider disable property to the selected property of the observations checkbox
       // disable the slider if the observations checkbox is not selected
