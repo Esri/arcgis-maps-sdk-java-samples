@@ -264,8 +264,7 @@ public class AddDynamicEntityLayerSample extends Application {
     controlsVBox.setPadding(new Insets(15.0));
     controlsVBox.setSpacing(5.0);
     controlsVBox.setMaxSize(325, 120);
-    controlsVBox.setBackground(new Background(new BackgroundFill(Color.WHITE,
-      CornerRadii.EMPTY, Insets.EMPTY)));
+    controlsVBox.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
     controlsVBox.getChildren().addAll(connectionStatusLabel, connectionButton, trackLinesCheckBox,
       observationsCheckBox, sliderHBox, purgeButton);
   }
