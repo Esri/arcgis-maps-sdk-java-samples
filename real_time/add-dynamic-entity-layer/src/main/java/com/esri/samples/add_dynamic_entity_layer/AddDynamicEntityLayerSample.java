@@ -53,13 +53,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 public class AddDynamicEntityLayerSample extends Application {
 
   private MapView mapView;
-  private DynamicEntityLayer dynamicEntityLayer;
   private VBox controlsVBox;
   private Label connectionStatusLabel;
   private Label observationSliderLabel;
@@ -124,11 +122,11 @@ public class AddDynamicEntityLayerSample extends Application {
       streamServiceFilter.setWhereClause("speed > 0");
       streamService.setFilter(streamServiceFilter);
 
-      // set a duration of five minutes for how long observation data is stored in the data source
+      // set a duration of five seconds for how long observation data is stored in the data source
       streamService.getPurgeOptions().setMaximumDuration(5);
 
       // create a dynamic entity layer to display the data from the stream service
-      dynamicEntityLayer = new DynamicEntityLayer(streamService);
+      var dynamicEntityLayer = new DynamicEntityLayer(streamService);
 
       // create unique values for the different snow plow operating agencies represented in the data
       // create a blue symbol to use as the default
@@ -136,17 +134,17 @@ public class AddDynamicEntityLayerSample extends Application {
 
       // create a unique value with a pink marker symbol for the agency represented by value "3"
       var entityPinkSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.PINK, 8);
-      var entityPinkValue = new UniqueValueRenderer.UniqueValue("", "", entityPinkSymbol,
+      var entityPinkValue = new UniqueValueRenderer.UniqueValue(null, null, entityPinkSymbol,
         List.of(3), List.of(entityBlueSymbol));
 
       // create a unique value with a lime marker symbol for the agency represented by value "4"
       var entityLimeSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.LIME, 8);
-      var entityLimeValue = new UniqueValueRenderer.UniqueValue("", "", entityLimeSymbol,
+      var entityLimeValue = new UniqueValueRenderer.UniqueValue(null, null, entityLimeSymbol,
         List.of(4), List.of(entityBlueSymbol));
 
       // create a unique value renderer using the configured unique values
       var entityRenderer = new UniqueValueRenderer(List.of("agency"),
-        List.of(entityPinkValue, entityLimeValue), "", entityBlueSymbol);
+        List.of(entityPinkValue, entityLimeValue), null, entityBlueSymbol);
 
       // set the renderer to the dynamic entity layer
       dynamicEntityLayer.setRenderer(entityRenderer);
@@ -157,18 +155,18 @@ public class AddDynamicEntityLayerSample extends Application {
 
       // create a unique value with a pink marker symbol for the agency represented by value "3"
       var previousObservationPinkSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.PINK, 3);
-      var previousObservationPinkValue = new UniqueValueRenderer.UniqueValue("", "", previousObservationPinkSymbol,
+      var previousObservationPinkValue = new UniqueValueRenderer.UniqueValue(null, null, previousObservationPinkSymbol,
         List.of(3), List.of(previousObservationBlueSymbol));
 
       // create a unique value with a lime marker symbol for the agency represented by value "4"
       var previousObservationLimeSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.LIME, 3);
-      var previousObservationLimeValue = new UniqueValueRenderer.UniqueValue("", "", previousObservationLimeSymbol,
+      var previousObservationLimeValue = new UniqueValueRenderer.UniqueValue(null, null, previousObservationLimeSymbol,
         List.of(4), List.of(previousObservationBlueSymbol));
 
       // create a unique value renderer for the previous observations using the unique values for the different snow plow
       // operating agencies represented in the data
       var previousObservationsRenderer = new UniqueValueRenderer(List.of("agency"),
-        List.of(previousObservationPinkValue, previousObservationLimeValue), "", previousObservationBlueSymbol);
+        List.of(previousObservationPinkValue, previousObservationLimeValue), null, previousObservationBlueSymbol);
 
       // set the renderer to the dynamic entity layer display properties
       dynamicEntityLayer.getTrackDisplayProperties().setPreviousObservationRenderer(previousObservationsRenderer);
@@ -183,9 +181,13 @@ public class AddDynamicEntityLayerSample extends Application {
         "Status: " + streamService.connectionStatusProperty().getValue(), streamService.connectionStatusProperty()));
 
       // update the button text depending on the connection status value
-      connectionButton.textProperty().bind(Bindings.createStringBinding(() ->
-        streamService.getConnectionStatus() == ConnectionStatus.CONNECTED ?
-          "Disconnect" : "Connect", streamService.connectionStatusProperty()));
+      connectionButton.textProperty().bind(Bindings.createStringBinding(() -> {
+        if (streamService.getConnectionStatus() == ConnectionStatus.CONNECTED) {
+          return "Disconnect";
+        } else {
+          return "Connect";
+        }
+      }, streamService.connectionStatusProperty()));
 
       // toggle the service connection on button press
       connectionButton.setOnAction(a -> {
@@ -196,20 +198,19 @@ public class AddDynamicEntityLayerSample extends Application {
         }
       });
 
-      // configure checkboxes to control the visibility of track lines and previous observations
-      trackLinesCheckBox.selectedProperty().bindBidirectional(dynamicEntityLayer.trackDisplayPropertiesProperty()
-        .get().showTrackLineProperty());
+      // get the track display properties from the dynamic entity layer
+      var layerTrackDisplayProperty = dynamicEntityLayer.trackDisplayPropertiesProperty().get();
 
-      observationsCheckBox.selectedProperty().bindBidirectional(dynamicEntityLayer.trackDisplayPropertiesProperty()
-        .get().showPreviousObservationsProperty());
+      // configure checkboxes to control the visibility of track lines and previous observations
+      trackLinesCheckBox.selectedProperty().bindBidirectional(layerTrackDisplayProperty.showTrackLineProperty());
+      observationsCheckBox.selectedProperty().bindBidirectional(layerTrackDisplayProperty.showPreviousObservationsProperty());
 
       // configure the observations label and slider to update and control the maximum number of observations
-      observationSliderLabel.textProperty().bind(Bindings.createStringBinding(() -> "Observations per track (" +
-        dynamicEntityLayer.trackDisplayPropertiesProperty().getValue().maximumObservationsProperty().getValue() + ")",
-        dynamicEntityLayer.trackDisplayPropertiesProperty().getValue().maximumObservationsProperty()));
+      observationSliderLabel.textProperty().bind(Bindings.createStringBinding(() ->
+        "Observations per track (" + layerTrackDisplayProperty.maximumObservationsProperty().getValue() + ")",
+        layerTrackDisplayProperty.maximumObservationsProperty()));
 
-      observationsSlider.valueProperty().bindBidirectional(dynamicEntityLayer.trackDisplayPropertiesProperty().
-        getValue().maximumObservationsProperty());
+      observationsSlider.valueProperty().bindBidirectional(layerTrackDisplayProperty.maximumObservationsProperty());
 
       // bind the slider disable property to the selected property of the observations checkbox
       // disable the slider if the observations checkbox is not selected
@@ -263,7 +264,7 @@ public class AddDynamicEntityLayerSample extends Application {
     controlsVBox.setPadding(new Insets(15.0));
     controlsVBox.setSpacing(5.0);
     controlsVBox.setMaxSize(325, 120);
-    controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255,255,255,1)"),
+    controlsVBox.setBackground(new Background(new BackgroundFill(Color.WHITE,
       CornerRadii.EMPTY, Insets.EMPTY)));
     controlsVBox.getChildren().addAll(connectionStatusLabel, connectionButton, trackLinesCheckBox,
       observationsCheckBox, sliderHBox, purgeButton);
