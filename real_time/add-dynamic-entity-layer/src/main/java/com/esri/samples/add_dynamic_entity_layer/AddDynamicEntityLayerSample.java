@@ -198,8 +198,8 @@ public class AddDynamicEntityLayerSample extends Application {
         }
       });
 
-      // get the track display properties from the dynamic entity layer
-      var layerTrackDisplayProperty = dynamicEntityLayer.trackDisplayPropertiesProperty().get();
+      // get the track display properties property value to control the display of previous observations and track lines
+      var layerTrackDisplayProperty = dynamicEntityLayer.getTrackDisplayProperties();
 
       // configure checkboxes to control the visibility of track lines and previous observations
       trackLinesCheckBox.selectedProperty().bindBidirectional(layerTrackDisplayProperty.showTrackLineProperty());
