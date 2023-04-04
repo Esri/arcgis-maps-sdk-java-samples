@@ -23,7 +23,7 @@ module com.esri.samples.edit_feature_attachments {
   requires javafx.controls;
 
   // require other modules that the application uses
-  requires commons.io;
+  requires org.apache.commons.io;
 
   exports com.esri.samples.edit_feature_attachments;
 }

@@ -22,7 +22,7 @@ module com.esri.samples.display_device_location_with_autopan_modes {
   requires javafx.controls;
 
   // require other modules the application uses
-  requires commons.io;
+  requires org.apache.commons.io;
 
   exports com.esri.samples.display_device_location_with_autopan_modes;
 }

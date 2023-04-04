@@ -23,7 +23,7 @@ module com.esri.samples.set_up_location_driven_geotriggers {
   requires javafx.fxml;
 
   // require other modules that the application uses
-  requires commons.io;
+  requires org.apache.commons.io;
 
   // make all @FXML annotated objects reflectively accessible to the javafx.fxml module
   opens com.esri.samples.set_up_location_driven_geotriggers to javafx.fxml;
