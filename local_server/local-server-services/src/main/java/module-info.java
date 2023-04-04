@@ -24,7 +24,7 @@ module com.esri.samples.local_server_services {
   requires javafx.fxml;
 
   // require other modules that the application uses
-  requires commons.io;
+  requires org.apache.commons.io;
 
   // make all @FXML annotated objects reflectively accessible to the javafx.fxml module
   opens com.esri.samples.local_server_services to javafx.fxml;

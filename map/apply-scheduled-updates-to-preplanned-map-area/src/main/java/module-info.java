@@ -22,7 +22,7 @@ module com.esri.samples.apply_scheduled_updates_to_preplanned_map_area {
   requires javafx.controls;
 
   // require other modules that the application uses
-  requires commons.io;
+  requires org.apache.commons.io;
 
   exports com.esri.samples.apply_scheduled_updates_to_preplanned_map_area;
 }
