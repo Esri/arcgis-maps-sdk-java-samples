@@ -23,11 +23,13 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+<?import java.lang.String?>
+<?import javafx.scene.text.Font?>
 <StackPane fx:controller="com.esri.samples.create_and_edit_geometries.CreateAndEditGeometriesController"
            xmlns:fx="http://javafx.com/fxml"
            stylesheets="@style.css">
     <MapView fx:id="mapView"/>
-    <VBox StackPane.alignment="TOP_RIGHT" maxWidth="100" maxHeight="110" styleClass="panel-region"
+    <VBox StackPane.alignment="TOP_RIGHT" maxWidth="120" maxHeight="110" styleClass="panel-region"
           alignment="CENTER" spacing="6">
         <padding>
             <Insets topRightBottomLeft="10"/>
@@ -44,32 +46,10 @@
             </Background>
         </background>
         <GridPane vgap="6" hgap="6" alignment="CENTER">
-            <Button fx:id="editButton" disable="true" onAction="#handleEditButtonClicked" GridPane.rowIndex="0"
-                    GridPane.columnIndex="0">
-                <graphic>
-                    <ImageView>
-                        <Image url="@edit.png"/>
-                    </ImageView>
-                </graphic>
-                <tooltip>
-                    <Tooltip text="Edit"/>
-                </tooltip>
-            </Button>
-            <Button fx:id="stopButton" disable="true" onAction="#handleStopButtonClicked" GridPane.rowIndex="0"
-                    GridPane.columnIndex="1">
-                <graphic>
-                    <ImageView>
-                        <Image url="@clear.png"/>
-                    </ImageView>
-                </graphic>
-                <tooltip>
-                    <Tooltip text="Cancel"/>
-                </tooltip>
-            </Button>
+            <Label fx:id="createLabel" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Create"/>
         </GridPane>
-        <Separator maxWidth="100"/>
         <GridPane vgap="6" hgap="6" alignment="CENTER">
-            <Button onAction="#handlePointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="0">
+            <Button onAction="#handlePointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Point" styleClass="button">
                 <graphic>
                     <ImageView>
                         <Image url="@point.png"/>
@@ -79,7 +59,7 @@
                     <Tooltip text="Point"/>
                 </tooltip>
             </Button>
-            <Button onAction="#handleMultipointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="1">
+            <Button onAction="#handleMultipointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="1" text="Multipoint" styleClass="button">
                 <graphic>
                     <ImageView>
                         <Image url="@multipoint.png" requestedHeight="24" preserveRatio="true" smooth="true"/>
@@ -89,7 +69,7 @@
                     <Tooltip text="Multipoint"/>
                 </tooltip>
             </Button>
-            <Button onAction="#handlePolylineButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="0">
+            <Button onAction="#handlePolylineButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="0" text="Polyline" styleClass="button">
                 <graphic>
                     <ImageView>
                         <Image url="@polyline.png"/>
@@ -99,7 +79,7 @@
                     <Tooltip text="Polyline"/>
                 </tooltip>
             </Button>
-            <Button onAction="#handlePolygonButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="1">
+            <Button onAction="#handlePolygonButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="1" text="Polygon" styleClass="button">
                 <graphic>
                     <ImageView>
                         <Image url="@polygon.png"/>
@@ -109,38 +89,11 @@
                     <Tooltip text="Polygon"/>
                 </tooltip>
             </Button>
-            <Button onAction="#handleFreehandPolylineButtonClicked" GridPane.rowIndex="2" GridPane.columnIndex="0">
-                <graphic>
-                    <ImageView>
-                        <Image url="@freehand-polyline.png"/>
-                    </ImageView>
-                </graphic>
-                <tooltip>
-                    <Tooltip text="Freehand Polyline"/>
-                </tooltip>
-            </Button>
-            <Button onAction="#handleFreehandPolygonButtonClicked" GridPane.rowIndex="2" GridPane.columnIndex="1">
-                <graphic>
-                    <ImageView>
-                        <Image url="@brush.png"/>
-                    </ImageView>
-                </graphic>
-                <tooltip>
-                    <Tooltip text="Freehand Polygon"/>
-                </tooltip>
-            </Button>
-            <Button onAction="#handleRectangleButtonClicked" GridPane.rowIndex="3" GridPane.columnIndex="0">
-                <graphic>
-                    <ImageView>
-                        <Image url="@rectangle.png"/>
-                    </ImageView>
-                </graphic>
-                <tooltip>
-                    <Tooltip text="Rectangle"/>
-                </tooltip>
-            </Button>
         </GridPane>
         <Separator maxWidth="100"/>
+        <GridPane vgap="6" hgap="6" alignment="CENTER">
+            <Label fx:id="editLabel" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Edit"/>
+        </GridPane>
         <GridPane vgap="6" hgap="6">
             <Button fx:id="undoButton" onAction="#handleUndoButtonClicked" disable="true" GridPane.rowIndex="0"
                     GridPane.columnIndex="0">

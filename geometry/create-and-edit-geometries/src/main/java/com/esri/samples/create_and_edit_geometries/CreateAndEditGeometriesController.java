@@ -34,12 +34,18 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 
 public class CreateAndEditGeometriesController {
 
+
   @FXML
   private MapView mapView;
+  @FXML
+  private Label createLabel;
+  @FXML
+  public Label editLabel;
   @FXML
   private Button redoButton;
   @FXML
