@@ -34,8 +34,10 @@ import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import javafx.util.StringConverter;
 
 public class CreateAndEditGeometriesController {
 
@@ -58,6 +60,8 @@ public class CreateAndEditGeometriesController {
   private Button editButton;
   @FXML
   private Button stopButton;
+  @FXML
+  private ComboBox<GeometryEditorTool> toolComboBox;
 
   private GeometryEditor geometryEditor;
 
@@ -98,6 +102,18 @@ public class CreateAndEditGeometriesController {
     // create vertex and freehand tools for the geometry editor
     vertexTool = new VertexTool();
     freehandTool = new FreehandTool();
+
+    // add geometry editor tools to the combo box
+    toolComboBox.getItems().addAll(vertexTool, freehandTool);
+
+    // show the name of the tools in the combo box
+    toolComboBox.setConverter(new ComboBoxStringConverter());
+
+    // bind the geometry editor tool to the tool chosen in the combo box
+    toolComboBox.valueProperty().bindBidirectional(geometryEditor.toolProperty());
+
+    // launch the app with the vertex tool selected by default
+    toolComboBox.getSelectionModel().select(0);
 
     // red square for points
     pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, Color.RED, 20);
@@ -340,6 +356,23 @@ public class CreateAndEditGeometriesController {
     editButton.setDisable(true);
     saveButton.setDisable(true);
     stopButton.setDisable(true);
+  }
+
+  private class ComboBoxStringConverter extends StringConverter<GeometryEditorTool> {
+
+    @Override
+    public String toString(GeometryEditorTool geometryEditorTool) {
+      if (geometryEditorTool != null) {
+        if (geometryEditorTool instanceof VertexTool) return "Vertex Tool";
+        else if (geometryEditorTool instanceof FreehandTool) return "Freehand Tool";
+      }
+      return "";
+    }
+
+    @Override
+    public GeometryEditorTool fromString(String string) {
+      return null;
+    }
   }
 
   /**

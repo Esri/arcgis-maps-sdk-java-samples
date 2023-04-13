@@ -49,7 +49,7 @@
             <Label fx:id="createLabel" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Create"/>
         </GridPane>
         <GridPane vgap="6" hgap="6" alignment="CENTER">
-            <Button onAction="#handlePointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Point" styleClass="button">
+            <Button onAction="#handlePointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Point">
                 <graphic>
                     <ImageView>
                         <Image url="@point.png"/>
@@ -59,7 +59,7 @@
                     <Tooltip text="Point"/>
                 </tooltip>
             </Button>
-            <Button onAction="#handleMultipointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="1" text="Multipoint" styleClass="button">
+            <Button onAction="#handleMultipointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="1" text="Multipoint">
                 <graphic>
                     <ImageView>
                         <Image url="@multipoint.png" requestedHeight="24" preserveRatio="true" smooth="true"/>
@@ -69,7 +69,7 @@
                     <Tooltip text="Multipoint"/>
                 </tooltip>
             </Button>
-            <Button onAction="#handlePolylineButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="0" text="Polyline" styleClass="button">
+            <Button onAction="#handlePolylineButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="0" text="Polyline">
                 <graphic>
                     <ImageView>
                         <Image url="@polyline.png"/>
@@ -79,7 +79,7 @@
                     <Tooltip text="Polyline"/>
                 </tooltip>
             </Button>
-            <Button onAction="#handlePolygonButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="1" text="Polygon" styleClass="button">
+            <Button onAction="#handlePolygonButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="1" text="Polygon">
                 <graphic>
                     <ImageView>
                         <Image url="@polygon.png"/>
@@ -90,13 +90,16 @@
                 </tooltip>
             </Button>
         </GridPane>
+        <GridPane vgap="6" hgap="6" alignment="CENTER">
+            <ComboBox fx:id="toolComboBox" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        </GridPane>
         <Separator maxWidth="100"/>
         <GridPane vgap="6" hgap="6" alignment="CENTER">
             <Label fx:id="editLabel" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Edit"/>
         </GridPane>
         <GridPane vgap="6" hgap="6">
             <Button fx:id="undoButton" onAction="#handleUndoButtonClicked" disable="true" GridPane.rowIndex="0"
-                    GridPane.columnIndex="0">
+                    GridPane.columnIndex="0" text="Undo">
                 <graphic>
                     <ImageView>
                         <Image url="@undo.png"/>
@@ -107,7 +110,7 @@
                 </tooltip>
             </Button>
             <Button fx:id="redoButton" onAction="#handleRedoButtonClicked" disable="true" GridPane.rowIndex="0"
-                    GridPane.columnIndex="1">
+                    GridPane.columnIndex="1" text="Redo">
                 <graphic>
                     <ImageView>
                         <Image url="@redo.png"/>
@@ -118,7 +121,7 @@
                 </tooltip>
             </Button>
             <Button fx:id="saveButton" onAction="#handleSaveButtonClicked" disable="true" GridPane.rowIndex="1"
-                    GridPane.columnIndex="0">
+                    GridPane.columnIndex="0" text="Save">
                 <graphic>
                     <ImageView>
                         <Image url="@save.png"/>
@@ -129,7 +132,7 @@
                 </tooltip>
             </Button>
             <Button fx:id="clearButton" onAction="#handleClearButtonClicked" disable="true" GridPane.rowIndex="1"
-                    GridPane.columnIndex="1">
+                    GridPane.columnIndex="1" text="Clear">
                 <graphic>
                     <ImageView>
                         <Image url="@trash-can-outline.png"/>
