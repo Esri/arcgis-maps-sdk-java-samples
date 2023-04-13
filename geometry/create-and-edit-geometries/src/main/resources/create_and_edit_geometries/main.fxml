@@ -49,7 +49,7 @@
             <Label fx:id="createLabel" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Create"/>
         </GridPane>
         <GridPane vgap="6" hgap="6" alignment="CENTER">
-            <Button onAction="#handlePointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Point">
+            <Button fx:id="pointButton" onAction="#handlePointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Point">
                 <graphic>
                     <ImageView>
                         <Image url="@point-32.png"/>
@@ -59,7 +59,7 @@
                     <Tooltip text="Point"/>
                 </tooltip>
             </Button>
-            <Button onAction="#handleMultipointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="1" text="Multipoint">
+            <Button fx:id="multipointButton" onAction="#handleMultipointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="1" text="Multipoint">
                 <graphic>
                     <ImageView>
                         <Image url="@multipoint-32.png"/>
