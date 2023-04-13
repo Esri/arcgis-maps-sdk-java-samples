@@ -45,21 +45,19 @@ public class CreateAndEditGeometriesController {
   @FXML
   private MapView mapView;
   @FXML
-  private Label createLabel;
-  @FXML
   public Label editLabel;
   @FXML
   private Button redoButton;
   @FXML
   private Button undoButton;
   @FXML
-  private Button clearButton;
+  public Button deleteSelectedElementButton;
   @FXML
   private Button saveButton;
   @FXML
-  private Button editButton;
-  @FXML
   private Button stopButton;
+  @FXML
+  public Button deleteAllGeometriesButton;
   @FXML
   private ComboBox<GeometryEditorTool> toolComboBox;
 
@@ -124,39 +122,17 @@ public class CreateAndEditGeometriesController {
     // cross-hatched interior for polygons
     fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, Color.rgb(255, 169, 169, 0.4), polygonLineSymbol);
 
-    /*
-    // add a listener for when sketch geometry is changed
-    geometryEditor.addGeometryChangedListener(SketchGeometryChangedListener -> {
-      stopButton.setDisable(false);
-      // save button enable depends on if the sketch is valid. If the sketch is valid then set disable opposite of true
-      saveButton.setDisable(!sketchEditor.isSketchValid());
-      undoButton.setDisable(!sketchEditor.canUndo());
-      redoButton.setDisable(!sketchEditor.canUndo());
-    });*/
+    // bind button status to geometry editor properties
 
-    // magic
-    undoButton.disableProperty().bind(geometryEditor.canUndoProperty());
-    redoButton.disableProperty().bind(geometryEditor.canRedoProperty());
+    undoButton.disableProperty().bind(geometryEditor.canUndoProperty().not());
+    redoButton.disableProperty().bind(geometryEditor.canRedoProperty().not());
+    saveButton.disableProperty().bind(geometryEditor.startedProperty().not());
+    deleteSelectedElementButton.disableProperty().bind(geometryEditor.selectedElementProperty().isNull());
+    stopButton.disableProperty().bind(geometryEditor.startedProperty().not());
   }
 
   /**
-   * Use the sketch editor to edit the geometry of the selected graphic.
-   */
-  @FXML
-  private void handleEditButtonClicked() {
-    stopButton.setDisable(false);
-    saveButton.setDisable(true);
-
-    // if the graphics overlay contains graphics, select the first graphic
-    // and start the sketch editor based on that graphic's geometry
-    if (!graphicsOverlay.getSelectedGraphics().isEmpty()) {
-      graphic = graphicsOverlay.getSelectedGraphics().get(0);
-      geometryEditor.start(graphic.getGeometry());
-    }
-  }
-
-  /**
-   * Stop the sketch editor, and allow a graphic to be selected from the map.
+   * Stop the geometry editor without saving the geometry stored within.
    */
   @FXML
   private void handleStopButtonClicked() {
@@ -164,11 +140,7 @@ public class CreateAndEditGeometriesController {
     Graphic newGraphic = new Graphic(newGeometry);
     graphicsOverlay.getGraphics().add(newGraphic);
     graphicsOverlay.clearSelection();
-    disableButtons();
-    // set text to inform the user the sketch is disabled
-    stopButton.setDisable(false);
-    // allow graphics to be selected after stop button is used.
-    selectGraphic();
+    selectGraphic();//todo what is this doing?
   }
 
   /**
@@ -177,6 +149,7 @@ public class CreateAndEditGeometriesController {
   @FXML
   private void handlePointButtonClicked() {
     graphicsOverlay.clearSelection();
+    geometryEditor.setTool(vertexTool); // points can only be created with the vertex tool, so we need to activate it
     geometryEditor.start(GeometryType.POINT);
   }
 
@@ -186,7 +159,7 @@ public class CreateAndEditGeometriesController {
   @FXML
   private void handleMultipointButtonClicked() {
     graphicsOverlay.clearSelection();
-    geometryEditor.setTool(vertexTool);
+    geometryEditor.setTool(vertexTool); // multipoints can only be created with the vertex tool, so we need to activate it
     geometryEditor.start(GeometryType.MULTIPOINT);
   }
 
@@ -196,7 +169,6 @@ public class CreateAndEditGeometriesController {
   @FXML
   private void handlePolylineButtonClicked() {
     graphicsOverlay.clearSelection();
-    geometryEditor.setTool(vertexTool);
     geometryEditor.start(GeometryType.POLYLINE);
   }
 
@@ -206,37 +178,7 @@ public class CreateAndEditGeometriesController {
   @FXML
   private void handlePolygonButtonClicked() {
     graphicsOverlay.clearSelection();
-    geometryEditor.setTool(vertexTool);
     geometryEditor.start(GeometryType.POLYGON);
-  }
-
-  /**
-   * Clear selection of any graphic in the graphics overlay and start a  new freehand polyline sketch.
-   */
-  @FXML
-  private void handleFreehandPolylineButtonClicked() {
-    graphicsOverlay.clearSelection();
-    geometryEditor.setTool(freehandTool);
-    geometryEditor.start(GeometryType.POLYLINE);
-  }
-
-  /**
-   * Clear selection of any graphic in the graphics overlay and start a new freehand polygon sketch.
-   */
-  @FXML
-  private void handleFreehandPolygonButtonClicked() {
-    graphicsOverlay.clearSelection();
-    geometryEditor.setTool(freehandTool);
-    geometryEditor.start(GeometryType.POLYGON);
-  }
-
-  /**
-   * Clear selection of any graphic in the graphics overlay and start a new rectangle sketch.
-   */
-  @FXML
-  private void handleRectangleButtonClicked() {
-    graphicsOverlay.clearSelection();
-    geometryEditor.start(GeometryType.ENVELOPE);//todo check how to actually an rectangle
   }
 
   /**
@@ -260,58 +202,51 @@ public class CreateAndEditGeometriesController {
   }
 
   /**
-   * Save the sketched graphic to the graphics overlay, and set its symbol to the type relevant for the geometry.
+   * Save the geometry in the editor to the graphics overlay, and set its symbol to the type relevant for the geometry.
    */
   @FXML
   private void handleSaveButtonClicked() {
 
-    Geometry sketchGeometry = geometryEditor.getGeometry();
+    // stop the geometry editor and get the new geometry from it
+    Geometry geometryFromEditor = geometryEditor.stop();
 
-    // if an existing graphic is being edited: get the selected graphic, set its geometry to that of the sketch editor geometry
-    // if a new graphic: create a new graphic based on the sketch editor geometry and set symbol depending on geometry type
-    if (sketchGeometry != null) {
+    // if an existing graphic is being edited: get the selected graphic, set its geometry to that of the editor geometry
+    // if a new graphic: create a new graphic based on the editor geometry and set symbol depending on geometry type
+    if (geometryFromEditor != null) {
       if (!graphicsOverlay.getSelectedGraphics().isEmpty()) {
         graphic = graphicsOverlay.getSelectedGraphics().get(0);
-        graphic.setGeometry(sketchGeometry);
+        graphic.setGeometry(geometryFromEditor);
       } else {
-        graphic = new Graphic(sketchGeometry);
+        graphic = new Graphic(geometryFromEditor);
 
-        switch (sketchGeometry.getGeometryType()) {
-          case POLYGON:
-            graphic.setSymbol(fillSymbol);
-            break;
-          case POLYLINE:
-            graphic.setSymbol(lineSymbol);
-            break;
-          case POINT:
-          case MULTIPOINT:
-            graphic.setSymbol(pointSymbol);
+        switch (geometryFromEditor.getGeometryType()) {
+          case POLYGON -> graphic.setSymbol(fillSymbol);
+          case POLYLINE -> graphic.setSymbol(lineSymbol);
+          case POINT, MULTIPOINT -> graphic.setSymbol(pointSymbol);
         }
         graphicsOverlay.getGraphics().add(graphic);
       }
     }
-    geometryEditor.stop();
-
     // allow the user to select a graphic from the map view
     selectGraphic();
     graphicsOverlay.clearSelection();
-    disableButtons();
 
     if (!graphicsOverlay.getGraphics().isEmpty()) {
-      clearButton.setDisable(false);
+      deleteAllGeometriesButton.setDisable(false);
     }
-    stopButton.setDisable(true);
   }
 
   /**
-   * Clear the graphics overlay of any saved graphics.
+   * Removes all geometries from the graphics overlay.
    */
   @FXML
-  private void handleClearButtonClicked() {
-
+  private void handleDeleteAllGeometriesButtonClicked() {
     graphicsOverlay.getGraphics().clear();
-    geometryEditor.stop();
-    disableButtons();
+  }
+
+  @FXML
+  private void handleDeleteSelectedElementButtonClicked() {
+    geometryEditor.deleteSelectedElement();
   }
 
   /**
@@ -333,9 +268,10 @@ public class CreateAndEditGeometriesController {
             // store the selected graphic
             graphic = identifyGraphics.get().getGraphics().get(0);
             graphic.setSelected(true);
-            editButton.setDisable(false);
-          } else {
-            editButton.setDisable(true);
+            if (graphic.getGeometry() != null) {
+              geometryEditor.start(graphic.getGeometry());
+              graphic.setGeometry(null); // todo update the graphic w/ geometryEditor.stop, not whatever this is
+            }
           }
         } catch (Exception x) {
           // on any error, display the stack trace
@@ -343,19 +279,6 @@ public class CreateAndEditGeometriesController {
         }
       });
     });
-  }
-
-  /**
-   * Disable all UI buttons.
-   */
-  private void disableButtons() {
-
-    clearButton.setDisable(true);
-    redoButton.setDisable(true);
-    undoButton.setDisable(true);
-    editButton.setDisable(true);
-    saveButton.setDisable(true);
-    stopButton.setDisable(true);
   }
 
   private class ComboBoxStringConverter extends StringConverter<GeometryEditorTool> {
