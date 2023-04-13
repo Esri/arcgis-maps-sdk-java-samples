@@ -133,7 +133,7 @@
                     <Tooltip text="Delete selected element"/>
                 </tooltip>
             </Button>
-            <Button fx:id="saveButton" onAction="#handleSaveButtonClicked" disable="true" GridPane.rowIndex="1"
+            <Button fx:id="stopAndSaveButton" onAction="#handleStopAndSaveButtonClicked" disable="true" GridPane.rowIndex="1"
                     GridPane.columnIndex="0" text="Stop and save edits">
                 <graphic>
                     <ImageView>
@@ -144,7 +144,7 @@
                     <Tooltip text="Stop and save edits"/>
                 </tooltip>
             </Button>
-            <Button fx:id="stopButton" onAction="#handleStopButtonClicked" disable="true" GridPane.rowIndex="2"
+            <Button fx:id="stopAndDiscardButton" onAction="#handleStopAndDiscardButtonClicked" disable="true" GridPane.rowIndex="2"
                     GridPane.columnIndex="0" text="Stop (discards edits)">
                 <graphic>
                     <ImageView>
