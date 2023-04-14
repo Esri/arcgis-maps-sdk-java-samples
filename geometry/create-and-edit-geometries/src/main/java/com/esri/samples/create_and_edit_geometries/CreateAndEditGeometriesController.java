@@ -18,22 +18,36 @@ package com.esri.samples.create_and_edit_geometries;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.geometry.*;
+import com.esri.arcgisruntime.geometry.GeometryType;
+import com.esri.arcgisruntime.geometry.MultipointBuilder;
+import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.PointBuilder;
+import com.esri.arcgisruntime.geometry.PointCollection;
+import com.esri.arcgisruntime.geometry.PolylineBuilder;
+import com.esri.arcgisruntime.geometry.PolygonBuilder;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.*;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
+import com.esri.arcgisruntime.mapping.view.IdentifyGraphicsOverlayResult;
+import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.mapping.view.geometryeditor.FreehandTool;
 import com.esri.arcgisruntime.mapping.view.geometryeditor.GeometryEditor;
 import com.esri.arcgisruntime.mapping.view.geometryeditor.GeometryEditorTool;
 import com.esri.arcgisruntime.mapping.view.geometryeditor.VertexTool;
+import com.esri.arcgisruntime.mapping.view.geometryeditor.GeometryEditorElement;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
+
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 
@@ -68,7 +82,7 @@ public class CreateAndEditGeometriesController {
   private FreehandTool freehandTool;
 
   private GraphicsOverlay graphicsOverlay;
-  private Graphic graphic;
+  private Graphic selectedGraphic;
 
   private SimpleFillSymbol fillSymbol;
   private SimpleLineSymbol lineSymbol;
@@ -128,15 +142,23 @@ public class CreateAndEditGeometriesController {
     undoButton.disableProperty().bind(geometryEditor.canUndoProperty().not());
     redoButton.disableProperty().bind(geometryEditor.canRedoProperty().not());
 
-    // todo can this be made to work with selectedElementProperty().get.canDeleteProperty? try/catch? bind somewhere else?
-    // Delete Selected Element enabled when there's an element selected
-    // Ideally this would be bound to whether the selected element is deletable
-    // But selected element is often null (incl. at startup), so that causes NullPointerExceptions.
-    deleteSelectedElementButton.disableProperty().bind(geometryEditor.selectedElementProperty().isNull());
+    // Delete selected element enabled when an element is selected, and it's deletable
+    // Using a listener here avoids NullPointerException when trying to init binding
+    ChangeListener<GeometryEditorElement> selectedElementChangedListener = (observable, oldValue, newValue) -> {
+      if (newValue == null){
+        deleteSelectedElementButton.disableProperty().bind(geometryEditor.selectedElementProperty().isNull());
+      } else {
+        deleteSelectedElementButton.disableProperty().bind(geometryEditor.getSelectedElement().canDeleteProperty().not());
+      }
+    };
+    geometryEditor.selectedElementProperty().addListener(selectedElementChangedListener);
+    // Old and less accurate working binding
+    // deleteSelectedElementButton.disableProperty().bind(geometryEditor.selectedElementProperty().isNull());
 
     // Stop buttons enabled when geometry editor has started
     stopAndSaveButton.disableProperty().bind(geometryEditor.startedProperty().not());
     stopAndDiscardButton.disableProperty().bind(geometryEditor.startedProperty().not());
+
   }
 
   private void createGraphicsMarkers() {
@@ -153,20 +175,11 @@ public class CreateAndEditGeometriesController {
   }
 
   /**
-   * Stop the geometry editor without saving the geometry stored within.
-   */
-  @FXML
-  private void handleStopAndDiscardButtonClicked() {
-    geometryEditor.stop(); // todo needs to work differently if there's a graphic selected
-  }
-
-  /**
    * Clear selection of any graphic in the graphics overlay and start a new point sketch.
    */
   @FXML
   private void handlePointButtonClicked() {
     graphicsOverlay.clearSelection();
-    geometryEditor.setTool(vertexTool); // points can only be created with the vertex tool, so we need to activate it
     geometryEditor.start(GeometryType.POINT);
   }
 
@@ -176,7 +189,6 @@ public class CreateAndEditGeometriesController {
   @FXML
   private void handleMultipointButtonClicked() {
     graphicsOverlay.clearSelection();
-    geometryEditor.setTool(vertexTool); // multipoints can only be created with the vertex tool, so we need to activate it
     geometryEditor.start(GeometryType.MULTIPOINT);
   }
 
@@ -199,7 +211,7 @@ public class CreateAndEditGeometriesController {
   }
 
   /**
-   * Undo the last change made to the sketch, whilst sketching is active.
+   * Undo the last change made to the geometry while editing is active.
    */
   @FXML
   private void handleUndoButtonClicked() {
@@ -209,7 +221,7 @@ public class CreateAndEditGeometriesController {
   }
 
   /**
-   * Redo the last change made to the sketch, whilst sketching is active.
+   * Redo the last change made to the geometry while editing is active.
    */
   @FXML
   private void handleRedoButtonClicked() {
@@ -219,49 +231,73 @@ public class CreateAndEditGeometriesController {
   }
 
   /**
+   * Delete the currently selected element of the geometry.
+   */
+  @FXML
+  private void handleDeleteSelectedElementButtonClicked() {
+    if (geometryEditor.getSelectedElement().getCanDelete()) {
+      geometryEditor.deleteSelectedElement();
+    }
+  }
+
+  /**
    * Save the geometry in the editor to the graphics overlay, and set its symbol to the type relevant for the geometry.
    */
   @FXML
   private void handleStopAndSaveButtonClicked() {
-
-    // stop the geometry editor and get the new geometry from it
-    Geometry geometryFromEditor = geometryEditor.stop();
-
-    // if an existing graphic is being edited: get the selected graphic, set its geometry to that of the editor geometry
-    // if a new graphic: create a new graphic based on the editor geometry and set symbol depending on geometry type
-    if (geometryFromEditor != null) {
-      if (!graphicsOverlay.getSelectedGraphics().isEmpty()) {
-        graphic = graphicsOverlay.getSelectedGraphics().get(0);
-        graphic.setGeometry(geometryFromEditor);
-      } else {
-        graphic = new Graphic(geometryFromEditor);
-
-        switch (geometryFromEditor.getGeometryType()) { // rubbish switch statement bc folk are still using Java 11
-          case POINT:
-            graphic.setSymbol(pointSymbol);
-            break;
-          case MULTIPOINT:
-            graphic.setSymbol(multipointSymbol);
-            break;
-          case POLYLINE:
-            graphic.setSymbol(lineSymbol);
-            break;
-          case POLYGON:
-            graphic.setSymbol(fillSymbol);
-            break;
-          default:
-          {}
-        }
-
-        graphicsOverlay.getGraphics().add(graphic);
-      }
+    if (geometryEditor.getGeometry().isEmpty()) {
+      System.err.println("Geometry is empty. Unable to save geometry.");
     }
-    // allow the user to select a graphic from the map view
-    selectGraphic();
-    graphicsOverlay.clearSelection();
 
-    if (!graphicsOverlay.getGraphics().isEmpty()) {
-      deleteAllGeometriesButton.setDisable(false);
+    if (selectedGraphic != null){
+      updateSelectedGraphic();
+    } else {
+      createNewGraphic();
+    }
+  }
+
+  private void createNewGraphic() {
+    var geometry = geometryEditor.stop();
+    var graphic = new Graphic();
+
+    switch (geometry.getGeometryType()){
+      case POINT:
+        graphic.setSymbol(pointSymbol);
+        break;
+      case MULTIPOINT:
+        graphic.setSymbol(multipointSymbol);
+        break;
+      case POLYLINE:
+        graphic.setSymbol(lineSymbol);
+        break;
+      case POLYGON:
+        graphic.setSymbol(fillSymbol);
+        break;
+      default:
+      {}
+    }
+
+    graphic.setGeometry(geometry);
+    graphicsOverlay.getGraphics().add(graphic);
+  }
+
+  private void updateSelectedGraphic() {
+    selectedGraphic.setGeometry(geometryEditor.stop());
+    selectedGraphic.setVisible(true);
+    selectedGraphic = null;
+  }
+
+  /**
+   * Stop the geometry editor without saving the geometry stored within.
+   */
+  @FXML
+  private void handleStopAndDiscardButtonClicked() {
+    if (selectedGraphic != null) {
+      geometryEditor.stop();
+      selectedGraphic.setVisible(true);
+      selectedGraphic = null;
+    } else {
+      geometryEditor.stop();
     }
   }
 
@@ -273,18 +309,15 @@ public class CreateAndEditGeometriesController {
     graphicsOverlay.getGraphics().clear();
   }
 
-  @FXML
-  private void handleDeleteSelectedElementButtonClicked() {
-    geometryEditor.deleteSelectedElement();
-  }
-
   /**
    * Allows the user to select a graphic from the graphics overlay.
    */
   private void selectGraphic() {
+    // todo needs to not delete any currently selected graphic upon selecting a new one
 
     mapView.setOnMouseClicked(e -> {
       graphicsOverlay.clearSelection();
+      if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY){
       Point2D mapViewPoint = new Point2D(e.getX(), e.getY());
 
       // get graphics near the clicked location
@@ -293,28 +326,31 @@ public class CreateAndEditGeometriesController {
 
       identifyGraphics.addDoneListener(() -> {
         try {
-          if (!identifyGraphics.get().getGraphics().isEmpty()) {
+          if (!identifyGraphics.get().getGraphics().isEmpty()) { // todo can we keep this?
+
             // store the selected graphic
-            graphic = identifyGraphics.get().getGraphics().get(0);
-            graphic.setSelected(true);
+            selectedGraphic = identifyGraphics.get().getGraphics().get(0);
+            selectedGraphic.setSelected(true);
 
             // Need to use vertex tool if selected geometry is a point or multipoint
-            if (graphic.getGeometry().getGeometryType().equals(GeometryType.POINT) ||
-                    graphic.getGeometry().getGeometryType().equals(GeometryType.MULTIPOINT)) {
+            if (selectedGraphic.getGeometry().getGeometryType().equals(GeometryType.POINT) ||
+                    selectedGraphic.getGeometry().getGeometryType().equals(GeometryType.MULTIPOINT)) {
               geometryEditor.setTool(vertexTool);
               toolComboBox.getSelectionModel().select(0);
             }
 
-            geometryEditor.start(graphic.getGeometry());
-            graphic.setGeometry(null); // todo this can't be right
+            geometryEditor.start(selectedGraphic.getGeometry());
+            selectedGraphic.setGeometry(null); // todo this can't be right
             //graphic.setVisible(false);
+          } else {
+            selectedGraphic = null;
           }
         } catch (Exception x) {
           // on any error, display the stack trace
           x.printStackTrace();
         }
       });
-    });
+    }});
   }
 
   void createInitialGraphics() {
