@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Esri.
+ * Copyright 2023 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -158,7 +158,6 @@ public class CreateAndEditGeometriesController {
     // Stop buttons enabled when geometry editor has started
     stopAndSaveButton.disableProperty().bind(geometryEditor.startedProperty().not());
     stopAndDiscardButton.disableProperty().bind(geometryEditor.startedProperty().not());
-
   }
 
   private void createGraphicsMarkers() {
@@ -313,11 +312,10 @@ public class CreateAndEditGeometriesController {
    * Allows the user to select a graphic from the graphics overlay.
    */
   private void selectGraphic() {
-    // todo needs to not delete any currently selected graphic upon selecting a new one
 
     mapView.setOnMouseClicked(e -> {
       graphicsOverlay.clearSelection();
-      if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY){
+      if (e.isStillSincePress() && e.getButton() == MouseButton.PRIMARY){ // stops currently selected geometry from losing focus if dragged over another geometry
       Point2D mapViewPoint = new Point2D(e.getX(), e.getY());
 
       // get graphics near the clicked location
@@ -326,24 +324,25 @@ public class CreateAndEditGeometriesController {
 
       identifyGraphics.addDoneListener(() -> {
         try {
-          if (!identifyGraphics.get().getGraphics().isEmpty()) { // todo can we keep this?
+          if (!geometryEditor.isStarted()) { // only select graphic if we're not already creating/editing a geometry
+            if (!identifyGraphics.get().getGraphics().isEmpty()) {
 
-            // store the selected graphic
-            selectedGraphic = identifyGraphics.get().getGraphics().get(0);
-            selectedGraphic.setSelected(true);
+              // store the selected graphic
+              selectedGraphic = identifyGraphics.get().getGraphics().get(0);
+              selectedGraphic.setSelected(true);
 
-            // Need to use vertex tool if selected geometry is a point or multipoint
-            if (selectedGraphic.getGeometry().getGeometryType().equals(GeometryType.POINT) ||
-                    selectedGraphic.getGeometry().getGeometryType().equals(GeometryType.MULTIPOINT)) {
-              geometryEditor.setTool(vertexTool);
-              toolComboBox.getSelectionModel().select(0);
+              // Need to use vertex tool if selected geometry is a point or multipoint
+              if (selectedGraphic.getGeometry().getGeometryType().equals(GeometryType.POINT) ||
+                      selectedGraphic.getGeometry().getGeometryType().equals(GeometryType.MULTIPOINT)) {
+                geometryEditor.setTool(vertexTool);
+                toolComboBox.getSelectionModel().select(0);
+              }
+
+              geometryEditor.start(selectedGraphic.getGeometry());
+              selectedGraphic.setVisible(false);  // Hide the selected graphic while we're editing a copy of it
+            } else {
+              selectedGraphic = null;
             }
-
-            geometryEditor.start(selectedGraphic.getGeometry());
-            selectedGraphic.setGeometry(null); // todo this can't be right
-            //graphic.setVisible(false);
-          } else {
-            selectedGraphic = null;
           }
         } catch (Exception x) {
           // on any error, display the stack trace
@@ -353,7 +352,7 @@ public class CreateAndEditGeometriesController {
     }});
   }
 
-  void createInitialGraphics() {
+  void createInitialGraphics() {//todo load all or some of these from file?
     double[] houseCoords = {-9.59309629, 53.0830063};
     double[][] outbuildingCoords = {
                 {-9.59386587, 53.08289651},
@@ -474,7 +473,11 @@ public class CreateAndEditGeometriesController {
     graphicsOverlay.getGraphics().add(polygonGraphic);
   }
 
-  private class ComboBoxStringConverter extends StringConverter<GeometryEditorTool> {
+
+  /**
+   * Inner class for displaying friendly names in the combo box
+   */
+  private static class ComboBoxStringConverter extends StringConverter<GeometryEditorTool> {
 
     @Override
     public String toString(GeometryEditorTool geometryEditorTool) {

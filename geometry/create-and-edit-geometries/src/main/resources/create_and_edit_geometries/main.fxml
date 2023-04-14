@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~ Copyright 2018 Esri.
+  ~ Copyright 2023 Esri.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
   ~ use this file except in compliance with the License. You may obtain a copy of
@@ -23,8 +23,6 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<?import java.lang.String?>
-<?import javafx.scene.text.Font?>
 <StackPane fx:controller="com.esri.samples.create_and_edit_geometries.CreateAndEditGeometriesController"
            xmlns:fx="http://javafx.com/fxml"
            stylesheets="@style.css">
@@ -46,7 +44,7 @@
             </Background>
         </background>
         <GridPane vgap="6" hgap="6" alignment="CENTER">
-            <Label fx:id="createLabel" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Create"/>
+            <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Create"/>
         </GridPane>
         <GridPane vgap="6" hgap="6" alignment="CENTER">
             <Button fx:id="pointButton" onAction="#handlePointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Point">
@@ -95,10 +93,10 @@
         </GridPane>
         <Separator maxWidth="100"/>
         <GridPane vgap="6" hgap="6" alignment="CENTER">
-            <Label fx:id="editLabel" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Edit"/>
+            <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Edit"/>
         </GridPane>
         <GridPane vgap="6" hgap="6">
-            <Button fx:id="undoButton" onAction="#handleUndoButtonClicked" disable="true" GridPane.rowIndex="0"
+            <Button fx:id="undoButton" onAction="#handleUndoButtonClicked" GridPane.rowIndex="0"
                     GridPane.columnIndex="0" text="Undo">
                 <graphic>
                     <ImageView>
@@ -109,7 +107,7 @@
                     <Tooltip text="Undo"/>
                 </tooltip>
             </Button>
-            <Button fx:id="redoButton" onAction="#handleRedoButtonClicked" disable="true" GridPane.rowIndex="0"
+            <Button fx:id="redoButton" onAction="#handleRedoButtonClicked" GridPane.rowIndex="0"
                     GridPane.columnIndex="1" text="Redo">
                 <graphic>
                     <ImageView>
@@ -123,7 +121,7 @@
         </GridPane>
         <GridPane vgap="6" hgap="6" alignment="CENTER">
             <Button fx:id="deleteSelectedElementButton" onAction="#handleDeleteSelectedElementButtonClicked"
-                    disable="true" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Delete selected element">
+                    GridPane.rowIndex="0" GridPane.columnIndex="0" text="Delete selected element">
                 <graphic>
                     <ImageView>
                         <Image url="@erase-32.png" requestedHeight="24" preserveRatio="true" smooth="true"/>
@@ -133,7 +131,7 @@
                     <Tooltip text="Delete selected element"/>
                 </tooltip>
             </Button>
-            <Button fx:id="stopAndSaveButton" onAction="#handleStopAndSaveButtonClicked" disable="true" GridPane.rowIndex="1"
+            <Button fx:id="stopAndSaveButton" onAction="#handleStopAndSaveButtonClicked" GridPane.rowIndex="1"
                     GridPane.columnIndex="0" text="Stop and save edits">
                 <graphic>
                     <ImageView>
@@ -144,7 +142,7 @@
                     <Tooltip text="Stop and save edits"/>
                 </tooltip>
             </Button>
-            <Button fx:id="stopAndDiscardButton" onAction="#handleStopAndDiscardButtonClicked" disable="true" GridPane.rowIndex="2"
+            <Button fx:id="stopAndDiscardButton" onAction="#handleStopAndDiscardButtonClicked" GridPane.rowIndex="2"
                     GridPane.columnIndex="0" text="Stop (discards edits)">
                 <graphic>
                     <ImageView>
@@ -155,7 +153,7 @@
                     <Tooltip text="Stop (discards edits)"/>
                 </tooltip>
             </Button>
-            <Button fx:id="deleteAllGeometriesButton" onAction="#handleDeleteAllGeometriesButtonClicked" disable="true"
+            <Button fx:id="deleteAllGeometriesButton" onAction="#handleDeleteAllGeometriesButtonClicked"
                     GridPane.rowIndex="3" GridPane.columnIndex="0" text="Delete all geometries">
                 <graphic>
                     <ImageView>
