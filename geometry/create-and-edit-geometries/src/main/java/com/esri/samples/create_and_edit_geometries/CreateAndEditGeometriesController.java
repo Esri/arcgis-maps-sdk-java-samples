@@ -50,7 +50,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CreateAndEditGeometriesController {
 
@@ -167,7 +168,7 @@ public class CreateAndEditGeometriesController {
     pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, Color.ORANGERED, 10);
     // yellow circle for multipoints
     multipointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.YELLOW, 5);
-    // thin blue line (problematic) for polylines
+    // thin blue line for polylines
     lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 2);
     // black outline for polygons
     SimpleLineSymbol polygonLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.BLACK, 1);
@@ -452,11 +453,17 @@ public class CreateAndEditGeometriesController {
       {-9.59350122, 53.08320723}
     };
 
+    var outbuildingCoordsList = List.of(outbuildingCoords);
+    var road1CoordsList = List.of(road1Coords);
+    var road2CoordsList = List.of(road2Coords);
+    var boundaryCoordsList = List.of(boundaryCoords);
+    System.out.println(boundaryCoordsList);
+
     // create graphics for the geometries defined above
-    createPolygonAndAddToGraphics(boundaryCoords);
-    createLineAndAddToGraphics(road1Coords);
-    createLineAndAddToGraphics(road2Coords);
-    createMultipointAndAddToGraphics(outbuildingCoords);
+    createPolygonAndAddToGraphics(boundaryCoordsList);
+    createLineAndAddToGraphics(road1CoordsList);
+    createLineAndAddToGraphics(road2CoordsList);
+    createMultipointAndAddToGraphics(outbuildingCoordsList);
     createPointAndAddToGraphics(houseCoords);
   }
 
@@ -476,15 +483,11 @@ public class CreateAndEditGeometriesController {
    * Creates a multipoint geometry and adds it to the graphics overlay.
    * @param outbuildingCoords coordinates of the points comprising the multipoint.
    */
-  private void createMultipointAndAddToGraphics(double[][] outbuildingCoords) {
+  private void createMultipointAndAddToGraphics(List<double[]> outbuildingCoords) {
+    // convert double coordinates into ArcGIS Points
+    List<Point> points = outbuildingCoords.stream().map(coord -> new Point(coord[0], coord[1])).collect(Collectors.toList());
 
-    // convert coordinates into ArcGIS points
-    Point[] points = new Point[outbuildingCoords.length];
-    for (int i = 0; i < points.length; i++) {
-      points[i] = new Point(outbuildingCoords[i][0], outbuildingCoords[i][1]);
-    }
-
-    var multipointBuilder = new MultipointBuilder(Arrays.asList(points), SpatialReferences.getWgs84());
+    var multipointBuilder = new MultipointBuilder(points, SpatialReferences.getWgs84());
     var multipointGeometry = multipointBuilder.toGeometry();
     var multipointGraphic = new Graphic(multipointGeometry);
     multipointGraphic.setSymbol(multipointSymbol);
@@ -495,12 +498,11 @@ public class CreateAndEditGeometriesController {
    * Creates a polyline geometry and adds it to the graphics overlay.
    * @param roadCoords coordinates of the points defining the polyline.
    */
-  private void createLineAndAddToGraphics(double[][] roadCoords) {
-    Point[] points = new Point[roadCoords.length];
-    for (int i = 0; i < points.length; i++) {
-      points[i] = new Point(roadCoords[i][0], roadCoords[i][1]);
-    }
-    var polylineBuilder = new PolylineBuilder(new PointCollection(Arrays.asList(points)), SpatialReferences.getWgs84());
+  private void createLineAndAddToGraphics(List<double[]> roadCoords) {
+    // convert double coordinates into ArcGIS Points
+    List<Point> points = roadCoords.stream().map(coord -> new Point(coord[0], coord[1])).collect(Collectors.toList());
+
+    var polylineBuilder = new PolylineBuilder(new PointCollection(points), SpatialReferences.getWgs84());
     var polylineGeometry = polylineBuilder.toGeometry();
     var polylineGraphic = new Graphic(polylineGeometry);
     polylineGraphic.setSymbol(lineSymbol);
@@ -511,12 +513,11 @@ public class CreateAndEditGeometriesController {
    * Creates a point geometry and adds it to the graphics overlay.
    * @param boundaryCoords coordinates of the points defining the polygon.
    */
-  private void createPolygonAndAddToGraphics(double[][] boundaryCoords) {
-    Point[] points = new Point[boundaryCoords.length];
-    for (int i = 0; i < points.length; i++) {
-      points[i] = new Point(boundaryCoords[i][0], boundaryCoords[i][1]);
-    }
-    var polygonBuilder = new PolygonBuilder(new PointCollection(Arrays.asList(points)), SpatialReferences.getWgs84());
+  private void createPolygonAndAddToGraphics(List<double[]> boundaryCoords) {
+    // convert double coordinates into ArcGIS Points
+    List<Point> points = boundaryCoords.stream().map(coord -> new Point(coord[0], coord[1])).collect(Collectors.toList());
+
+    var polygonBuilder = new PolygonBuilder(new PointCollection(points), SpatialReferences.getWgs84());
     var polygonGeometry = polygonBuilder.toGeometry();
     var polygonGraphic = new Graphic(polygonGeometry);
     polygonGraphic.setSymbol(fillSymbol);
