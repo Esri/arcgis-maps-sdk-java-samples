@@ -42,6 +42,7 @@ import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -121,10 +122,15 @@ public class CreateAndEditGeometriesController {
     toolComboBox.getItems().addAll(vertexTool, freehandTool);
     toolComboBox.getSelectionModel().select(0);
 
+    // add example graphics to the map
     createGraphicsMarkers();
     createInitialGraphics();
+
+    // bind button availability to properties of the geometry editor
     bindButtonsToGeometryEditor();
-    selectGraphic(); // allow user to immediately select and edit graphics
+
+    // allow user to immediately select and edit graphics
+    selectGraphic();
   }
 
   /**
@@ -142,10 +148,10 @@ public class CreateAndEditGeometriesController {
     undoButton.disableProperty().bind(geometryEditor.canUndoProperty().not());
     redoButton.disableProperty().bind(geometryEditor.canRedoProperty().not());
 
-    // delete selected element enabled when an element is selected and deletable
+    // delete selected element enabled only when an element is selected and deletable
     ChangeListener<GeometryEditorElement> selectedElementChangedListener = (observable, oldValue, newValue) -> {
       if (newValue == null) {
-        deleteSelectedElementButton.disableProperty().bind(geometryEditor.selectedElementProperty().isNull());
+        deleteSelectedElementButton.disableProperty().bind(new SimpleBooleanProperty(true));
       } else {
         deleteSelectedElementButton.disableProperty().bind(geometryEditor.getSelectedElement().canDeleteProperty().not());
       }
@@ -156,7 +162,7 @@ public class CreateAndEditGeometriesController {
     stopAndSaveButton.disableProperty().bind(geometryEditor.startedProperty().not());
     stopAndDiscardButton.disableProperty().bind(geometryEditor.startedProperty().not());
 
-    // delete all button enabled when geometry editor stopped
+    // delete all geometries button enabled when geometry editor stopped
     deleteAllGeometriesButton.disableProperty().bind(geometryEditor.startedProperty());
   }
 
@@ -184,6 +190,8 @@ public class CreateAndEditGeometriesController {
     if (!geometryEditor.isStarted()) {
       graphicsOverlay.clearSelection();
       geometryEditor.start(GeometryType.POINT);
+
+      // disable tool selection when point or multipoint selected
       toolComboBox.setDisable(true);
     }
   }
@@ -196,6 +204,8 @@ public class CreateAndEditGeometriesController {
     if (!geometryEditor.isStarted()) {
       graphicsOverlay.clearSelection();
       geometryEditor.start(GeometryType.MULTIPOINT);
+
+      // disable tool selection when point or multipoint selected
       toolComboBox.setDisable(true);
     }
   }
@@ -223,33 +233,27 @@ public class CreateAndEditGeometriesController {
   }
 
   /**
-   * Undo the last change made to the geometry while editing is active, if possible.
+   * Undo the last change made to the geometry while editing is active.
    */
   @FXML
   private void handleUndoButtonClicked() {
-    if (geometryEditor.getCanUndo()) {
       geometryEditor.undo();
-    }
   }
 
   /**
-   * Redo the last change made to the geometry while editing is active, if possible.
+   * Redo the last change made to the geometry while editing is active.
    */
   @FXML
   private void handleRedoButtonClicked() {
-    if (geometryEditor.getCanRedo()) {
       geometryEditor.redo();
-    }
   }
 
   /**
-   * Deletes the currently selected element of the geometry, if possible.
+   * Deletes the currently selected element of the geometry.
    */
   @FXML
   private void handleDeleteSelectedElementButtonClicked() {
-    if (geometryEditor.getSelectedElement().getCanDelete()) {
       geometryEditor.deleteSelectedElement();
-    }
   }
 
   /**
@@ -267,6 +271,8 @@ public class CreateAndEditGeometriesController {
     } else {
       createNewGraphic();
     }
+
+    // enable tool selection once a graphic is no longer being edited
     toolComboBox.setDisable(false);
   }
 
@@ -276,8 +282,7 @@ public class CreateAndEditGeometriesController {
   private void createNewGraphic() {
     // get the geometry from the geometry editor and create a new graphic for it
     var geometry = geometryEditor.stop();
-    var graphic = new Graphic();
-    graphic.setGeometry(geometry);
+    var graphic = new Graphic(geometry);
 
     // set graphic style based on geometry type
     switch (geometry.getGeometryType()) {
@@ -293,8 +298,6 @@ public class CreateAndEditGeometriesController {
       case POLYGON:
         graphic.setSymbol(fillSymbol);
         break;
-      default: {
-      }
     }
 
     // add new graphic to the graphics overlay
@@ -383,8 +386,10 @@ public class CreateAndEditGeometriesController {
    * Defines graphics to be loaded into the sample upon startup.
    */
   void createInitialGraphics() {
+    // point coordinates of a house
     double[] houseCoords = {-9.59309629, 53.0830063};
 
+    // point coordinates of several outbuildings
     double[][] outbuildingCoords = {
       {-9.59386587, 53.08289651},
       {-9.59370896, 53.08234917},
@@ -398,6 +403,7 @@ public class CreateAndEditGeometriesController {
       {-9.59307943, 53.08234731}
     };
 
+    // vertex coordinates describing a road
     double[][] road1Coords = {
       {-9.59486423, 53.08169453},
       {-9.5947812, 53.08175431},
@@ -413,6 +419,7 @@ public class CreateAndEditGeometriesController {
       {-9.59250636, 53.08383986}
     };
 
+    // vertex coordinates describing a road
     double[][] road2Coords = {
       {-9.59400079, 53.08136244},
       {-9.59395761, 53.08149528},
@@ -426,6 +433,7 @@ public class CreateAndEditGeometriesController {
       {-9.59293809, 53.08387307}
     };
 
+    // vertex coordinates describing the perimeter of a polygon
     double[][] boundaryCoords = {
       {-9.59350122, 53.08320723},
       {-9.59345177, 53.08333534},
@@ -457,7 +465,6 @@ public class CreateAndEditGeometriesController {
     var road1CoordsList = List.of(road1Coords);
     var road2CoordsList = List.of(road2Coords);
     var boundaryCoordsList = List.of(boundaryCoords);
-    System.out.println(boundaryCoordsList);
 
     // create graphics for the geometries defined above
     createPolygonAndAddToGraphics(boundaryCoordsList);

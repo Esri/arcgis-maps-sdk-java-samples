@@ -19,18 +19,18 @@ Use the control panel to undo or redo changes made to the geometry, delete a sel
 1. Create a `GeometryEditor` and set it to the MapView using `mapView.setGeometryEditor(GeometryEditor)`.
 2. Start the `GeometryEditor` using `GeometryEditor.start(GeometryType)` to create a new geometry or `GeometryEditor.start(Geometry)` to edit an existing geometry.
     - If using the Geometry Editor to edit an existing geometry, the geometry must be retrieved from the graphics overlay being used to visualize the geometry prior to calling the start method. To do this:
-        - Use `MapView.identifyGraphicsOverlay(...)` to identify graphics at the location of a tap.
-        - Access the `MapView.identifyGraphicsOverlay(...)` results using `MapView.identifyGraphicsOverlayResult`.
-        - Find the desired graphic in the `IdentifyGraphicsOverlayResult.graphics` list.
-        - Access the geometry associated with the `Graphic` using `Graphic.geometry()` - this will be used in the `GeometryEditor.start(Geometry)` method.
+        - Use `MapView.identifyGraphicsOverlayAsync(...)` to identify graphics at the location of a tap.
+        - Access the `MapView.identifyGraphicsOverlayAsync(...)` results using `MapView.identifyGraphicsOverlayAsync(...).get()`.
+        - Find the desired graphic in the `MapView.identifyGraphicsOverlayAsync(...).get().getGraphics()` list.
+        - Access the geometry associated with the `Graphic` using `Graphic.getGeometry()` - this will be used in the `GeometryEditor.start(Geometry)` method.
 
 3. Create `VertexTool` or `FreehandTool` objects which define how the user interacts with the view to create or edit geometries, using `geometryEditor.setTool(geometryEditorTool)`.
-4. Check to see if undo and redo are possible during an editing session using `GeometryEditor.canUndo()` and `GeometryEditor.canRedo()`. If it's possible, use `GeometryEditor.undo()` and `GeometryEditor.redo()`.
-5. Check whether the currently selected `GeometryEditorElement` can be deleted (`GeometryEditor.selectedElement.canDelete`). If the element can be deleted, delete using `GeometryEditor.deleteSelectedElement`.
+4. Check to see if undo and redo are possible during an editing session using `GeometryEditor.getCanUndo()` and `GeometryEditor.getCanRedo()`. If it's possible, use `GeometryEditor.undo()` and `GeometryEditor.redo()`.
+5. Check whether the currently selected `GeometryEditorElement` can be deleted (`GeometryEditor.getSelectedElement().getCanDelete()`). If the element can be deleted, delete using `GeometryEditor.deleteSelectedElement()`.
 6. Call `GeometryEditor.stop()` to finish the editing session. The `GeometryEditor` does not automatically handle the visualization of a geometry output from an editing session. This must be done manually by propagating the geometry returned by `GeometryEditor.stop()` into a `Graphic` and a `GraphicsOverlay`.
     - To create a new `Graphic` in the `GraphicsOverlay`:
-        - Using `Graphic.Graphic(Geometry)`, create a new Graphic with the geometry returned by the `GeometryEditor.stop()` method.
-        - Append the `Graphic` to the `GraphicsOverlay`'s `GraphicListModel` (i.e. `GraphicsOverlay.graphics.append(Graphic)`).
+        - Using `Graphic(Geometry)`, create a new Graphic with the geometry returned by the `GeometryEditor.stop()` method.
+        - Append the `Graphic` to the `GraphicsOverlay`'s `GraphicListModel` (i.e. `GraphicsOverlay.getGraphics().add(Graphic)`).
     - To update the geometry underlying an existing `Graphic` in the `GraphicsOverlay`:
         - Replace the existing `Graphic`'s `Geometry` property with the geometry returned by the `GeometryEditor.stop()` method using `Graphic.setGeometry(Geometry)`.
 

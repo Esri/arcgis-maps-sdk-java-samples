@@ -121,7 +121,7 @@
         </GridPane>
         <GridPane vgap="6" hgap="6" alignment="CENTER">
             <Button fx:id="deleteSelectedElementButton" onAction="#handleDeleteSelectedElementButtonClicked"
-                    GridPane.rowIndex="0" GridPane.columnIndex="0" text="Delete selected element">
+                    disable="true" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Delete selected element">
                 <graphic>
                     <ImageView>
                         <Image url="@erase-32.png" requestedHeight="24" preserveRatio="true" smooth="true"/>
