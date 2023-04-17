@@ -1,36 +1,37 @@
 {
-    "category": "Geometry",
-    "description": "Display a map with an imagery basemap.",
-    "ignore": false,
-    "images": [
-        "CreateAndEditGeometries.png"
-    ],
-    "keywords": [
-        "draw",
-        "edit",
-        "freehand",
-        "geometry editor",
-        "sketch",
-        "vertex",
-        "Geometry",
-        "GeometryEditor",
-        "Graphic",
-        "GraphicsOverlay",
-        "MapView"
-    ],
-    "redirect_from": [
-        "/java/latest/sample-code/create-and-edit-geometries.htm"
-    ],
-    "relevant_apis": [
-        "Geometry",
-        "GeometryEditor",
-        "Graphic",
-        "GraphicsOverlay",
-        "MapView"
-    ],
-    "snippets": [
-        "src/main/java/com/esri/samples/display_map/CreateAndEditGeometriesController.java",
-        "src/main/java/com/esri/samples/display_map/CreateAndEditGeometriesSample.java"
-    ],
-    "title": "Create and edit geometries"
+  "category": "Geometry",
+  "description": "Use the Geometry Editor to create new point, multipoint, polyline, or polygon geometries or to edit existing geometries by interacting with a map view.",
+  "ignore": false,
+  "images": [
+    "CreateAndEditGeometries.png"
+  ],
+  "keywords": [
+    "draw",
+    "edit",
+    "freehand",
+    "geometry editor",
+    "sketch",
+    "vertex",
+    "Geometry",
+    "GeometryEditor",
+    "Graphic",
+    "GraphicsOverlay",
+    "MapView"
+  ],
+  "redirect_from": [
+    "/java/latest/sample-code/create-and-edit-geometries.htm"
+  ],
+  "relevant_apis": [
+    "Geometry",
+    "GeometryEditor",
+    "Graphic",
+    "GraphicsOverlay",
+    "MapView"
+  ],
+  "snippets": [
+    "src/main/java/com/esri/samples/create_and_edit_geometries/CreateAndEditGeometriesController.java",
+    "src/main/java/com/esri/samples/create_and_edit_geometries/CreateAndEditGeometriesSample.java",
+    "src/main/resources/create_and_edit_geometries/main.fxml"
+  ],
+  "title": "Create and edit geometries"
 }

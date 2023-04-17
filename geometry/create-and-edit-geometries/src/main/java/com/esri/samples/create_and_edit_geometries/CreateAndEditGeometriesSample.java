@@ -59,7 +59,6 @@ public class CreateAndEditGeometriesSample extends Application {
    * @param args arguments passed to this application
    */
   public static void main(String[] args) {
-
     Application.launch(args);
   }
 
