@@ -64,6 +64,10 @@ public class CreateAndEditGeometriesController {
   @FXML
   private Button multipointButton;
   @FXML
+  private Button polylineButton;
+  @FXML
+  private Button polygonButton;
+  @FXML
   private Button redoButton;
   @FXML
   private Button undoButton;
@@ -141,6 +145,26 @@ public class CreateAndEditGeometriesController {
     pointButton.disableProperty().bind(geometryEditor.toolProperty().isEqualTo(freehandTool));
     multipointButton.disableProperty().bind(geometryEditor.toolProperty().isEqualTo(freehandTool));
 
+    // only show the selected geometry type as enabled while editing
+    geometryEditor.startedProperty().addListener((ob, ov, nv) -> {
+      if (geometryEditor.isStarted()) {
+        pointButton.disableProperty().bind(new SimpleBooleanProperty(!geometryEditor.getGeometry().getGeometryType()
+          .equals(GeometryType.POINT)));
+        multipointButton.disableProperty().bind(new SimpleBooleanProperty(!geometryEditor.getGeometry().getGeometryType()
+          .equals(GeometryType.MULTIPOINT)));
+        polylineButton.disableProperty().bind(new SimpleBooleanProperty(!geometryEditor.getGeometry().getGeometryType()
+          .equals(GeometryType.POLYLINE)));
+        polygonButton.disableProperty().bind(new SimpleBooleanProperty(!geometryEditor.getGeometry().getGeometryType()
+          .equals(GeometryType.POLYGON)));
+      } else {
+        // when editor stopped, re-enable polygon & polyline, enable point/multipoint if vertex tool selected
+        pointButton.disableProperty().bind(geometryEditor.toolProperty().isEqualTo(freehandTool));
+        multipointButton.disableProperty().bind(geometryEditor.toolProperty().isEqualTo(freehandTool));
+        polylineButton.disableProperty().bind(new SimpleBooleanProperty(false));
+        polygonButton.disableProperty().bind(new SimpleBooleanProperty(false));
+      }
+    });
+
     // bind the geometry editor tool to the tool chosen in the combo box
     toolComboBox.valueProperty().bindBidirectional(geometryEditor.toolProperty());
 
@@ -149,8 +173,8 @@ public class CreateAndEditGeometriesController {
     redoButton.disableProperty().bind(geometryEditor.canRedoProperty().not());
 
     // delete selected element enabled only when an element is selected and deletable
-    ChangeListener<GeometryEditorElement> selectedElementChangedListener = (observable, oldValue, newValue) -> {
-      if (newValue == null) {
+    ChangeListener<GeometryEditorElement> selectedElementChangedListener = (ob, ov, nv) -> {
+      if (nv == null) {
         deleteSelectedElementButton.disableProperty().bind(new SimpleBooleanProperty(true));
       } else {
         deleteSelectedElementButton.disableProperty().bind(geometryEditor.getSelectedElement().canDeleteProperty().not());
@@ -237,7 +261,7 @@ public class CreateAndEditGeometriesController {
    */
   @FXML
   private void handleUndoButtonClicked() {
-      geometryEditor.undo();
+    geometryEditor.undo();
   }
 
   /**
@@ -245,7 +269,7 @@ public class CreateAndEditGeometriesController {
    */
   @FXML
   private void handleRedoButtonClicked() {
-      geometryEditor.redo();
+    geometryEditor.redo();
   }
 
   /**
@@ -253,7 +277,7 @@ public class CreateAndEditGeometriesController {
    */
   @FXML
   private void handleDeleteSelectedElementButtonClicked() {
-      geometryEditor.deleteSelectedElement();
+    geometryEditor.deleteSelectedElement();
   }
 
   /**
@@ -343,42 +367,42 @@ public class CreateAndEditGeometriesController {
 
     mapView.setOnMouseClicked(e -> {
       graphicsOverlay.clearSelection();
-        Point2D mapViewPoint = new Point2D(e.getX(), e.getY());
+      Point2D mapViewPoint = new Point2D(e.getX(), e.getY());
 
-        // get graphics near the clicked location
-        ListenableFuture<IdentifyGraphicsOverlayResult> identifyGraphics;
-        identifyGraphics = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, mapViewPoint, 10, false);
+      // get graphics near the clicked location
+      ListenableFuture<IdentifyGraphicsOverlayResult> identifyGraphics;
+      identifyGraphics = mapView.identifyGraphicsOverlayAsync(graphicsOverlay, mapViewPoint, 10, false);
 
-        identifyGraphics.addDoneListener(() -> {
-          try {
-            // only select graphic if user not already creating/editing a geometry
-            if (!geometryEditor.isStarted()) {
-              if (!identifyGraphics.get().getGraphics().isEmpty()) {
+      identifyGraphics.addDoneListener(() -> {
+        try {
+          // only select graphic if user not already creating/editing a geometry
+          if (!geometryEditor.isStarted()) {
+            if (!identifyGraphics.get().getGraphics().isEmpty()) {
 
-                // store the selected graphic
-                selectedGraphic = identifyGraphics.get().getGraphics().get(0);
-                selectedGraphic.setSelected(true);
+              // store the selected graphic
+              selectedGraphic = identifyGraphics.get().getGraphics().get(0);
+              selectedGraphic.setSelected(true);
 
-                // Use vertex tool if selected geometry is a point or multipoint
-                if (selectedGraphic.getGeometry().getGeometryType().equals(GeometryType.POINT) ||
-                  selectedGraphic.getGeometry().getGeometryType().equals(GeometryType.MULTIPOINT)) {
-                  geometryEditor.setTool(vertexTool);
-                  toolComboBox.getSelectionModel().select(0);
-                  toolComboBox.setDisable(true);
-                }
-
-                // hide the selected graphic & start an editing session with a copy of it
-                geometryEditor.start(selectedGraphic.getGeometry());
-                selectedGraphic.setVisible(false);
-              } else {
-                selectedGraphic = null;
+              // Use vertex tool if selected geometry is a point or multipoint
+              if (selectedGraphic.getGeometry().getGeometryType().equals(GeometryType.POINT) ||
+                selectedGraphic.getGeometry().getGeometryType().equals(GeometryType.MULTIPOINT)) {
+                geometryEditor.setTool(vertexTool);
+                toolComboBox.getSelectionModel().select(0);
+                toolComboBox.setDisable(true);
               }
+
+              // hide the selected graphic & start an editing session with a copy of it
+              geometryEditor.start(selectedGraphic.getGeometry());
+              selectedGraphic.setVisible(false);
+            } else {
+              selectedGraphic = null;
             }
-          } catch (Exception x) {
-            // on any error, display the stack trace
-            x.printStackTrace();
           }
-        });
+        } catch (Exception x) {
+          // on any error, display the stack trace
+          x.printStackTrace();
+        }
+      });
     });
   }
 
@@ -476,6 +500,7 @@ public class CreateAndEditGeometriesController {
 
   /**
    * Creates a point geometry and adds it to the graphics overlay.
+   *
    * @param houseCoords coordinates of the point to be added.
    */
   private void createPointAndAddToGraphics(double[] houseCoords) {
@@ -488,6 +513,7 @@ public class CreateAndEditGeometriesController {
 
   /**
    * Creates a multipoint geometry and adds it to the graphics overlay.
+   *
    * @param outbuildingCoords coordinates of the points comprising the multipoint.
    */
   private void createMultipointAndAddToGraphics(List<double[]> outbuildingCoords) {
@@ -503,6 +529,7 @@ public class CreateAndEditGeometriesController {
 
   /**
    * Creates a polyline geometry and adds it to the graphics overlay.
+   *
    * @param roadCoords coordinates of the points defining the polyline.
    */
   private void createLineAndAddToGraphics(List<double[]> roadCoords) {
@@ -518,6 +545,7 @@ public class CreateAndEditGeometriesController {
 
   /**
    * Creates a point geometry and adds it to the graphics overlay.
+   *
    * @param boundaryCoords coordinates of the points defining the polygon.
    */
   private void createPolygonAndAddToGraphics(List<double[]> boundaryCoords) {

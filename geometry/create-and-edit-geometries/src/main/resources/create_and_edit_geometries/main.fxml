@@ -67,7 +67,7 @@
                     <Tooltip text="Multipoint"/>
                 </tooltip>
             </Button>
-            <Button onAction="#handlePolylineButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="0" text="Polyline">
+            <Button fx:id="polylineButton" onAction="#handlePolylineButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="0" text="Polyline">
                 <graphic>
                     <ImageView>
                         <Image url="@line-32.png"/>
@@ -77,7 +77,7 @@
                     <Tooltip text="Polyline"/>
                 </tooltip>
             </Button>
-            <Button onAction="#handlePolygonButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="1" text="Polygon">
+            <Button fx:id="polygonButton" onAction="#handlePolygonButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="1" text="Polygon">
                 <graphic>
                     <ImageView>
                         <Image url="@polygon-32.png"/>
