@@ -18,14 +18,12 @@ package com.esri.samples.create_and_edit_geometries;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryType;
-import com.esri.arcgisruntime.geometry.MultipointBuilder;
+import com.esri.arcgisruntime.geometry.Multipoint;
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.PointBuilder;
-import com.esri.arcgisruntime.geometry.PointCollection;
-import com.esri.arcgisruntime.geometry.PolylineBuilder;
-import com.esri.arcgisruntime.geometry.PolygonBuilder;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.geometry.Polygon;
+import com.esri.arcgisruntime.geometry.Polyline;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -51,8 +49,9 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CreateAndEditGeometriesController {
 
@@ -123,8 +122,42 @@ public class CreateAndEditGeometriesController {
     // translucent red interior for polygons
     fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.rgb(255, 0, 0, 0.3), polygonLineSymbol);
 
+    try {
+      // load example geometries from file
+      Point houseCoords = (Point) Geometry.fromJson(
+        Files.readString(Paths.get(getClass().getResource("/create_and_edit_geometries/point_data.json").toURI())));
 
-    createInitialGraphics();
+      Multipoint outbuildingCoord = (Multipoint) Geometry.fromJson(
+        Files.readString(Paths.get(getClass().getResource("/create_and_edit_geometries/multipoint_data.json").toURI())));
+
+      Polyline road1Coords = (Polyline) Geometry.fromJson(
+        Files.readString(Paths.get(getClass().getResource("/create_and_edit_geometries/polyline_data_1.json").toURI())));
+
+      Polyline road2Coords = (Polyline) Geometry.fromJson(
+        Files.readString(Paths.get(getClass().getResource("/create_and_edit_geometries/polyline_data_2.json").toURI())));
+
+      Polygon boundaryCoords = (Polygon) Geometry.fromJson(
+        Files.readString(Paths.get(getClass().getResource("/create_and_edit_geometries/polygon_data.json").toURI())));
+
+      // create graphics for example geometries
+      var pointGraphic = new Graphic(houseCoords);
+      var multipointGraphic = new Graphic(outbuildingCoord);
+      var polyline1Graphic = new Graphic(road1Coords);
+      var polyline2Graphic = new Graphic(road2Coords);
+      var polygonGraphic = new Graphic(boundaryCoords);
+
+      // set style for example geometry graphics
+      pointGraphic.setSymbol(pointSymbol);
+      multipointGraphic.setSymbol(multipointSymbol);
+      polyline1Graphic.setSymbol(lineSymbol);
+      polyline2Graphic.setSymbol(lineSymbol);
+      polygonGraphic.setSymbol(fillSymbol);
+
+      // add example geometry graphics to the graphics overlay
+      graphicsOverlay.getGraphics().addAll(List.of(pointGraphic, multipointGraphic, polyline1Graphic, polyline2Graphic, polygonGraphic));
+    } catch (Exception e) {
+      new Alert(Alert.AlertType.ERROR, "Unable to load example geometries from file").show();
+    }
 
     // bind button availability to properties of the geometry editor
     bindButtonsToGeometryEditor();
@@ -191,6 +224,8 @@ public class CreateAndEditGeometriesController {
         polylineButton.setDisable(false);
         polygonButton.disableProperty().unbind();
         polygonButton.setDisable(false);
+
+        // disable combo box when geometry editor is not started
         toolComboBox.disableProperty().unbind();
         toolComboBox.setDisable(true);
       }
@@ -356,6 +391,7 @@ public class CreateAndEditGeometriesController {
     // if editing a pre-existing graphic, make it visible again
     if (selectedGraphic != null) {
       selectedGraphic.setVisible(true);
+      selectedGraphic.setSelected(false);
       selectedGraphic = null;
       toolComboBox.disableProperty().unbind();
       toolComboBox.setDisable(false);
@@ -369,159 +405,6 @@ public class CreateAndEditGeometriesController {
   @FXML
   private void handleDeleteAllGeometriesButtonClicked() {
     graphicsOverlay.getGraphics().clear();
-  }
-
-  /**
-   * Defines graphics to be loaded into the sample upon startup.
-   */
-  void createInitialGraphics() {
-    // point coordinates of a house
-    double[] houseCoords = {-9.59309629, 53.0830063};
-
-    // point coordinates of several outbuildings
-    double[][] outbuildingCoords = {
-      {-9.59386587, 53.08289651},
-      {-9.59370896, 53.08234917},
-      {-9.59330546, 53.082564},
-      {-9.59341755, 53.08286662},
-      {-9.59326997, 53.08304595},
-      {-9.59246485, 53.08294507},
-      {-9.59250034, 53.08286101},
-      {-9.59241815, 53.08284607},
-      {-9.59286835, 53.08311506},
-      {-9.59307943, 53.08234731}
-    };
-
-    // vertex coordinates describing a road
-    double[][] road1Coords = {
-      {-9.59486423, 53.08169453},
-      {-9.5947812, 53.08175431},
-      {-9.59475464, 53.08189379},
-      {-9.59494393, 53.08213622},
-      {-9.59464173, 53.08240521},
-      {-9.59413694, 53.08260115},
-      {-9.59357903, 53.0829266},
-      {-9.59335984, 53.08311589},
-      {-9.59318051, 53.08316903},
-      {-9.59301779, 53.08322216},
-      {-9.59264252, 53.08370038},
-      {-9.59250636, 53.08383986}
-    };
-
-    // vertex coordinates describing a road
-    double[][] road2Coords = {
-      {-9.59400079, 53.08136244},
-      {-9.59395761, 53.08149528},
-      {-9.59368862, 53.0817045},
-      {-9.59358235, 53.08219267},
-      {-9.59331667, 53.08290335},
-      {-9.59314398, 53.08314246},
-      {-9.5930676, 53.08330519},
-      {-9.59303439, 53.08351109},
-      {-9.59301447, 53.08363728},
-      {-9.59293809, 53.08387307}
-    };
-
-    // vertex coordinates describing the perimeter of a polygon
-    double[][] boundaryCoords = {
-      {-9.59350122, 53.08320723},
-      {-9.59345177, 53.08333534},
-      {-9.59309789, 53.08327198},
-      {-9.59300344, 53.08317992},
-      {-9.59221827, 53.08304034},
-      {-9.59220706, 53.08287782},
-      {-9.59229486, 53.08280871},
-      {-9.59236398, 53.08268915},
-      {-9.59255263, 53.08256769},
-      {-9.59265165, 53.08237906},
-      {-9.59287552, 53.08241478},
-      {-9.59292812, 53.0823012},
-      {-9.5932294, 53.08235022},
-      {-9.59342188, 53.08260009},
-      {-9.59354382, 53.08238728},
-      {-9.59365852, 53.08203535},
-      {-9.59408443, 53.08210446},
-      {-9.59448232, 53.08224456},
-      {-9.5943609, 53.08243697},
-      {-9.59458319, 53.08245939},
-      {-9.59439639, 53.08264619},
-      {-9.59433288, 53.0827975},
-      {-9.59404707, 53.08323649},
-      {-9.59350122, 53.08320723}
-    };
-
-    var outbuildingCoordsList = List.of(outbuildingCoords);
-    var road1CoordsList = List.of(road1Coords);
-    var road2CoordsList = List.of(road2Coords);
-    var boundaryCoordsList = List.of(boundaryCoords);
-
-    // create graphics for the geometries defined above
-    createPolygonAndAddToGraphics(boundaryCoordsList);
-    createLineAndAddToGraphics(road1CoordsList);
-    createLineAndAddToGraphics(road2CoordsList);
-    createMultipointAndAddToGraphics(outbuildingCoordsList);
-    createPointAndAddToGraphics(houseCoords);
-  }
-
-  /**
-   * Creates a point geometry and adds it to the graphics overlay.
-   *
-   * @param houseCoords coordinates of the point to be added.
-   */
-  private void createPointAndAddToGraphics(double[] houseCoords) {
-    var pointBuilder = new PointBuilder(houseCoords[0], houseCoords[1], SpatialReferences.getWgs84());
-    var pointGeometry = pointBuilder.toGeometry();
-    var pointGraphic = new Graphic(pointGeometry);
-    pointGraphic.setSymbol(pointSymbol);
-    graphicsOverlay.getGraphics().add(pointGraphic);
-  }
-
-  /**
-   * Creates a multipoint geometry and adds it to the graphics overlay.
-   *
-   * @param outbuildingCoords coordinates of the points comprising the multipoint.
-   */
-  private void createMultipointAndAddToGraphics(List<double[]> outbuildingCoords) {
-    // convert double coordinates into ArcGIS Points
-    List<Point> points = outbuildingCoords.stream().map(coord -> new Point(coord[0], coord[1])).collect(Collectors.toList());
-
-    var multipointBuilder = new MultipointBuilder(points, SpatialReferences.getWgs84());
-    var multipointGeometry = multipointBuilder.toGeometry();
-    var multipointGraphic = new Graphic(multipointGeometry);
-    multipointGraphic.setSymbol(multipointSymbol);
-    graphicsOverlay.getGraphics().add(multipointGraphic);
-  }
-
-  /**
-   * Creates a polyline geometry and adds it to the graphics overlay.
-   *
-   * @param roadCoords coordinates of the points defining the polyline.
-   */
-  private void createLineAndAddToGraphics(List<double[]> roadCoords) {
-    // convert double coordinates into ArcGIS Points
-    List<Point> points = roadCoords.stream().map(coord -> new Point(coord[0], coord[1])).collect(Collectors.toList());
-
-    var polylineBuilder = new PolylineBuilder(new PointCollection(points), SpatialReferences.getWgs84());
-    var polylineGeometry = polylineBuilder.toGeometry();
-    var polylineGraphic = new Graphic(polylineGeometry);
-    polylineGraphic.setSymbol(lineSymbol);
-    graphicsOverlay.getGraphics().add(polylineGraphic);
-  }
-
-  /**
-   * Creates a point geometry and adds it to the graphics overlay.
-   *
-   * @param boundaryCoords coordinates of the points defining the polygon.
-   */
-  private void createPolygonAndAddToGraphics(List<double[]> boundaryCoords) {
-    // convert double coordinates into ArcGIS Points
-    List<Point> points = boundaryCoords.stream().map(coord -> new Point(coord[0], coord[1])).collect(Collectors.toList());
-
-    var polygonBuilder = new PolygonBuilder(new PointCollection(points), SpatialReferences.getWgs84());
-    var polygonGeometry = polygonBuilder.toGeometry();
-    var polygonGraphic = new Graphic(polygonGeometry);
-    polygonGraphic.setSymbol(fillSymbol);
-    graphicsOverlay.getGraphics().add(polygonGraphic);
   }
 
   /**

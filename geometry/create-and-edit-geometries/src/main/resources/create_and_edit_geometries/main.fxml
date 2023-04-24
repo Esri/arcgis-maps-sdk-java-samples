@@ -97,7 +97,7 @@
             </Button>
         </GridPane>
         <GridPane vgap="6" hgap="6" alignment="CENTER">
-            <ComboBox fx:id="toolComboBox" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="toolComboBox" disable="true" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         </GridPane>
         <Separator maxWidth="100"/>
         <GridPane vgap="6" hgap="6" alignment="CENTER">
