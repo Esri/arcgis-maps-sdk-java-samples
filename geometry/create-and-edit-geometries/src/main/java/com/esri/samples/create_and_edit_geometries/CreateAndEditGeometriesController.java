@@ -50,7 +50,7 @@ import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.List;
 
 public class CreateAndEditGeometriesController {
@@ -125,19 +125,19 @@ public class CreateAndEditGeometriesController {
     try {
       // load example geometries from file
       Point houseCoords = (Point) Geometry.fromJson(
-        Files.readString(Paths.get(getClass().getResource("/create_and_edit_geometries/point_data.json").toURI())));
+        Files.readString(Path.of(getClass().getResource("/create_and_edit_geometries/point_data.json").toURI())));
 
       Multipoint outbuildingCoord = (Multipoint) Geometry.fromJson(
-        Files.readString(Paths.get(getClass().getResource("/create_and_edit_geometries/multipoint_data.json").toURI())));
+        Files.readString(Path.of(getClass().getResource("/create_and_edit_geometries/multipoint_data.json").toURI())));
 
       Polyline road1Coords = (Polyline) Geometry.fromJson(
-        Files.readString(Paths.get(getClass().getResource("/create_and_edit_geometries/polyline_data_1.json").toURI())));
+        Files.readString(Path.of(getClass().getResource("/create_and_edit_geometries/polyline_data_1.json").toURI())));
 
       Polyline road2Coords = (Polyline) Geometry.fromJson(
-        Files.readString(Paths.get(getClass().getResource("/create_and_edit_geometries/polyline_data_2.json").toURI())));
+        Files.readString(Path.of(getClass().getResource("/create_and_edit_geometries/polyline_data_2.json").toURI())));
 
       Polygon boundaryCoords = (Polygon) Geometry.fromJson(
-        Files.readString(Paths.get(getClass().getResource("/create_and_edit_geometries/polygon_data.json").toURI())));
+        Files.readString(Path.of(getClass().getResource("/create_and_edit_geometries/polygon_data.json").toURI())));
 
       // create graphics for example geometries
       var pointGraphic = new Graphic(houseCoords);
@@ -159,8 +159,67 @@ public class CreateAndEditGeometriesController {
       new Alert(Alert.AlertType.ERROR, "Unable to load example geometries from file").show();
     }
 
-    // bind button availability to properties of the geometry editor
-    bindButtonsToGeometryEditor();
+    geometryEditor.startedProperty().addListener((observable, oldValue, newValue) -> {
+      if (newValue) {
+        // when the geometry editor is started (and so the geometry will not be null) bind the button state to the geometry type
+        pointButton.disableProperty().bind(Bindings.createBooleanBinding(() ->
+          geometryEditor.getGeometry().getGeometryType().equals(GeometryType.POINT)).not());
+        multipointButton.disableProperty().bind(Bindings.createBooleanBinding(() ->
+          geometryEditor.getGeometry().getGeometryType().equals(GeometryType.MULTIPOINT)).not());
+        polylineButton.disableProperty().bind(Bindings.createBooleanBinding(() ->
+          geometryEditor.getGeometry().getGeometryType().equals(GeometryType.POLYLINE)).not());
+        polygonButton.disableProperty().bind(Bindings.createBooleanBinding(() ->
+          geometryEditor.getGeometry().getGeometryType().equals(GeometryType.POLYGON)).not());
+        toolComboBox.disableProperty().bind(Bindings.or(
+          Bindings.createBooleanBinding(() -> geometryEditor.getGeometry().getGeometryType().equals(GeometryType.MULTIPOINT)),
+          Bindings.createBooleanBinding(() -> geometryEditor.getGeometry().getGeometryType().equals(GeometryType.POINT))
+        ));
+      } else {
+        // when the geometry editor is not started (and so the geometry is null) enable all geometry buttons
+        pointButton.disableProperty().unbind();
+        pointButton.setDisable(false);
+        multipointButton.disableProperty().unbind();
+        multipointButton.setDisable(false);
+        polylineButton.disableProperty().unbind();
+        polylineButton.setDisable(false);
+        polygonButton.disableProperty().unbind();
+        polygonButton.setDisable(false);
+
+        // disable combo box when geometry editor is not started
+        toolComboBox.disableProperty().unbind();
+        toolComboBox.setDisable(true);
+      }
+    });
+
+    // bidirectionally bind the geometry editor tool to the tool selected in the combo box
+    toolComboBox.valueProperty().bindBidirectional(geometryEditor.toolProperty());
+
+    // bind the disable property of the undo & redo buttons to the geometry editor's can undo & can redo properties
+    undoButton.disableProperty().bind(geometryEditor.canUndoProperty().not());
+    redoButton.disableProperty().bind(geometryEditor.canRedoProperty().not());
+
+    geometryEditor.selectedElementProperty().addListener(((observable, oldValue, newValue) -> {
+      if (newValue != null) {
+        // if an element is selected in the geometry editor
+        // bind the disable property of the delete selected element button to the selected element's can delete property
+        deleteSelectedElementButton.disableProperty().bind(geometryEditor.getSelectedElement().canDeleteProperty().not());
+      } else {
+        // if no element is selected in the geometry editor disable the delete selected element button
+        deleteSelectedElementButton.disableProperty().unbind();
+        deleteSelectedElementButton.setDisable(true);
+      }
+    }));
+
+    // bind the disable property of the stop and save button to the geometry editor's started and can undo properties
+    stopAndSaveButton.disableProperty().bind(Bindings.or(geometryEditor.startedProperty().not(), geometryEditor.canUndoProperty().not()));
+
+    // bind the disable property of the stop and discard button to the geometry editor's started property
+    stopAndDiscardButton.disableProperty().bind(geometryEditor.startedProperty().not());
+
+    // bind the disable property of the delete all geometries button to the geometry editor's started property
+    // and to whether there are any graphics in the graphics overlay
+    deleteAllGeometriesButton.disableProperty().bind(Bindings.or(
+      geometryEditor.startedProperty(), Bindings.createBooleanBinding(() -> graphicsOverlay.getGraphics().isEmpty())));
 
     // allow user to immediately select and edit graphics
     mapView.setOnMouseClicked(e -> {
@@ -196,64 +255,6 @@ public class CreateAndEditGeometriesController {
       });
     }
     });
-  }
-
-  /**
-   * Binds button status to geometry editor properties.
-   */
-  private void bindButtonsToGeometryEditor() {
-
-    geometryEditor.startedProperty().addListener((observable, oldValue, newValue) -> {
-      if (newValue) {
-        // when the geometry editor is started (and so the geometry will not be null) bind the button state to the geometry type
-        pointButton.disableProperty().bind(Bindings.createBooleanBinding(() -> geometryEditor.getGeometry().getGeometryType().equals(GeometryType.POINT)).not());
-        multipointButton.disableProperty().bind(Bindings.createBooleanBinding(() -> geometryEditor.getGeometry().getGeometryType().equals(GeometryType.MULTIPOINT)).not());
-        polylineButton.disableProperty().bind(Bindings.createBooleanBinding(() -> geometryEditor.getGeometry().getGeometryType().equals(GeometryType.POLYLINE)).not());
-        polygonButton.disableProperty().bind(Bindings.createBooleanBinding(() -> geometryEditor.getGeometry().getGeometryType().equals(GeometryType.POLYGON)).not());
-        toolComboBox.disableProperty().bind(Bindings.or(
-          Bindings.createBooleanBinding(() -> geometryEditor.getGeometry().getGeometryType().equals(GeometryType.MULTIPOINT)),
-          Bindings.createBooleanBinding(() -> geometryEditor.getGeometry().getGeometryType().equals(GeometryType.POINT))
-        ));
-      } else {
-        // when the geometry editor is not started (and so the geometry is null) enable all geometry buttons
-        pointButton.disableProperty().unbind();
-        pointButton.setDisable(false);
-        multipointButton.disableProperty().unbind();
-        multipointButton.setDisable(false);
-        polylineButton.disableProperty().unbind();
-        polylineButton.setDisable(false);
-        polygonButton.disableProperty().unbind();
-        polygonButton.setDisable(false);
-
-        // disable combo box when geometry editor is not started
-        toolComboBox.disableProperty().unbind();
-        toolComboBox.setDisable(true);
-      }
-    });
-
-    // bind the geometry editor tool to the tool chosen in the combo box
-    toolComboBox.valueProperty().bindBidirectional(geometryEditor.toolProperty());
-
-    // undo/redo enabled when the geometry editor can undo/redo
-    undoButton.disableProperty().bind(geometryEditor.canUndoProperty().not());
-    redoButton.disableProperty().bind(geometryEditor.canRedoProperty().not());
-
-    geometryEditor.selectedElementProperty().addListener(((observable, oldValue, newValue) -> {
-      if (newValue == null) {
-        deleteSelectedElementButton.disableProperty().unbind();
-        deleteSelectedElementButton.setDisable(true);
-      } else {
-        deleteSelectedElementButton.disableProperty().bind(geometryEditor.getSelectedElement().canDeleteProperty().not());
-      }
-    }));
-
-    // save/discard buttons enabled when geometry editor has started
-    stopAndSaveButton.disableProperty().bind(Bindings.or(geometryEditor.startedProperty().not(), geometryEditor.canUndoProperty().not()));
-    stopAndDiscardButton.disableProperty().bind(geometryEditor.startedProperty().not());
-
-    // delete all geometries button enabled when geometry editor stopped
-    deleteAllGeometriesButton.disableProperty().bind(Bindings.or(
-      geometryEditor.startedProperty(), Bindings.createBooleanBinding(() -> graphicsOverlay.getGraphics().isEmpty())));
   }
 
   /**
