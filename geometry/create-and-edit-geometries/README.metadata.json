@@ -18,9 +18,7 @@
     "GraphicsOverlay",
     "MapView"
   ],
-  "redirect_from": [
-    "/java/latest/sample-code/create-and-edit-geometries.htm"
-  ],
+  "redirect_from": "",
   "relevant_apis": [
     "Geometry",
     "GeometryEditor",
