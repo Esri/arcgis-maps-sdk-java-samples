@@ -52,10 +52,8 @@
             </Background>
         </background>
         <GridPane vgap="6" hgap="6" alignment="CENTER">
-            <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Create"/>
-        </GridPane>
-        <GridPane vgap="6" hgap="6" alignment="CENTER">
-            <Button fx:id="pointButton" onAction="#handlePointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Point">
+            <Label GridPane.rowIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" text="Create"/>
+            <Button fx:id="pointButton" onAction="#handlePointButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="0" text="Point">
                 <graphic>
                     <ImageView>
                         <Image url="@icons/point-32.png"/>
@@ -65,7 +63,7 @@
                     <Tooltip text="Point"/>
                 </tooltip>
             </Button>
-            <Button fx:id="multipointButton" onAction="#handleMultipointButtonClicked" GridPane.rowIndex="0" GridPane.columnIndex="1" text="Multipoint">
+            <Button fx:id="multipointButton" onAction="#handleMultipointButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="1" text="Multipoint">
                 <graphic>
                     <ImageView>
                         <Image url="@icons/multipoint-32.png"/>
@@ -75,7 +73,7 @@
                     <Tooltip text="Multipoint"/>
                 </tooltip>
             </Button>
-            <Button fx:id="polylineButton" onAction="#handlePolylineButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="0" text="Polyline">
+            <Button fx:id="polylineButton" onAction="#handlePolylineButtonClicked" GridPane.rowIndex="2" GridPane.columnIndex="0" text="Polyline">
                 <graphic>
                     <ImageView>
                         <Image url="@icons/line-32.png"/>
@@ -85,7 +83,7 @@
                     <Tooltip text="Polyline"/>
                 </tooltip>
             </Button>
-            <Button fx:id="polygonButton" onAction="#handlePolygonButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="1" text="Polygon">
+            <Button fx:id="polygonButton" onAction="#handlePolygonButtonClicked" GridPane.rowIndex="2" GridPane.columnIndex="1" text="Polygon">
                 <graphic>
                     <ImageView>
                         <Image url="@icons/polygon-32.png"/>
@@ -95,16 +93,10 @@
                     <Tooltip text="Polygon"/>
                 </tooltip>
             </Button>
-        </GridPane>
-        <GridPane vgap="6" hgap="6" alignment="CENTER">
-            <ComboBox fx:id="toolComboBox" disable="true" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        </GridPane>
-        <Separator maxWidth="100"/>
-        <GridPane vgap="6" hgap="6" alignment="CENTER">
-            <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Edit"/>
-        </GridPane>
-        <GridPane vgap="6" hgap="6">
-            <Button fx:id="undoButton" onAction="#handleUndoButtonClicked" GridPane.rowIndex="0"
+            <ComboBox fx:id="toolComboBox" disable="true" GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
+            <Separator GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="2" maxWidth="100"/>
+            <Label GridPane.rowIndex="5" GridPane.columnSpan="2" GridPane.halignment="CENTER" text="Edit"/>
+            <Button fx:id="undoButton" onAction="#handleUndoButtonClicked" GridPane.rowIndex="6"
                     GridPane.columnIndex="0" text="Undo">
                 <graphic>
                     <ImageView>
@@ -115,7 +107,7 @@
                     <Tooltip text="Undo"/>
                 </tooltip>
             </Button>
-            <Button fx:id="redoButton" onAction="#handleRedoButtonClicked" GridPane.rowIndex="0"
+            <Button fx:id="redoButton" onAction="#handleRedoButtonClicked" GridPane.rowIndex="6"
                     GridPane.columnIndex="1" text="Redo">
                 <graphic>
                     <ImageView>
@@ -126,10 +118,8 @@
                     <Tooltip text="Redo"/>
                 </tooltip>
             </Button>
-        </GridPane>
-        <GridPane vgap="6" hgap="6" alignment="CENTER">
             <Button fx:id="deleteSelectedElementButton" onAction="#handleDeleteSelectedElementButtonClicked"
-                    disable="true" GridPane.rowIndex="0" GridPane.columnIndex="0" text="Delete selected element">
+                    disable="true" GridPane.rowIndex="7" GridPane.columnIndex="0"  GridPane.columnSpan="2" text="Delete selected element">
                 <graphic>
                     <ImageView>
                         <Image url="@icons/erase-32.png" requestedHeight="24" preserveRatio="true" smooth="true"/>
@@ -139,8 +129,8 @@
                     <Tooltip text="Delete selected element"/>
                 </tooltip>
             </Button>
-            <Button fx:id="stopAndSaveButton" onAction="#handleStopAndSaveButtonClicked" GridPane.rowIndex="1"
-                    GridPane.columnIndex="0" text="Stop and save edits">
+            <Button fx:id="stopAndSaveButton" onAction="#handleStopAndSaveButtonClicked" GridPane.rowIndex="8"
+                    GridPane.columnIndex="0" GridPane.columnSpan="2" text="Stop and save edits">
                 <graphic>
                     <ImageView>
                         <Image url="@icons/check-circle-32.png" requestedHeight="24" preserveRatio="true" smooth="true"/>
@@ -150,8 +140,8 @@
                     <Tooltip text="Stop and save edits"/>
                 </tooltip>
             </Button>
-            <Button fx:id="stopAndDiscardButton" onAction="#handleStopAndDiscardButtonClicked" GridPane.rowIndex="2"
-                    GridPane.columnIndex="0" text="Stop (discards edits)">
+            <Button fx:id="stopAndDiscardButton" onAction="#handleStopAndDiscardButtonClicked" GridPane.rowIndex="9"
+                    GridPane.columnIndex="0" GridPane.columnSpan="2" text="Stop (discards edits)">
                 <graphic>
                     <ImageView>
                         <Image url="@icons/circle-disallowed-32.png" requestedHeight="24" preserveRatio="true" smooth="true"/>
@@ -162,7 +152,7 @@
                 </tooltip>
             </Button>
             <Button fx:id="deleteAllGeometriesButton" onAction="#handleDeleteAllGeometriesButtonClicked"
-                    GridPane.rowIndex="3" GridPane.columnIndex="0" text="Delete all geometries">
+                    GridPane.rowIndex="10" GridPane.columnIndex="0" GridPane.columnSpan="2" text="Delete all geometries">
                 <graphic>
                     <ImageView>
                         <Image url="@icons/trash-32.png" requestedHeight="24" preserveRatio="true" smooth="true"/>
