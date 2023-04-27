@@ -93,10 +93,8 @@ public class CreateAndEditGeometriesController {
     // set a viewpoint on the map view
     mapView.setViewpoint(new Viewpoint(53.08230, -9.5920, 5000));
 
-    // create a graphics overlay for the graphics
+    // create a graphics overlay and add it to the map view
     graphicsOverlay = new GraphicsOverlay();
-
-    // add the graphics overlay to the map view
     mapView.getGraphicsOverlays().add(graphicsOverlay);
 
     // create a geometry editor and set it to the map view
@@ -108,7 +106,6 @@ public class CreateAndEditGeometriesController {
     freehandTool = new FreehandTool();
     toolComboBox.setConverter(new ComboBoxStringConverter());
     toolComboBox.getItems().addAll(vertexTool, freehandTool);
-
     // bidirectionally bind the geometry editor tool to the tool selected in the combo box
     toolComboBox.valueProperty().bindBidirectional(geometryEditor.toolProperty());
 
@@ -124,8 +121,10 @@ public class CreateAndEditGeometriesController {
     // translucent red interior for polygons
     fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.rgb(255, 0, 0, 0.3), polygonLineSymbol);
 
+    // add some initial, example graphics to the graphics overlay
     createInitialGraphics();
 
+    // listen to changes in the geometry editor started property and update the UI
     geometryEditor.startedProperty().addListener((observable, oldValue, newValue) -> {
       if (newValue) {
         // when the geometry editor is started (and so the geometry will not be null) bind the button state to the
@@ -159,7 +158,7 @@ public class CreateAndEditGeometriesController {
       }
     });
 
-    // bind the disable property of the undo & redo buttons to the geometry editor's can undo & can redo properties
+    // bind the disable property of the undo and redo buttons to the geometry editor's can undo and can redo properties
     undoButton.disableProperty().bind(geometryEditor.canUndoProperty().not());
     redoButton.disableProperty().bind(geometryEditor.canRedoProperty().not());
 
@@ -184,8 +183,8 @@ public class CreateAndEditGeometriesController {
 
     // bind the disable property of the delete all geometries button to the geometry editor's started property
     // and to whether there are any graphics in the graphics overlay
-    deleteAllGeometriesButton.disableProperty().bind(Bindings.or(
-      geometryEditor.startedProperty(), Bindings.createBooleanBinding(() -> graphicsOverlay.getGraphics().isEmpty())));
+    deleteAllGeometriesButton.disableProperty().bind(Bindings.when(geometryEditor.startedProperty()).then(true)
+      .otherwise(graphicsOverlay.getGraphics().isEmpty()));
 
     // configure identification and editing of existing graphics
     mapView.setOnMouseClicked(e -> {
@@ -195,8 +194,7 @@ public class CreateAndEditGeometriesController {
 
         // get graphics near the clicked location
         ListenableFuture<IdentifyGraphicsOverlayResult> identifyGraphics =
-          mapView.identifyGraphicsOverlayAsync(graphicsOverlay,
-          mapViewPoint, 10, false);
+          mapView.identifyGraphicsOverlayAsync(graphicsOverlay, mapViewPoint, 10, false);
 
         identifyGraphics.addDoneListener(() -> {
           try {
@@ -208,7 +206,7 @@ public class CreateAndEditGeometriesController {
                 selectedGraphic = identifyGraphics.get().getGraphics().get(0);
                 selectedGraphic.setSelected(true);
 
-                // hide the selected graphic & start an editing session with a copy of it
+                // hide the selected graphic and start an editing session with a copy of it
                 geometryEditor.start(selectedGraphic.getGeometry());
                 selectedGraphic.setVisible(false);
               } else {
@@ -331,7 +329,7 @@ public class CreateAndEditGeometriesController {
   }
 
   /**
-   * Deletes the currently selected element of the geometry.
+   * Deletes the currently selected element of the geometry editor.
    */
   @FXML
   private void handleDeleteSelectedElementButtonClicked() {
@@ -339,25 +337,21 @@ public class CreateAndEditGeometriesController {
   }
 
   /**
-   * Saves the geometry in the editor to the graphics overlay and sets its symbol to the type relevant for the geometry.
+   * Checks whether an existing graphic is being edited and either updates it,
+   * or creates a new graphic based on the geometry in the geometry editor.
    */
   @FXML
   private void handleStopAndSaveButtonClicked() {
-
     // handle saving depending on if the geometry being edited is new, or already exists and needs updating
-    if (!geometryEditor.getGeometry().isEmpty()) {
-      if (selectedGraphic != null) {
-        updateSelectedGraphic();
-      } else {
-        createNewGraphic();
-      }
+    if (selectedGraphic != null) {
+      updateSelectedGraphic();
     } else {
-      new Alert(Alert.AlertType.ERROR, "Geometry is empty. \nUnable to save geometry.").show();
+      createNewGraphic();
     }
   }
 
   /**
-   * Adds a new graphic to the graphics overlay.
+   * Creates a new graphic based on the geometry type used by the geometry editor, and adds to the graphics overlay.
    */
   private void createNewGraphic() {
     // get the geometry from the geometry editor and create a new graphic for it
@@ -385,12 +379,13 @@ public class CreateAndEditGeometriesController {
   }
 
   /**
-   * Updates a graphic already in the graphics overlay.
+   * Updates and then resets the selected graphic.
    */
   private void updateSelectedGraphic() {
     // update the geometry of the graphic being edited and make it visible again
     selectedGraphic.setGeometry(geometryEditor.stop());
     selectedGraphic.setVisible(true);
+    // reset the selected graphic
     selectedGraphic.setSelected(false);
     selectedGraphic = null;
   }
@@ -412,7 +407,7 @@ public class CreateAndEditGeometriesController {
   }
 
   /**
-   * Removes all geometries from the graphics overlay.
+   * Removes all graphics from the graphics overlay.
    */
   @FXML
   private void handleDeleteAllGeometriesButtonClicked() {

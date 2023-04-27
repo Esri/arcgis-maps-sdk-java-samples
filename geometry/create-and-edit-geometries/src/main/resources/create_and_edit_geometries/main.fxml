@@ -29,30 +29,30 @@
 <?import javafx.scene.layout.BackgroundFill?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <StackPane fx:controller="com.esri.samples.create_and_edit_geometries.CreateAndEditGeometriesController"
            xmlns:fx="http://javafx.com/fxml"
            stylesheets="@style.css">
+    <!--MapView-->
     <MapView fx:id="mapView"/>
-    <VBox StackPane.alignment="TOP_RIGHT" maxWidth="120" maxHeight="110" styleClass="panel-region"
-          alignment="CENTER" spacing="6">
-        <padding>
-            <Insets topRightBottomLeft="10"/>
-        </padding>
-        <background>
-            <Background>
-                <fills>
-                    <BackgroundFill>
-                        <fill>
-                            <Color opacity="0.3"/>
-                        </fill>
-                    </BackgroundFill>
-                </fills>
-            </Background>
-        </background>
-        <GridPane vgap="6" hgap="6" alignment="CENTER">
+        <!--GridPane to contain GeometryEditor UI controls-->
+        <GridPane vgap="6" hgap="6" alignment="CENTER" StackPane.alignment="TOP_RIGHT" maxWidth="120" maxHeight="110" styleClass="panel-region">
+            <padding>
+                <Insets topRightBottomLeft="10"/>
+            </padding>
+            <background>
+                <Background>
+                    <fills>
+                        <BackgroundFill>
+                            <fill>
+                                <Color opacity="0.3"/>
+                            </fill>
+                        </BackgroundFill>
+                    </fills>
+                </Background>
+            </background>
             <Label GridPane.rowIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" text="Create"/>
+            <!--Buttons configured with actions and graphics-->
             <Button fx:id="pointButton" onAction="#handlePointButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="0" text="Point">
                 <graphic>
                     <ImageView>
@@ -163,5 +163,4 @@
                 </tooltip>
             </Button>
         </GridPane>
-    </VBox>
 </StackPane>
