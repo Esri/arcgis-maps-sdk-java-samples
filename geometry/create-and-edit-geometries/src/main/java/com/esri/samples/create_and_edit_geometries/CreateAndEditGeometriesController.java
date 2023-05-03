@@ -206,6 +206,12 @@ public class CreateAndEditGeometriesController {
                 selectedGraphic = identifyGraphics.get().getGraphics().get(0);
                 selectedGraphic.setSelected(true);
 
+                // Use vertex tool if selected geometry is a point or multipoint
+                if (selectedGraphic.getGeometry().getGeometryType().equals(GeometryType.POINT) ||
+                  selectedGraphic.getGeometry().getGeometryType().equals(GeometryType.MULTIPOINT)) {
+                  geometryEditor.setTool(vertexTool);
+                }
+
                 // hide the selected graphic and start an editing session with a copy of it
                 geometryEditor.start(selectedGraphic.getGeometry());
                 selectedGraphic.setVisible(false);
