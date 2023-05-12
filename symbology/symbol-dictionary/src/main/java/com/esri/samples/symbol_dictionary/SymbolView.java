@@ -19,21 +19,17 @@ package com.esri.samples.symbol_dictionary;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
 
 class SymbolView extends HBox implements Initializable {
@@ -78,26 +74,17 @@ class SymbolView extends HBox implements Initializable {
 
     // set image for non-text symbols
     if (!category.getText().startsWith("Text")) {
-      ListenableFuture<Symbol> symbolFuture = styleSymbolSearchResult.getSymbolAsync();
-      symbolFuture.addDoneListener(() -> {
-        try {
-          // get the resulting symbol
-          Symbol symbol = symbolFuture.get();
-          // create a swatch from the symbol
-          ListenableFuture<Image> imageResult = symbol.createSwatchAsync(40, 40, Color.color(1.0,1.0,1.0,0.0), new Point(0, 0, 0));
-          imageResult.addDoneListener(() -> {
-            try {
-              imageView.setImage(imageResult.get());
-            } catch (ExecutionException | InterruptedException e) {
-              e.printStackTrace();
-            }
-          });
-          
-        } catch (InterruptedException | ExecutionException e) {
-          new Alert(Alert.AlertType.ERROR, "Error getting symbol" + e.getMessage()).show();
-        }
-      });
-
+      // get the symbol and create a swatch from it
+      styleSymbolSearchResult.getSymbolAsync().toCompletableFuture()
+        .thenComposeAsync(symbol ->
+          symbol.createSwatchAsync(40, 40, Color.color(1.0, 1.0, 1.0, 0.0), new Point(0, 0, 0)).toCompletableFuture())
+        .whenComplete((image, ex) -> {
+          if (ex == null) {
+            imageView.setImage(image);
+          } else {
+            new Alert(Alert.AlertType.ERROR, "Error creating swatch from symbol" + ex.getMessage()).show();
+          }
+        });
     }
   }
 }

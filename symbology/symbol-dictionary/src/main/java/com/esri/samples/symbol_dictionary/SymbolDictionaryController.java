@@ -18,19 +18,19 @@ package com.esri.samples.symbol_dictionary;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.symbology.DictionarySymbolStyle;
 import com.esri.arcgisruntime.symbology.SymbolStyleSearchParameters;
 import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
@@ -90,16 +90,15 @@ public class SymbolDictionaryController {
     searchParameters.getKeys().add(keyField.getText());
 
     // search for any matching symbols
-    ListenableFuture<List<SymbolStyleSearchResult>> search = dictionarySymbol.searchSymbolsAsync(searchParameters);
-    search.addDoneListener(() -> {
-      try {
-        // update the result list (triggering the listener)
-        List<SymbolStyleSearchResult> searchResults = search.get();
+    dictionarySymbol.searchSymbolsAsync(searchParameters).toCompletableFuture().whenComplete(
+      (searchResults, ex) -> {
+      if (ex == null) {
+        // update the result list
         searchResultsFound.setText(String.valueOf(searchResults.size()));
         results.clear();
         results.addAll(searchResults);
-      } catch (ExecutionException | InterruptedException e) {
-        e.printStackTrace();
+      } else {
+        new Alert(AlertType.ERROR, "Error searching symbol dictionary.").show();
       }
     });
   }
