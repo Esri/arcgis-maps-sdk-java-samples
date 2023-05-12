@@ -20,10 +20,8 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.TransportationNetworkDataset;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.loadable.LoadStatus;
@@ -39,10 +37,9 @@ import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.tasks.geocode.GeocodeResult;
 import com.esri.arcgisruntime.tasks.geocode.ReverseGeocodeParameters;
 import com.esri.arcgisruntime.tasks.networkanalysis.Route;
-import com.esri.arcgisruntime.tasks.networkanalysis.RouteParameters;
-import com.esri.arcgisruntime.tasks.networkanalysis.RouteResult;
 import com.esri.arcgisruntime.tasks.networkanalysis.RouteTask;
 import com.esri.arcgisruntime.tasks.networkanalysis.Stop;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -145,11 +142,10 @@ public class MobileMapSearchAndRouteSample extends Application {
             hBox.getChildren().add(thumbnailImageView);
             thumbnailImageView.setFitHeight(20);
             thumbnailImageView.setPreserveRatio(true);
-            ListenableFuture<byte[]> thumbnailData = mobileMapPackage.getItem().fetchThumbnailAsync();
-            thumbnailData.addDoneListener(() -> {
-              try {
-                thumbnailImageView.setImage(new Image(new ByteArrayInputStream(thumbnailData.get())));
-              } catch (Exception ex) {
+            mobileMapPackage.getItem().fetchThumbnailAsync().toCompletableFuture().whenComplete((thumbnailData, ex) -> {
+              if (ex == null) {
+                thumbnailImageView.setImage(new Image(new ByteArrayInputStream(thumbnailData)));
+              } else {
                 ex.printStackTrace();
               }
             });
@@ -215,75 +211,67 @@ public class MobileMapSearchAndRouteSample extends Application {
           // perform a reverse geocode at the clicked location
           ReverseGeocodeParameters reverseGeocodeParameters = new ReverseGeocodeParameters();
           reverseGeocodeParameters.setMaxResults(1);
-          ListenableFuture<List<GeocodeResult>> results = mobileMapPackage.getLocatorTask().reverseGeocodeAsync(mapPoint,
-            reverseGeocodeParameters);
-          results.addDoneListener(() -> {
-            try {
-              // show a pin graphic and a callout with the geocode's address
-              List<GeocodeResult> geocodes = results.get();
-              if (geocodes.size() > 0) {
-                GeocodeResult geocode = geocodes.get(0);
-                Point location = geocode.getDisplayLocation();
+          mobileMapPackage.getLocatorTask().reverseGeocodeAsync(mapPoint, reverseGeocodeParameters).toCompletableFuture()
+              .whenComplete((geocodes, ex) -> {
+                if (ex == null) {
 
-                // get attributes from the result for the callout
-                String address = geocode.getAttributes().get("Match_addr").toString();
-                HashMap<String, Object> attributes = new HashMap<>();
-                attributes.put("title", address.split(",")[0]);
-                attributes.put("detail", address.substring(address.indexOf(", ") + 2));
+                  // show a pin graphic and a callout with the geocode's address
+                  if (geocodes.size() > 0) {
+                    GeocodeResult geocode = geocodes.get(0);
+                    Point location = geocode.getDisplayLocation();
 
-                // create a marker for the location
-                Graphic marker = new Graphic(geocode.getDisplayLocation(), attributes, pinSymbol);
-                locationsGraphicsOverlay.getGraphics().add(marker);
+                    // get attributes from the result for the callout
+                    String address = geocode.getAttributes().get("Match_addr").toString();
+                    HashMap<String, Object> attributes = new HashMap<>();
+                    attributes.put("title", address.split(",")[0]);
+                    attributes.put("detail", address.substring(address.indexOf(", ") + 2));
 
-                // display the callout at the location
-                Callout callout = mapView.getCallout();
-                callout.setTitle(marker.getAttributes().get("title").toString());
-                callout.setDetail(marker.getAttributes().get("detail").toString());
-                callout.setLeaderPosition(Callout.LeaderPosition.BOTTOM);
-                callout.showCalloutAt(location, new Point2D(0, -24), Duration.ZERO);
+                    // create a marker for the location
+                    Graphic marker = new Graphic(geocode.getDisplayLocation(), attributes, pinSymbol);
+                    locationsGraphicsOverlay.getGraphics().add(marker);
 
-                // if the map has transportation network datasets, solve for a route between the last two locations
-                if (!mapView.getMap().getTransportationNetworks().isEmpty() && locationsGraphicsOverlay.getGraphics().size() > 1) {
-                  // use the first transportation network dataset in the map to create a route task
-                  TransportationNetworkDataset networkDataset = mapView.getMap().getTransportationNetworks().get(0);
-                  RouteTask routeTask = new RouteTask(networkDataset);
-                  // create route parameters with the last two locations' stops
-                  List<Graphic> locationGraphics = locationsGraphicsOverlay.getGraphics();
-                  List<Stop> stops = locationGraphics.subList(Math.max(locationGraphics.size() - 2, 0), locationGraphics.size())
-                    .stream()
-                    .map(g -> new Stop((Point) g.getGeometry()))
-                    .collect(Collectors.toList());
-                  ListenableFuture<RouteParameters> defaultParameters = routeTask.createDefaultParametersAsync();
-                  defaultParameters.addDoneListener(() -> {
-                    try {
-                      RouteParameters routeParameters = defaultParameters.get();
-                      routeParameters.setStops(stops);
-                      // solve the route and display the result graphic
-                      ListenableFuture<RouteResult> routeResults = routeTask.solveRouteAsync(routeParameters);
-                      routeResults.addDoneListener(() -> {
-                        try {
-                          RouteResult result = routeResults.get();
-                          Route route = result.getRoutes().get(0);
-                          Graphic routeGraphic = new Graphic(route.getRouteGeometry(), lineSymbol);
-                          routesGraphicsOverlay.getGraphics().add(routeGraphic);
-                        } catch (InterruptedException | ExecutionException ex) {
-                          Alert alert = new Alert(Alert.AlertType.WARNING, "No path found between stops");
-                          alert.initOwner(mapView.getScene().getWindow());
-                          alert.show();
-                        }
-                      });
-                    } catch (InterruptedException | ExecutionException ex) {
-                      new Alert(Alert.AlertType.ERROR, "Error getting route default parameters").show();
+                    // display the callout at the location
+                    Callout callout = mapView.getCallout();
+                    callout.setTitle(marker.getAttributes().get("title").toString());
+                    callout.setDetail(marker.getAttributes().get("detail").toString());
+                    callout.setLeaderPosition(Callout.LeaderPosition.BOTTOM);
+                    callout.showCalloutAt(location, new Point2D(0, -24), Duration.ZERO);
+
+                    // if the map has transportation network datasets, solve for a route between the last two locations
+                    if (!mapView.getMap().getTransportationNetworks().isEmpty() && locationsGraphicsOverlay.getGraphics().size() > 1) {
+                      // use the first transportation network dataset in the map to create a route task
+                      TransportationNetworkDataset networkDataset = mapView.getMap().getTransportationNetworks().get(0);
+                      RouteTask routeTask = new RouteTask(networkDataset);
+                      // create route parameters with the last two locations' stops
+                      List<Graphic> locationGraphics = locationsGraphicsOverlay.getGraphics();
+                      List<Stop> stops = locationGraphics.subList(Math.max(locationGraphics.size() - 2, 0), locationGraphics.size())
+                        .stream()
+                        .map(g -> new Stop((Point) g.getGeometry()))
+                        .collect(Collectors.toList());
+                      routeTask.createDefaultParametersAsync().toCompletableFuture()
+                        .thenComposeAsync(routeParameters -> {
+                          routeParameters.setStops(stops);
+                          // solve the route and display the result graphic
+                          return routeTask.solveRouteAsync(routeParameters).toCompletableFuture();
+                        }).whenComplete(((routeResult, ex2) -> {
+                          if (ex2 == null) {
+                            Route route = routeResult.getRoutes().get(0);
+                            Graphic routeGraphic = new Graphic(route.getRouteGeometry(), lineSymbol);
+                            routesGraphicsOverlay.getGraphics().add(routeGraphic);
+                          } else {
+                            Alert alert = new Alert(Alert.AlertType.WARNING, "No path found between stops");
+                            alert.initOwner(mapView.getScene().getWindow());
+                            alert.show();
+                          }
+                        }));
                     }
-                  });
+                  }
+                } else {
+                  Alert alert = new Alert(Alert.AlertType.WARNING, "No address found at this location");
+                  alert.initOwner(mapView.getScene().getWindow());
+                  alert.show();
                 }
-              }
-            } catch (Exception ex) {
-              Alert alert = new Alert(Alert.AlertType.WARNING, "No address found at this location");
-              alert.initOwner(mapView.getScene().getWindow());
-              alert.show();
-            }
-          });
+              });
         }
       });
 
