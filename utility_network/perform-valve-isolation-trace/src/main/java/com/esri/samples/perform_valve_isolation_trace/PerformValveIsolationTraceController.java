@@ -17,9 +17,7 @@
 package com.esri.samples.perform_valve_isolation_trace;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
-import com.esri.arcgisruntime.data.FeatureQueryResult;
 import com.esri.arcgisruntime.data.QueryParameters;
 import com.esri.arcgisruntime.data.ServiceGeodatabase;
 import com.esri.arcgisruntime.geometry.Geometry;
@@ -30,7 +28,6 @@ import com.esri.arcgisruntime.geometry.ProximityResult;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -55,8 +52,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
-import java.util.*;
-import java.util.concurrent.ExecutionException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.List;
+import java.util.UUID;
 
 public class PerformValveIsolationTraceController {
 
@@ -131,65 +132,61 @@ public class PerformValveIsolationTraceController {
               utilityTraceParameters = new UtilityTraceParameters(UtilityTraceType.ISOLATION, Collections.singletonList(startingLocation));
 
               // get the first feature for the starting location, and get its geometry
-              ListenableFuture<List<ArcGISFeature>> elementFeaturesFuture =
-                utilityNetwork.fetchFeaturesForElementsAsync(Collections.singletonList(startingLocation));
+              utilityNetwork.fetchFeaturesForElementsAsync(Collections.singletonList(startingLocation)).toCompletableFuture()
+                .whenComplete((startingLocationFeatures, ex) -> {
+                  if (ex == null) {
+                    if (!startingLocationFeatures.isEmpty()) {
+                      Geometry startingLocationGeometry = startingLocationFeatures.get(0).getGeometry();
 
-              elementFeaturesFuture.addDoneListener(() -> {
-                try {
-                  List<ArcGISFeature> startingLocationFeatures = elementFeaturesFuture.get();
+                      if (startingLocationGeometry instanceof Point) {
+                        Point startingLocationGeometryPoint = (Point) startingLocationGeometry;
 
-                  if (!startingLocationFeatures.isEmpty()) {
-                    Geometry startingLocationGeometry = startingLocationFeatures.get(0).getGeometry();
+                        // create a graphics overlay for the starting location and add it to the map view
+                        GraphicsOverlay startingLocationGraphicsOverlay = new GraphicsOverlay();
+                        mapView.getGraphicsOverlays().add(startingLocationGraphicsOverlay);
 
-                    if (startingLocationGeometry instanceof Point) {
-                      Point startingLocationGeometryPoint = (Point) startingLocationGeometry;
+                        // create and apply a renderer for the starting point graphics overlay
+                        SimpleMarkerSymbol startingPointSymbol =
+                          new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.LIGHTGREEN, 25);
+                        startingLocationGraphicsOverlay.setRenderer(new SimpleRenderer(startingPointSymbol));
 
-                      // create a graphics overlay for the starting location and add it to the map view
-                      GraphicsOverlay startingLocationGraphicsOverlay = new GraphicsOverlay();
-                      mapView.getGraphicsOverlays().add(startingLocationGraphicsOverlay);
+                        // create a graphic for the starting location and add it to the graphics overlay
+                        Graphic startingLocationGraphic = new Graphic(startingLocationGeometry, startingPointSymbol);
+                        startingLocationGraphicsOverlay.getGraphics().add(startingLocationGraphic);
 
-                      // create and apply a renderer for the starting point graphics overlay
-                      SimpleMarkerSymbol startingPointSymbol =
-                        new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.LIGHTGREEN, 25);
-                      startingLocationGraphicsOverlay.setRenderer(new SimpleRenderer(startingPointSymbol));
+                        // create a graphics overlay for filter barriers and add it to the map view
+                        filterBarriersGraphicsOverlay = new GraphicsOverlay();
+                        mapView.getGraphicsOverlays().add(filterBarriersGraphicsOverlay);
 
-                      // create a graphic for the starting location and add it to the graphics overlay
-                      Graphic startingLocationGraphic = new Graphic(startingLocationGeometry, startingPointSymbol);
-                      startingLocationGraphicsOverlay.getGraphics().add(startingLocationGraphic);
+                        // create and apply a renderer for the filter barriers graphics overlay
+                        SimpleMarkerSymbol barrierPointSymbol =
+                          new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.RED, 25);
+                        filterBarriersGraphicsOverlay.setRenderer(new SimpleRenderer(barrierPointSymbol));
 
-                      // create a graphics overlay for filter barriers and add it to the map view
-                      filterBarriersGraphicsOverlay = new GraphicsOverlay();
-                      mapView.getGraphicsOverlays().add(filterBarriersGraphicsOverlay);
+                        // set the map's viewpoint to the starting location
+                        mapView.setViewpointAsync(new Viewpoint(startingLocationGeometryPoint, 3000));
 
-                      // create and apply a renderer for the filter barriers graphics overlay
-                      SimpleMarkerSymbol barrierPointSymbol =
-                        new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.RED, 25);
-                      filterBarriersGraphicsOverlay.setRenderer(new SimpleRenderer(barrierPointSymbol));
+                        // build the choice list for categories populated with the 'Name' property of each 'UtilityCategory' in the 'UtilityNetworkDefinition'
+                        categorySelectionComboBox.getItems().addAll(networkDefinition.getCategories());
+                        categorySelectionComboBox.getSelectionModel().select(0);
+                        categorySelectionComboBox.setCellFactory(param -> new UtilityCategoryListCell());
+                        categorySelectionComboBox.setButtonCell(new UtilityCategoryListCell());
 
-                      // set the map's viewpoint to the starting location
-                      mapView.setViewpointAsync(new Viewpoint(startingLocationGeometryPoint, 3000));
+                        // enable the UI
+                        categorySelectionComboBox.setDisable(false);
+                        enableUI(true);
 
-                      // build the choice list for categories populated with the 'Name' property of each 'UtilityCategory' in the 'UtilityNetworkDefinition'
-                      categorySelectionComboBox.getItems().addAll(networkDefinition.getCategories());
-                      categorySelectionComboBox.getSelectionModel().select(0);
-                      categorySelectionComboBox.setCellFactory(param -> new UtilityCategoryListCell());
-                      categorySelectionComboBox.setButtonCell(new UtilityCategoryListCell());
+                        // update the status text
+                        statusLabel.setText("Utility network loaded. Ready to perform trace...");
+                      }
 
-                      // enable the UI
-                      categorySelectionComboBox.setDisable(false);
-                      enableUI(true);
-
-                      // update the status text
-                      statusLabel.setText("Utility network loaded. Ready to perform trace...");
+                    } else {
+                      new Alert(Alert.AlertType.ERROR, "Error getting starting location geometry.").show();
                     }
-
                   } else {
-                    new Alert(Alert.AlertType.ERROR, "Error getting starting location geometry.").show();
+                    new Alert(Alert.AlertType.ERROR, "Error getting starting location feature.").show();
                   }
-                } catch (ExecutionException | InterruptedException e) {
-                  new Alert(Alert.AlertType.ERROR, "Error getting starting location feature.").show();
-                }
-              });
+                });
 
             } else {
               new Alert(Alert.AlertType.ERROR, "Error loading Utility Network.").show();
@@ -240,64 +237,58 @@ public class PerformValveIsolationTraceController {
       utilityTraceParameters.setTraceConfiguration(traceConfiguration);
 
       // run the trace and get the result
-      ListenableFuture<List<UtilityTraceResult>> utilityTraceResultsFuture = utilityNetwork.traceAsync(utilityTraceParameters);
-      utilityTraceResultsFuture.addDoneListener(() -> {
-        try {
-          List<UtilityTraceResult> utilityTraceResults = utilityTraceResultsFuture.get();
+      utilityNetwork.traceAsync(utilityTraceParameters).toCompletableFuture().whenComplete(
+        (utilityTraceResults, ex) -> {
+          if (ex == null) {
+            if (utilityTraceResults.get(0) instanceof UtilityElementTraceResult) {
+              var utilityElementTraceResult = (UtilityElementTraceResult) utilityTraceResults.get(0);
 
-          if (utilityTraceResults.get(0) instanceof UtilityElementTraceResult) {
-            var utilityElementTraceResult = (UtilityElementTraceResult) utilityTraceResults.get(0);
+              if (!utilityElementTraceResult.getElements().isEmpty()) {
 
-            if (!utilityElementTraceResult.getElements().isEmpty()) {
+                // iterate through the map's feature layers
+                mapView.getMap().getOperationalLayers().forEach(layer -> {
+                  if (layer instanceof FeatureLayer) {
 
-              // iterate through the map's feature layers
-              mapView.getMap().getOperationalLayers().forEach(layer -> {
-                if (layer instanceof FeatureLayer) {
+                    // create query parameters to find features whose network source name matches the layer's feature
+                    // table name
+                    var queryParameters = new QueryParameters();
+                    utilityElementTraceResult.getElements().forEach(utilityElement -> {
 
-                  // create query parameters to find features whose network source name matches the layer's feature
-                  // table name
-                  var queryParameters = new QueryParameters();
-                  utilityElementTraceResult.getElements().forEach(utilityElement -> {
+                      String networkSourceName = utilityElement.getNetworkSource().getName();
+                      String featureTableName = ((FeatureLayer) layer).getFeatureTable().getTableName();
 
-                    String networkSourceName = utilityElement.getNetworkSource().getName();
-                    String featureTableName = ((FeatureLayer) layer).getFeatureTable().getTableName();
+                      if (networkSourceName.equals(featureTableName)) {
+                        queryParameters.getObjectIds().add(utilityElement.getObjectId());
+                      }
+                    });
 
-                    if (networkSourceName.equals(featureTableName)) {
-                      queryParameters.getObjectIds().add(utilityElement.getObjectId());
-                    }
-                  });
+                    // select features that match the query
+                    ((FeatureLayer) layer).selectFeaturesAsync(queryParameters, FeatureLayer.SelectionMode.NEW)
+                      .toCompletableFuture().thenRun(() -> {
+                        // update the status text, enable the buttons and hide the progress indicator
+                        statusLabel.setText("Isolation trace completed.");
+                        enableUI(true);}
+                      );
+                  }
+                });
 
-                  // select features that match the query
-                  ListenableFuture<FeatureQueryResult> featureQueryResultListenableFuture =
-                          ((FeatureLayer) layer).selectFeaturesAsync(queryParameters, FeatureLayer.SelectionMode.NEW);
-
-                  // wait for the selection to finish
-                  featureQueryResultListenableFuture.addDoneListener(() -> {
-                    // update the status text, enable the buttons and hide the progress indicator
-                    statusLabel.setText("Isolation trace completed.");
-                    enableUI(true);
-                  });
-                }
-              });
+              } else {
+                statusLabel.setText("Isolation trace completed.");
+                new Alert(Alert.AlertType.INFORMATION, "Isolation trace returned no elements.").show();
+                enableUI(true);
+              }
 
             } else {
-              statusLabel.setText("Isolation trace completed.");
-              new Alert(Alert.AlertType.INFORMATION, "Isolation trace returned no elements.").show();
+              statusLabel.setText("Trace failed.");
+              new Alert(Alert.AlertType.ERROR, "Isolation trace result is not a utility element.").show();
               enableUI(true);
             }
-
           } else {
             statusLabel.setText("Trace failed.");
-            new Alert(Alert.AlertType.ERROR, "Isolation trace result is not a utility element.").show();
+            new Alert(Alert.AlertType.ERROR, "Error getting isolation trace result.").show();
             enableUI(true);
           }
-
-        } catch (Exception e) {
-          statusLabel.setText("Trace failed.");
-          new Alert(Alert.AlertType.ERROR, "Error getting isolation trace result.").show();
-          enableUI(true);
-        }
-      });
+        });
 
     } catch (Exception e) {
       new Alert(Alert.AlertType.ERROR, "Error performing isolation trace.").show();
@@ -332,97 +323,91 @@ public class PerformValveIsolationTraceController {
         Point mapPoint = mapView.screenToLocation(screenPoint);
 
         // identify the feature to be used
-        ListenableFuture<List<IdentifyLayerResult>> identifyLayerResultsFuture =
-          mapView.identifyLayersAsync(screenPoint, 10, false);
+        mapView.identifyLayersAsync(screenPoint, 10, false).toCompletableFuture().whenComplete(
+          (identifyLayerResults, ex) -> {
+            if (ex == null) {
 
-        identifyLayerResultsFuture.addDoneListener(() -> {
-          try {
-            // get the result of the query
-            List<IdentifyLayerResult> identifyLayerResults = identifyLayerResultsFuture.get();
+              // return if no features are identified
+              if (!identifyLayerResults.isEmpty()) {
 
-            // return if no features are identified
-            if (!identifyLayerResults.isEmpty()) {
+                // get and store a list of features from the result of the query (there may be more than one)
+                List<ArcGISFeature> listOfFeatures = new ArrayList<>();
+                identifyLayerResults.forEach(result -> listOfFeatures.add((ArcGISFeature) result.getElements().get(0)));
 
-              // get and store a list of features from the result of the query (there may be more than one)
-              List<ArcGISFeature> listOfFeatures = new ArrayList<>();
-              identifyLayerResults.forEach(result -> listOfFeatures.add((ArcGISFeature) result.getElements().get(0)));
+                // create utility element for each feature and store it in a list
+                List<UtilityElement> utilityElementList = new ArrayList<>();
+                listOfFeatures.forEach(feature -> utilityElementList.add(utilityNetwork.createElement(feature)));
 
-              // create utility element for each feature and store it in a list
-              List<UtilityElement> utilityElementList = new ArrayList<>();
-              listOfFeatures.forEach(feature -> utilityElementList.add(utilityNetwork.createElement(feature)));
+                // check the utility network source type of every utility element
+                utilityElementList.forEach(utilityElement -> {
 
-              // check the utility network source type of every utility element
-              utilityElementList.forEach(utilityElement -> {
+                  // check if the network source is a junction or an edge
+                  if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.JUNCTION) {
 
-                // check if the network source is a junction or an edge
-                if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.JUNCTION) {
+                    // check if the feature has a terminal configuration and multiple terminals
+                    if (utilityElement.getAssetType().getTerminalConfiguration() != null) {
+                      UtilityTerminalConfiguration utilityTerminalConfiguration = utilityElement.getAssetType().getTerminalConfiguration();
+                      List<UtilityTerminal> terminals = utilityTerminalConfiguration.getTerminals();
 
-                  // check if the feature has a terminal configuration and multiple terminals
-                  if (utilityElement.getAssetType().getTerminalConfiguration() != null) {
-                    UtilityTerminalConfiguration utilityTerminalConfiguration = utilityElement.getAssetType().getTerminalConfiguration();
-                    List<UtilityTerminal> terminals = utilityTerminalConfiguration.getTerminals();
+                      if (terminals.size() > 1) {
+                        // prompt the user to select a terminal for this feature
+                        Optional<UtilityTerminal> userSelectedTerminal = promptForTerminalSelection(terminals);
 
-                    if (terminals.size() > 1) {
-                      // prompt the user to select a terminal for this feature
-                      Optional<UtilityTerminal> userSelectedTerminal = promptForTerminalSelection(terminals);
+                        // apply the selected terminal
+                        if (userSelectedTerminal.isPresent()) {
+                          UtilityTerminal terminal = userSelectedTerminal.get();
+                          utilityElement.setTerminal(terminal);
+                          // show the terminals name in the status label
+                          String terminalName = terminal.getName() != null ? terminal.getName() : "default";
+                          statusLabel.setText("Feature added at terminal: " + terminalName);
 
-                      // apply the selected terminal
-                      if (userSelectedTerminal.isPresent()) {
-                        UtilityTerminal terminal = userSelectedTerminal.get();
-                        utilityElement.setTerminal(terminal);
-                        // show the terminals name in the status label
-                        String terminalName = terminal.getName() != null ? terminal.getName() : "default";
-                        statusLabel.setText("Feature added at terminal: " + terminalName);
-
-                        // don't create the element if no terminal was selected
-                      } else {
-                        statusLabel.setText("No terminal selected - no feature added");
+                          // don't create the element if no terminal was selected
+                        } else {
+                          statusLabel.setText("No terminal selected - no feature added");
+                        }
                       }
                     }
+
+                  } else if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.EDGE) {
+
+                    // get the geometry of the identified feature as a polyline, and remove the z component
+                    Polyline polyline = (Polyline) GeometryEngine.removeZ(listOfFeatures.get(0).getGeometry());
+
+                    // compute how far the clicked location is along the edge feature
+                    double fractionAlongEdge = GeometryEngine.fractionAlong(polyline, mapPoint, -1);
+                    if (Double.isNaN(fractionAlongEdge)) {
+                      new Alert(Alert.AlertType.ERROR, "Cannot add starting location / barrier here.");
+                      return;
+                    }
+
+                    // set the fraction along edge
+                    utilityElement.setFractionAlongEdge(fractionAlongEdge);
+
+                    // update the status label text
+                    statusLabel.setText("Fraction along edge: " + Math.round(utilityElement.getFractionAlongEdge() * 1000d) / 1000d);
                   }
+                });
 
-                } else if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.EDGE) {
+                // add the element to the list of filter barriers
+                utilityTraceParameters.getFilterBarriers().add(utilityElementList.get(0));
 
-                  // get the geometry of the identified feature as a polyline, and remove the z component
-                  Polyline polyline = (Polyline) GeometryEngine.removeZ(listOfFeatures.get(0).getGeometry());
+                // create a graphic for the new utility element
+                Graphic traceLocationGraphic = new Graphic();
 
-                  // compute how far the clicked location is along the edge feature
-                  double fractionAlongEdge = GeometryEngine.fractionAlong(polyline, mapPoint, -1);
-                  if (Double.isNaN(fractionAlongEdge)) {
-                    new Alert(Alert.AlertType.ERROR, "Cannot add starting location / barrier here.");
-                    return;
-                  }
+                // find the closest coordinate on the selected element to the clicked point
+                ProximityResult proximityResult =
+                  GeometryEngine.nearestCoordinate(listOfFeatures.get(0).getGeometry(), mapPoint);
 
-                  // set the fraction along edge
-                  utilityElement.setFractionAlongEdge(fractionAlongEdge);
-
-                  // update the status label text
-                  statusLabel.setText("Fraction along edge: " + Math.round(utilityElement.getFractionAlongEdge() * 1000d) / 1000d);
-                }
-              });
-
-              // add the element to the list of filter barriers
-              utilityTraceParameters.getFilterBarriers().add(utilityElementList.get(0));
-
-              // create a graphic for the new utility element
-              Graphic traceLocationGraphic = new Graphic();
-
-              // find the closest coordinate on the selected element to the clicked point
-              ProximityResult proximityResult =
-                GeometryEngine.nearestCoordinate(listOfFeatures.get(0).getGeometry(), mapPoint);
-
-              // set the graphic's geometry to the coordinate on the element and add it to the graphics overlay
-              traceLocationGraphic.setGeometry(proximityResult.getCoordinate());
-              filterBarriersGraphicsOverlay.getGraphics().add(traceLocationGraphic);
+                // set the graphic's geometry to the coordinate on the element and add it to the graphics overlay
+                traceLocationGraphic.setGeometry(proximityResult.getCoordinate());
+                filterBarriersGraphicsOverlay.getGraphics().add(traceLocationGraphic);
+              }
+            } else {
+              statusLabel.setText("Error identifying clicked features.");
+              new Alert(Alert.AlertType.ERROR, "Error identifying clicked features.").show();
             }
-
-          } catch (InterruptedException | ExecutionException ex) {
-            statusLabel.setText("Error identifying clicked features.");
-            new Alert(Alert.AlertType.ERROR, "Error identifying clicked features.").show();
-          } finally {
             progressIndicator.setVisible(false);
-          }
-        });
+          });
       }
     }
   }
