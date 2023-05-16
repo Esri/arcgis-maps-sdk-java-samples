@@ -19,8 +19,10 @@ package com.esri.samples.read_symbols_from_mobile_style_file;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -35,7 +37,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -116,20 +117,13 @@ public class ReadSymbolsFromMobileStyleFileController {
       }
 
       // load the default search parameters
-      ListenableFuture<SymbolStyleSearchParameters> defaultSearchParametersFuture = emojiStyle.getDefaultSearchParametersAsync();
-      defaultSearchParametersFuture.addDoneListener(() -> {
-        try {
-          SymbolStyleSearchParameters defaultSearchParameters = defaultSearchParametersFuture.get();
-
-          // use the default parameters to perform the search, getting all the available symbols within the file
-          ListenableFuture<List<SymbolStyleSearchResult>> symbolStyleSearchResultFuture = emojiStyle.searchSymbolsAsync(defaultSearchParameters);
-          symbolStyleSearchResultFuture.addDoneListener(() -> {
-            try {
-
-              // loop through the results and add each item to a list view according to category
-              List<SymbolStyleSearchResult> symbolStyleSearchResults = symbolStyleSearchResultFuture.get();
-              symbolStyleSearchResults.forEach(symbolStyleSearchResult -> {
-
+      CompletableFuture<SymbolStyleSearchParameters> defaultSearchParametersFuture = emojiStyle.getDefaultSearchParametersAsync().toCompletableFuture();
+      defaultSearchParametersFuture
+        .thenCompose(defaultSearchParameters -> emojiStyle.searchSymbolsAsync(defaultSearchParameters).toCompletableFuture())
+        .whenComplete((symbolStyleSearchResults, ex) -> {
+          if (ex == null) {
+            symbolStyleSearchResults.forEach(
+              symbolStyleSearchResult -> {
                 // add the SymbolStyleSearchResult object to the correct list for its category
                 switch (symbolStyleSearchResult.getCategory()) {
                   case "Hat":
@@ -143,18 +137,12 @@ public class ReadSymbolsFromMobileStyleFileController {
                     break;
                 }
               });
-
-              // create the symbol to populate the preview
-              buildCompositeSymbol();
-
-            } catch (InterruptedException | ExecutionException e) {
-              new Alert(Alert.AlertType.ERROR, "Error performing the symbol search" + e.getMessage()).show();
-            }
-          });
-        } catch (InterruptedException | ExecutionException e) {
-          new Alert(Alert.AlertType.ERROR, "Error retrieving default search parameters for symbol search" + e.getMessage()).show();
-        }
-      });
+            // create the symbol to populate the preview
+            buildCompositeSymbol();
+          } else {
+            new Alert(Alert.AlertType.ERROR, "Error performing the symbol search" + ex.getMessage()).show();
+          }
+        });
     });
   }
 
@@ -173,33 +161,33 @@ public class ReadSymbolsFromMobileStyleFileController {
     List<String> symbolKeys = Arrays.asList("Face1", eyesKey, mouthKey, hatKey);
 
     // get the symbol from the SymbolStyle
-    ListenableFuture<Symbol> symbolFuture = emojiStyle.getSymbolAsync(symbolKeys);
-    symbolFuture.addDoneListener(() -> {
-      try {
-        faceSymbol = (MultilayerPointSymbol) symbolFuture.get();
-        if (faceSymbol == null) {
-          return;
+    CompletableFuture<Symbol> symbolFuture = emojiStyle.getSymbolAsync(symbolKeys).toCompletableFuture();
+    symbolFuture.whenComplete(
+      (symbol, ex)  -> {
+        if (ex == null) {
+          faceSymbol = (MultilayerPointSymbol) symbol;
+          if (faceSymbol == null) {
+            return;
+          }
+
+          // loop through all the symbol layers and lock the color
+          faceSymbol.getSymbolLayers().forEach(symbolLayer -> symbolLayer.setColorLocked(true));
+
+          // unlock the color of the base layer. Changing the symbol layer color will now only change this layer's color
+          faceSymbol.getSymbolLayers().get(0).setColorLocked(false);
+
+          // set the color of the symbol
+          faceSymbol.setColor(colorPicker.getValue());
+
+          // set the size of the symbol
+          faceSymbol.setSize((float) sizeSlider.getValue());
+
+          // update the symbol preview
+          updateSymbolPreview(faceSymbol);
+        } else {
+          new Alert(Alert.AlertType.ERROR, "Error creating symbol with the provided symbol keys" + ex.getMessage()).show();
         }
-
-        // loop through all the symbol layers and lock the color
-        faceSymbol.getSymbolLayers().forEach(symbolLayer -> symbolLayer.setColorLocked(true));
-
-        // unlock the color of the base layer. Changing the symbol layer color will now only change this layer's color
-        faceSymbol.getSymbolLayers().get(0).setColorLocked(false);
-
-        // set the color of the symbol
-        faceSymbol.setColor(colorPicker.getValue());
-
-        // set the size of the symbol
-        faceSymbol.setSize((float) sizeSlider.getValue());
-
-        // update the symbol preview
-        updateSymbolPreview(faceSymbol);
-
-      } catch (ExecutionException | InterruptedException e) {
-        new Alert(Alert.AlertType.ERROR, "Error creating symbol with the provided symbol keys" + e.getMessage()).show();
-      }
-    });
+      });
   }
 
   /**
