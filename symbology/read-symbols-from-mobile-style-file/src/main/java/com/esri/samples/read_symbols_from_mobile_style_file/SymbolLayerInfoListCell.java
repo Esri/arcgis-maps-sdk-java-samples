@@ -1,13 +1,10 @@
 package com.esri.samples.read_symbols_from_mobile_style_file;
 
-import java.util.concurrent.CompletableFuture;
-
 import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ListCell;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
@@ -37,8 +34,8 @@ class SymbolLayerInfoListCell extends ListCell<SymbolStyleSearchResult> {
         (symbol, ex) -> {
           if (ex == null) {
             // create a bitmap swatch from the symbol
-            CompletableFuture<Image> imageListenableFuture = symbol.createSwatchAsync(Color.TRANSPARENT, 1).toCompletableFuture();
-            imageListenableFuture.whenComplete((symbolImage, e) -> {
+            symbol.createSwatchAsync(Color.TRANSPARENT, 1).toCompletableFuture()
+            .whenComplete((symbolImage, e) -> {
               if (e == null) {
                 // update the image view with the symbol swatch
                 symbolImageView.setImage(symbolImage);

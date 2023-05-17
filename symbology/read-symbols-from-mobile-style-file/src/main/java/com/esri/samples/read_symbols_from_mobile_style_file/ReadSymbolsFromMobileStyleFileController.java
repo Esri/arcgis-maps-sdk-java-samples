@@ -47,7 +47,6 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.MultilayerPointSymbol;
 import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.SymbolStyle;
-import com.esri.arcgisruntime.symbology.SymbolStyleSearchParameters;
 import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
 
 public class ReadSymbolsFromMobileStyleFileController {
@@ -117,8 +116,7 @@ public class ReadSymbolsFromMobileStyleFileController {
       }
 
       // load the default search parameters
-      CompletableFuture<SymbolStyleSearchParameters> defaultSearchParametersFuture = emojiStyle.getDefaultSearchParametersAsync().toCompletableFuture();
-      defaultSearchParametersFuture
+      emojiStyle.getDefaultSearchParametersAsync().toCompletableFuture()
         .thenCompose(defaultSearchParameters -> emojiStyle.searchSymbolsAsync(defaultSearchParameters).toCompletableFuture())
         .whenComplete((symbolStyleSearchResults, ex) -> {
           if (ex == null) {

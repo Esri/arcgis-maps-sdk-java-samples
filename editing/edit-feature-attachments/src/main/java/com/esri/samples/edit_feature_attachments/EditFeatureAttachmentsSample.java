@@ -56,7 +56,6 @@ public class EditFeatureAttachmentsSample extends Application {
 
   private ListView<String> attachmentList;
   private Label attachmentsLabel;
-
   private ArcGISFeature selected;
   private List<Attachment> attachments;
   private ServiceFeatureTable featureTable;
@@ -232,7 +231,7 @@ public class EditFeatureAttachmentsSample extends Application {
         .toCompletableFuture();
 
       // update feature table, apply update to server when new feature is added, and update the displayed list of attachments
-      addResult.thenComposeAsync(addedAttachment -> featureTable.updateFeatureAsync(selected).toCompletableFuture())
+      addResult.thenCompose(addedAttachment -> featureTable.updateFeatureAsync(selected).toCompletableFuture())
         .thenRun(() -> applyEdits(featureTable));
     } else {
       displayMessage(null, "Cannot add attachment.");

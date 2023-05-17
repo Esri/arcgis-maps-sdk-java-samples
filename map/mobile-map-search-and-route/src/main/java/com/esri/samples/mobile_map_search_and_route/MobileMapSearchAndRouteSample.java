@@ -249,7 +249,7 @@ public class MobileMapSearchAndRouteSample extends Application {
                         .map(g -> new Stop((Point) g.getGeometry()))
                         .collect(Collectors.toList());
                       routeTask.createDefaultParametersAsync().toCompletableFuture()
-                        .thenComposeAsync(routeParameters -> {
+                        .thenCompose(routeParameters -> {
                           routeParameters.setStops(stops);
                           // solve the route and display the result graphic
                           return routeTask.solveRouteAsync(routeParameters).toCompletableFuture();
