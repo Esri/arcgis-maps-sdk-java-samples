@@ -1,6 +1,6 @@
 plugins {
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.13' // version is defined in settings.gradle
+    id 'org.openjfx.javafxplugin' // version is defined in settings.gradle
 }
 
 group = 'com.esri.samples'
@@ -10,7 +10,7 @@ ext {
 }
 
 javafx {
-    version = "17.0.2"
+    version = "17.0.7"
     modules = [ 'javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.web', 'javafx.media' ]
 }
 

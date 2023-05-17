@@ -9,7 +9,7 @@ ext {
     arcgisVersion = '200.1.0'
 }
 javafx {
-    version = "17.0.2"
+    version = "17.0.7"
     modules = [ 'javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.web', 'javafx.media' ]
 }
 
