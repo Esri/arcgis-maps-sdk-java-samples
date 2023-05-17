@@ -267,8 +267,8 @@ public class PerformValveIsolationTraceController {
                       .toCompletableFuture().thenRun(() -> {
                         // update the status text, enable the buttons and hide the progress indicator
                         statusLabel.setText("Isolation trace completed.");
-                        enableUI(true);}
-                      );
+                        enableUI(true);
+                      });
                   }
                 });
 
