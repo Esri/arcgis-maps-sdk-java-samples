@@ -76,7 +76,7 @@ class SymbolView extends HBox implements Initializable {
     if (!category.getText().startsWith("Text")) {
       // get the symbol and create a swatch from it
       styleSymbolSearchResult.getSymbolAsync().toCompletableFuture()
-        .thenComposeAsync(symbol ->
+        .thenCompose(symbol ->
           symbol.createSwatchAsync(40, 40, Color.color(1.0, 1.0, 1.0, 0.0), new Point(0, 0, 0)).toCompletableFuture())
         .whenComplete((image, ex) -> {
           if (ex == null) {
