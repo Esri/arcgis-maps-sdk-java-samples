@@ -35,14 +35,14 @@ class SymbolLayerInfoListCell extends ListCell<SymbolStyleSearchResult> {
           if (ex == null) {
             // create a bitmap swatch from the symbol
             symbol.createSwatchAsync(Color.TRANSPARENT, 1).toCompletableFuture()
-            .whenComplete((symbolImage, e) -> {
-              if (e == null) {
-                // update the image view with the symbol swatch
-                symbolImageView.setImage(symbolImage);
-              } else {
-                new Alert(Alert.AlertType.ERROR, "Error creating preview image for symbol in mobile style file" + e.getMessage()).show();
-              }
-            });
+              .whenComplete((symbolImage, e) -> {
+                if (e == null) {
+                  // update the image view with the symbol swatch
+                  symbolImageView.setImage(symbolImage);
+                } else {
+                  new Alert(Alert.AlertType.ERROR, "Error creating preview image for symbol in mobile style file" + e.getMessage()).show();
+                }
+              });
           } else {
             new Alert(Alert.AlertType.ERROR, "Error getting symbol" + ex.getMessage()).show();
           }

@@ -18,7 +18,6 @@ package com.esri.samples.edit_feature_attachments;
 
 import org.apache.commons.io.IOUtils;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -227,11 +226,9 @@ public class EditFeatureAttachmentsSample extends Application {
   private void addAttachment(byte[] attachment) {
 
     if (selected.canEditAttachments()) {
-      CompletableFuture<Attachment> addResult = selected.addAttachmentAsync(attachment, "image/png", "edit_feature_attachments/destroyed.png")
-        .toCompletableFuture();
-
-      // update feature table, apply update to server when new feature is added, and update the displayed list of attachments
-      addResult.thenCompose(addedAttachment -> featureTable.updateFeatureAsync(selected).toCompletableFuture())
+      selected.addAttachmentAsync(attachment, "image/png", "edit_feature_attachments/destroyed.png")
+        .toCompletableFuture()
+        .thenCompose(addedAttachment -> featureTable.updateFeatureAsync(selected).toCompletableFuture())
         .thenRun(() -> applyEdits(featureTable));
     } else {
       displayMessage(null, "Cannot add attachment.");

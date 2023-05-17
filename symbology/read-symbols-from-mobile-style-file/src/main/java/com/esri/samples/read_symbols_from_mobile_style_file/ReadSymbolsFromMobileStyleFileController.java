@@ -19,7 +19,6 @@ package com.esri.samples.read_symbols_from_mobile_style_file;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -45,7 +44,6 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.MultilayerPointSymbol;
-import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.SymbolStyle;
 import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
 
@@ -159,8 +157,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     List<String> symbolKeys = Arrays.asList("Face1", eyesKey, mouthKey, hatKey);
 
     // get the symbol from the SymbolStyle
-    CompletableFuture<Symbol> symbolFuture = emojiStyle.getSymbolAsync(symbolKeys).toCompletableFuture();
-    symbolFuture.whenComplete(
+    emojiStyle.getSymbolAsync(symbolKeys).toCompletableFuture().whenComplete(
       (symbol, ex)  -> {
         if (ex == null) {
           faceSymbol = (MultilayerPointSymbol) symbol;
