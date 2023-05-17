@@ -41,7 +41,7 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
     // handle SLF4J http://www.slf4j.org/codes.html#StaticLoggerBinder
-    runtimeOnly 'org.slf4j:slf4j-nop:1.7.32'
+    implementation 'org.slf4j:slf4j-nop:2.0.7'
 }
 
 task createGradlePropertiesAndWriteApiKey {
