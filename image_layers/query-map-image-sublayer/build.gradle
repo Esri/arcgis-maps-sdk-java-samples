@@ -83,7 +83,7 @@ task productionZip(type: Zip) {
 if (rootProject == project) {
     // the wrapper task is only used if this project is the root project i.e. not a subproject
     wrapper {
-        gradleVersion = '7.5.1'
+        gradleVersion = '8.1.1'
     }
 }
 
