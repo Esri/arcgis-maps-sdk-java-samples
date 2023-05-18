@@ -215,7 +215,6 @@ public class MobileMapSearchAndRouteSample extends Application {
           mobileMapPackage.getLocatorTask().reverseGeocodeAsync(mapPoint, reverseGeocodeParameters).toCompletableFuture()
             .whenComplete((geocodes, ex) -> {
               if (ex == null) {
-
                 // show a pin graphic and a callout with the geocode's address
                 if (geocodes.size() > 0) {
                   GeocodeResult geocode = geocodes.get(0);
@@ -254,8 +253,8 @@ public class MobileMapSearchAndRouteSample extends Application {
                         routeParameters.setStops(stops);
                         // solve the route and display the result graphic
                         return routeTask.solveRouteAsync(routeParameters).toCompletableFuture();
-                      }).whenComplete(((routeResult, ex2) -> {
-                        if (ex2 == null) {
+                      }).whenComplete((routeResult, x) -> {
+                        if (x == null) {
                           Route route = routeResult.getRoutes().get(0);
                           Graphic routeGraphic = new Graphic(route.getRouteGeometry(), lineSymbol);
                           routesGraphicsOverlay.getGraphics().add(routeGraphic);
@@ -264,7 +263,7 @@ public class MobileMapSearchAndRouteSample extends Application {
                           alert.initOwner(mapView.getScene().getWindow());
                           alert.show();
                         }
-                      }));
+                      });
                   }
                 }
               } else {
