@@ -142,16 +142,15 @@ public class PerformValveIsolationTraceController {
                         Point startingLocationGeometryPoint = (Point) startingLocationGeometry;
 
                         // create a graphics overlay for the starting location and add it to the map view
-                        GraphicsOverlay startingLocationGraphicsOverlay = new GraphicsOverlay();
+                        var startingLocationGraphicsOverlay = new GraphicsOverlay();
                         mapView.getGraphicsOverlays().add(startingLocationGraphicsOverlay);
 
                         // create and apply a renderer for the starting point graphics overlay
-                        SimpleMarkerSymbol startingPointSymbol =
-                          new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.LIGHTGREEN, 25);
+                        var startingPointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.LIGHTGREEN, 25);
                         startingLocationGraphicsOverlay.setRenderer(new SimpleRenderer(startingPointSymbol));
 
                         // create a graphic for the starting location and add it to the graphics overlay
-                        Graphic startingLocationGraphic = new Graphic(startingLocationGeometry, startingPointSymbol);
+                        var startingLocationGraphic = new Graphic(startingLocationGeometry, startingPointSymbol);
                         startingLocationGraphicsOverlay.getGraphics().add(startingLocationGraphic);
 
                         // create a graphics overlay for filter barriers and add it to the map view
@@ -159,8 +158,7 @@ public class PerformValveIsolationTraceController {
                         mapView.getGraphicsOverlays().add(filterBarriersGraphicsOverlay);
 
                         // create and apply a renderer for the filter barriers graphics overlay
-                        SimpleMarkerSymbol barrierPointSymbol =
-                          new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.RED, 25);
+                        var barrierPointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.RED, 25);
                         filterBarriersGraphicsOverlay.setRenderer(new SimpleRenderer(barrierPointSymbol));
 
                         // set the map's viewpoint to the starting location
@@ -181,9 +179,11 @@ public class PerformValveIsolationTraceController {
                       }
 
                     } else {
+                      // if the fetched feature list is empty, display an error
                       new Alert(Alert.AlertType.ERROR, "Error getting starting location geometry.").show();
                     }
                   } else {
+                    // if the feature fetch operation completed exceptionally, display an error
                     new Alert(Alert.AlertType.ERROR, "Error getting starting location feature.").show();
                   }
                 });
@@ -284,6 +284,7 @@ public class PerformValveIsolationTraceController {
               enableUI(true);
             }
           } else {
+            // if the utility trace completed exceptionally, display an error
             statusLabel.setText("Trace failed.");
             new Alert(Alert.AlertType.ERROR, "Error getting isolation trace result.").show();
             enableUI(true);
@@ -392,7 +393,7 @@ public class PerformValveIsolationTraceController {
                 utilityTraceParameters.getFilterBarriers().add(utilityElementList.get(0));
 
                 // create a graphic for the new utility element
-                Graphic traceLocationGraphic = new Graphic();
+                var traceLocationGraphic = new Graphic();
 
                 // find the closest coordinate on the selected element to the clicked point
                 ProximityResult proximityResult =

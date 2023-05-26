@@ -51,7 +51,7 @@ public class SymbolDictionaryController {
 
   public void initialize() {
     // loads a specification for the symbol dictionary
-    File stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/mil2525d.stylx");
+    var stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/mil2525d.stylx");
     dictionarySymbol = DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath());
     dictionarySymbol.loadAsync();
 
@@ -82,7 +82,7 @@ public class SymbolDictionaryController {
   @FXML
   private void handleSearchAction() {
     // get parameters from input fields
-    SymbolStyleSearchParameters searchParameters = new SymbolStyleSearchParameters();
+    var searchParameters = new SymbolStyleSearchParameters();
     searchParameters.getNames().add(nameField.getText());
     searchParameters.getTags().add(tagField.getText());
     searchParameters.getSymbolClasses().add(symbolClassField.getText());
@@ -98,6 +98,7 @@ public class SymbolDictionaryController {
         results.clear();
         results.addAll(searchResults);
       } else {
+        // display an error if the symbol search completed with an exception
         new Alert(AlertType.ERROR, "Error searching symbol dictionary.").show();
       }
     });

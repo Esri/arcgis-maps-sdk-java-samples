@@ -65,8 +65,8 @@ public class EditFeatureAttachmentsSample extends Application {
 
     try {
       // create stack pane and application scene
-      StackPane stackPane = new StackPane();
-      Scene scene = new Scene(stackPane);
+      var stackPane = new StackPane();
+      var scene = new Scene(stackPane);
       scene.getStylesheets().add(getClass().getResource("/edit_feature_attachments/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
@@ -132,7 +132,7 @@ public class EditFeatureAttachmentsSample extends Application {
       featureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
 
       // create a feature layer from service feature table
-      FeatureLayer featureLayer = new FeatureLayer(featureTable);
+      var featureLayer = new FeatureLayer(featureTable);
 
       // add the feature layer to the ArcGISMap
       map.getOperationalLayers().add(featureLayer);
@@ -158,6 +158,7 @@ public class EditFeatureAttachmentsSample extends Application {
           mapView.identifyLayerAsync(featureLayer, point, 1, false).toCompletableFuture()
             .whenComplete((layer, ex) -> {
               if (ex == null) {
+                // if the identification operation completes successfully, get the list of identified GeoElements
                 List<GeoElement> identified = layer.getElements();
                 if (identified.size() > 0) {
                   GeoElement element = identified.get(0);
@@ -177,6 +178,7 @@ public class EditFeatureAttachmentsSample extends Application {
                   }
                 }
               } else {
+                // if the identification operation completes with an exception, display an error
                 displayMessage("Exception getting identify result", ex.getCause().getMessage());
               }
             });
@@ -200,9 +202,9 @@ public class EditFeatureAttachmentsSample extends Application {
     feature.fetchAttachmentsAsync().toCompletableFuture().whenComplete(
       (attachmentResults, ex) -> {
         if (ex == null) {
+          // if the attachments were fetched successfully, update the UI attachments list
           attachments = attachmentResults;
 
-          // update UI attachments list
           Platform.runLater(() -> {
             attachmentList.getItems().clear();
             attachments.forEach(attachment -> attachmentList.getItems().add(attachment.getName()));
@@ -273,7 +275,7 @@ public class EditFeatureAttachmentsSample extends Application {
           }
           // update the displayed list of attachments
           fetchAttachments(selected);
-        } else  {
+        } else {
           displayMessage("Error applying edits on server ", ex.getCause().getMessage());
         }
       });

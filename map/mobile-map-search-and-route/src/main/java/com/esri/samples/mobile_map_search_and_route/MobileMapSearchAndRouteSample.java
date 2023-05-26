@@ -69,8 +69,8 @@ public class MobileMapSearchAndRouteSample extends Application {
 
     try {
       // create stack pane and application scene
-      StackPane stackPane = new StackPane();
-      Scene scene = new Scene(stackPane);
+      var stackPane = new StackPane();
+      var scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
       stage.setTitle("Mobile Map Search and Route Sample");
@@ -87,7 +87,7 @@ public class MobileMapSearchAndRouteSample extends Application {
       mapPackageListView.setMaxSize(170, 100);
 
       // create a file chooser to find local mmpk files
-      FileChooser fileChooser = new FileChooser();
+      var fileChooser = new FileChooser();
       FileChooser.ExtensionFilter mmpkFilter = new FileChooser.ExtensionFilter("Map Packages (*.mmpk)", "*.mmpk");
       fileChooser.getExtensionFilters().add(mmpkFilter);
       fileChooser.setInitialDirectory(new File(System.getProperty("data.dir"), "./samples-data/mmpk"));
@@ -117,7 +117,7 @@ public class MobileMapSearchAndRouteSample extends Application {
                 // default to displaying the first map in the map view
                 mapPackageListView.getSelectionModel().select(mobileMapPackage.getMaps().get(0));
               } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Map package does not have any maps");
+                var alert = new Alert(Alert.AlertType.WARNING, "Map package does not have any maps");
                 alert.initOwner(mapView.getScene().getWindow());
                 alert.show();
               }
@@ -134,11 +134,11 @@ public class MobileMapSearchAndRouteSample extends Application {
         protected void updateItem(ArcGISMap map, boolean bln) {
           super.updateItem(map, bln);
           if (map != null) {
-            HBox hBox = new HBox();
+            var hBox = new HBox();
             hBox.setMinWidth(100);
 
             // show the mobile map package thumbnail image
-            ImageView thumbnailImageView = new ImageView();
+            var thumbnailImageView = new ImageView();
             hBox.getChildren().add(thumbnailImageView);
             thumbnailImageView.setFitHeight(20);
             thumbnailImageView.setPreserveRatio(true);
@@ -153,7 +153,7 @@ public class MobileMapSearchAndRouteSample extends Application {
 
             // show a location pin symbol in the list item if the map package includes a locator task
             if (mobileMapPackage.getLocatorTask() != null) {
-              ImageView locatorImageView = new ImageView();
+              var locatorImageView = new ImageView();
               locatorImageView.setFitHeight(20);
               locatorImageView.setPreserveRatio(true);
               locatorImageView.setImage(new Image(getClass().getResourceAsStream("/pinOutlineSymbol.png")));
@@ -162,7 +162,7 @@ public class MobileMapSearchAndRouteSample extends Application {
 
             // show a routing symbol in the list item if the map has transportation networks
             if (!map.getTransportationNetworks().isEmpty()) {
-              ImageView routingImageView = new ImageView();
+              var routingImageView = new ImageView();
               routingImageView.setFitHeight(20);
               routingImageView.setPreserveRatio(true);
               routingImageView.setImage(new Image(getClass().getResourceAsStream("/routingSymbol.png")));
@@ -180,14 +180,14 @@ public class MobileMapSearchAndRouteSample extends Application {
       });
 
       // create a graphics overlay for showing geocoded locations (for when the mobile map package has a locator task)
-      GraphicsOverlay locationsGraphicsOverlay = new GraphicsOverlay();
+      var locationsGraphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(locationsGraphicsOverlay);
-      Image img = new Image(getClass().getResourceAsStream("/pin.png"), 0, 80, true, true);
-      PictureMarkerSymbol pinSymbol = new PictureMarkerSymbol(img);
+      var image = new Image(getClass().getResourceAsStream("/pin.png"), 0, 80, true, true);
+      var pinSymbol = new PictureMarkerSymbol(image);
       pinSymbol.loadAsync();
 
       // create a graphics overlay for showing routes (for when the map has transportation network datasets)
-      GraphicsOverlay routesGraphicsOverlay = new GraphicsOverlay();
+      var routesGraphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(routesGraphicsOverlay);
       LineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 3);
 
@@ -210,7 +210,7 @@ public class MobileMapSearchAndRouteSample extends Application {
           Point mapPoint = mapView.screenToLocation(point);
 
           // perform a reverse geocode at the clicked location
-          ReverseGeocodeParameters reverseGeocodeParameters = new ReverseGeocodeParameters();
+          var reverseGeocodeParameters = new ReverseGeocodeParameters();
           reverseGeocodeParameters.setMaxResults(1);
           mobileMapPackage.getLocatorTask().reverseGeocodeAsync(mapPoint, reverseGeocodeParameters).toCompletableFuture()
             .whenComplete((geocodes, ex) -> {
@@ -241,7 +241,7 @@ public class MobileMapSearchAndRouteSample extends Application {
                   if (!mapView.getMap().getTransportationNetworks().isEmpty() && locationsGraphicsOverlay.getGraphics().size() > 1) {
                     // use the first transportation network dataset in the map to create a route task
                     TransportationNetworkDataset networkDataset = mapView.getMap().getTransportationNetworks().get(0);
-                    RouteTask routeTask = new RouteTask(networkDataset);
+                    var routeTask = new RouteTask(networkDataset);
                     // create route parameters with the last two locations' stops
                     List<Graphic> locationGraphics = locationsGraphicsOverlay.getGraphics();
                     List<Stop> stops = locationGraphics.subList(Math.max(locationGraphics.size() - 2, 0), locationGraphics.size())
@@ -259,7 +259,7 @@ public class MobileMapSearchAndRouteSample extends Application {
                           Graphic routeGraphic = new Graphic(route.getRouteGeometry(), lineSymbol);
                           routesGraphicsOverlay.getGraphics().add(routeGraphic);
                         } else {
-                          Alert alert = new Alert(Alert.AlertType.WARNING, "No path found between stops");
+                          var alert = new Alert(Alert.AlertType.WARNING, "No path found between stops");
                           alert.initOwner(mapView.getScene().getWindow());
                           alert.show();
                         }
@@ -267,7 +267,8 @@ public class MobileMapSearchAndRouteSample extends Application {
                   }
                 }
               } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "No address found at this location");
+                // show warning if reverse geocode completed with an exception
+                var alert = new Alert(Alert.AlertType.WARNING, "No address found at this location");
                 alert.initOwner(mapView.getScene().getWindow());
                 alert.show();
               }

@@ -52,7 +52,7 @@ class SymbolView extends HBox implements Initializable {
     styleSymbolSearchResult = symbolResult;
 
     // Set the view of this component to the fxml file
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/symbol_dictionary/symbol_view.fxml"));
+    var loader = new FXMLLoader(getClass().getResource("/symbol_dictionary/symbol_view.fxml"));
     loader.setRoot(this);
     loader.setController(this);
 
@@ -80,8 +80,10 @@ class SymbolView extends HBox implements Initializable {
           symbol.createSwatchAsync(40, 40, Color.color(1.0, 1.0, 1.0, 0.0), new Point(0, 0, 0)).toCompletableFuture())
         .whenComplete((image, ex) -> {
           if (ex == null) {
+            // if the symbol fetch and swatch creation complete successfully, add the resulting image to the ImageView
             imageView.setImage(image);
           } else {
+            // display an error if the symbol search or swatch creation completed with an exception
             new Alert(Alert.AlertType.ERROR, "Error creating swatch from symbol" + ex.getMessage()).show();
           }
         });

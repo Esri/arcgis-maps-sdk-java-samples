@@ -102,7 +102,7 @@ public class ReadSymbolsFromMobileStyleFileController {
    */
   private void loadSymbolsFromStyleFile() {
     // create a SymbolStyle with the .stylx file
-    File stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/emoji-mobile.stylx");
+    var stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/emoji-mobile.stylx");
     emojiStyle = new SymbolStyle(stylxFile.getAbsolutePath());
     emojiStyle.loadAsync();
 
@@ -113,11 +113,12 @@ public class ReadSymbolsFromMobileStyleFileController {
         return;
       }
 
-      // load the default search parameters
+      // perform a symbol search using the default search parameters
       emojiStyle.getDefaultSearchParametersAsync().toCompletableFuture()
         .thenCompose(defaultSearchParameters -> emojiStyle.searchSymbolsAsync(defaultSearchParameters).toCompletableFuture())
         .whenComplete((symbolStyleSearchResults, ex) -> {
           if (ex == null) {
+            // if the symbol search completed without exception, add each symbol to the appropriate category list in the GUI
             symbolStyleSearchResults.forEach(
               symbolStyleSearchResult -> {
                 // add the SymbolStyleSearchResult object to the correct list for its category
@@ -136,6 +137,7 @@ public class ReadSymbolsFromMobileStyleFileController {
             // create the symbol to populate the preview
             buildCompositeSymbol();
           } else {
+            // if the symbol search completed exceptionally, display an error
             new Alert(Alert.AlertType.ERROR, "Error performing the symbol search" + ex.getMessage()).show();
           }
         });
@@ -180,6 +182,7 @@ public class ReadSymbolsFromMobileStyleFileController {
           // update the symbol preview
           updateSymbolPreview(faceSymbol);
         } else {
+          // if the symbol fetch completed exceptionally, display an error
           new Alert(Alert.AlertType.ERROR, "Error creating symbol with the provided symbol keys" + ex.getMessage()).show();
         }
       });
@@ -228,7 +231,7 @@ public class ReadSymbolsFromMobileStyleFileController {
       Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
 
       // create a new graphic with the point and symbol
-      Graphic graphic = new Graphic(mapPoint, faceSymbol);
+      var graphic = new Graphic(mapPoint, faceSymbol);
       graphicsOverlay.getGraphics().add(graphic);
     }
   }
