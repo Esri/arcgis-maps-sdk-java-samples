@@ -76,8 +76,8 @@ public class WmsLayerUrlSample extends Application {
       progressIndicator.setMaxSize(25, 25);
 
       // create a WMS layer
-      List<String> wmsLayerNames = Collections.singletonList("1");
-      String url = "https://nowcoast.noaa.gov/arcgis/services/nowcoast/radar_meteo_imagery_nexrad_time/MapServer/WMSServer?request=GetCapabilities&service=WMS";
+      List<String> wmsLayerNames = Collections.singletonList("base_reflectivity_mosaic");
+      String url = "https://nowcoast.noaa.gov/geoserver/observations/weather_radar/wms";
       wmsLayer = new WmsLayer(url, wmsLayerNames);
       // load the layer and add it as an operational layer
       wmsLayer.addDoneLoadingListener(() -> {
