@@ -155,12 +155,12 @@ public class EditFeatureAttachmentsSample extends Application {
           attachmentList.getItems().clear();
 
           // get the clicked feature
-          mapView.identifyLayerAsync(featureLayer, point, 1, false).toCompletableFuture()
-            .whenComplete((layer, ex) -> {
-              if (ex == null) {
+          mapView.identifyLayerAsync(featureLayer, point, 1, false, 1).toCompletableFuture()
+            .whenComplete((identifyLayerResult, exception) -> {
+              if (exception == null) {
                 // if the identification operation completes successfully, get the list of identified GeoElements
-                List<GeoElement> identified = layer.getElements();
-                if (identified.size() > 0) {
+                List<GeoElement> identified = identifyLayerResult.getElements();
+                if (!identified.isEmpty()) {
                   GeoElement element = identified.get(0);
                   // get selected feature
                   if (element instanceof ArcGISFeature) {
@@ -169,7 +169,7 @@ public class EditFeatureAttachmentsSample extends Application {
                     selected.loadAsync();
                     selected.addDoneLoadingListener(() -> {
                       if (selected.getLoadStatus() == LoadStatus.LOADED) {
-                        fetchAttachments(selected);
+                        fetchAttachmentsAsync(selected);
                       } else {
                         displayMessage("Error", "Element failed to load!");
                       }
@@ -179,7 +179,7 @@ public class EditFeatureAttachmentsSample extends Application {
                 }
               } else {
                 // if the identification operation completes with an exception, display an error
-                displayMessage("Exception getting identify result", ex.getCause().getMessage());
+                displayMessage("Exception getting identify result", exception.getCause().getMessage());
               }
             });
         }
@@ -197,25 +197,25 @@ public class EditFeatureAttachmentsSample extends Application {
   /**
    * Updates the UI with a list of a feature's attachments.
    */
-  private void fetchAttachments(ArcGISFeature feature) {
+  private void fetchAttachmentsAsync(ArcGISFeature feature) {
 
     feature.fetchAttachmentsAsync().toCompletableFuture().whenComplete(
-      (attachmentResults, ex) -> {
-        if (ex == null) {
+      (attachmentResults, exception) -> {
+        if (exception == null) {
           // if the attachments were fetched successfully, update the UI attachments list
           attachments = attachmentResults;
 
           Platform.runLater(() -> {
             attachmentList.getItems().clear();
-            attachments.forEach(attachment -> attachmentList.getItems().add(attachment.getName()));
             if (!attachments.isEmpty()) {
               attachmentsLabel.setText("Attachments: ");
+              attachments.forEach(attachment -> attachmentList.getItems().add(attachment.getName()));
             } else {
               attachmentsLabel.setText("No Attachments!");
             }
           });
         } else {
-          displayMessage("Exception getting feature attachments", ex.getCause().getMessage());
+          displayMessage("Exception getting feature attachments", exception.getCause().getMessage());
         }
       });
   }
@@ -261,22 +261,22 @@ public class EditFeatureAttachmentsSample extends Application {
 
     // apply the changes to the server
     featureTable.applyEditsAsync().toCompletableFuture().whenComplete(
-      (edits, ex) -> {
-        if (ex == null) {
+      (editResults, exception) -> {
+        if (exception == null) {
           // check if the server edit was successful
-          if (edits != null && edits.size() > 0) {
-            if (!edits.get(0).hasCompletedWithErrors()) {
+          if (!editResults.isEmpty()) {
+            if (!editResults.get(0).hasCompletedWithErrors()) {
               displayMessage(null, "Edited feature successfully");
             } else {
-              if (edits.get(0).getError() != null) {
-                throw edits.get(0).getError();
+              if (editResults.get(0).getError() != null) {
+                throw editResults.get(0).getError();
               }
             }
           }
           // update the displayed list of attachments
-          fetchAttachments(selected);
+          fetchAttachmentsAsync(selected);
         } else {
-          displayMessage("Error applying edits on server ", ex.getCause().getMessage());
+          displayMessage("Error applying edits on server ", exception.getCause().getMessage());
         }
       });
   }

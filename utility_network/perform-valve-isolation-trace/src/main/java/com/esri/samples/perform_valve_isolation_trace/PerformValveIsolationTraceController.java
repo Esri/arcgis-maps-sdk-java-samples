@@ -88,7 +88,7 @@ public class PerformValveIsolationTraceController {
       mapView.setMap(map);
 
       String featureServiceURL =
-              "https://sampleserver7.arcgisonline.com/server/rest/services/UtilityNetwork/NapervilleGas/FeatureServer";
+        "https://sampleserver7.arcgisonline.com/server/rest/services/UtilityNetwork/NapervilleGas/FeatureServer";
       // set user credentials to authenticate with the service
       // NOTE: a licensed user is required to perform utility network operations
       var userCredential = new UserCredential("viewer01", "I68VGU^nMurF");
@@ -246,8 +246,10 @@ public class PerformValveIsolationTraceController {
               if (!utilityElementTraceResult.getElements().isEmpty()) {
 
                 // iterate through the map's feature layers
-                mapView.getMap().getOperationalLayers().forEach(layer -> {
-                  if (layer instanceof FeatureLayer) {
+                mapView.getMap().getOperationalLayers().stream()
+                  .filter(layer -> layer instanceof FeatureLayer)
+                  .map(layer -> (FeatureLayer) layer)
+                  .forEach(layer -> {
 
                     // create query parameters to find features whose network source name matches the layer's feature
                     // table name
@@ -255,22 +257,20 @@ public class PerformValveIsolationTraceController {
                     utilityElementTraceResult.getElements().forEach(utilityElement -> {
 
                       String networkSourceName = utilityElement.getNetworkSource().getName();
-                      String featureTableName = ((FeatureLayer) layer).getFeatureTable().getTableName();
 
-                      if (networkSourceName.equals(featureTableName)) {
+                      if (networkSourceName.equals(layer.getFeatureTable().getTableName())) {
                         queryParameters.getObjectIds().add(utilityElement.getObjectId());
                       }
                     });
 
                     // select features that match the query
-                    ((FeatureLayer) layer).selectFeaturesAsync(queryParameters, FeatureLayer.SelectionMode.NEW)
+                    layer.selectFeaturesAsync(queryParameters, FeatureLayer.SelectionMode.NEW)
                       .toCompletableFuture().thenRun(() -> {
                         // update the status text, enable the buttons and hide the progress indicator
                         statusLabel.setText("Isolation trace completed.");
                         enableUI(true);
                       });
-                  }
-                });
+                  });
 
               } else {
                 statusLabel.setText("Isolation trace completed.");

@@ -17,6 +17,7 @@
 package com.esri.samples.symbol_dictionary;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,7 +52,7 @@ public class SymbolDictionaryController {
 
   public void initialize() {
     // loads a specification for the symbol dictionary
-    var stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/mil2525d.stylx");
+    var stylxFile = new File(System.getProperty("data.dir"), Path.of("samples-data", "stylx", "mil2525d.stylx").toString());
     dictionarySymbol = DictionarySymbolStyle.createFromFile(stylxFile.getAbsolutePath());
     dictionarySymbol.loadAsync();
 
@@ -92,16 +93,16 @@ public class SymbolDictionaryController {
     // search for any matching symbols
     dictionarySymbol.searchSymbolsAsync(searchParameters).toCompletableFuture().whenComplete(
       (searchResults, ex) -> {
-      if (ex == null) {
-        // update the result list
-        searchResultsFound.setText(String.valueOf(searchResults.size()));
-        results.clear();
-        results.addAll(searchResults);
-      } else {
-        // display an error if the symbol search completed with an exception
-        new Alert(AlertType.ERROR, "Error searching symbol dictionary.").show();
-      }
-    });
+        if (ex == null) {
+          // update the result list
+          searchResultsFound.setText(String.valueOf(searchResults.size()));
+          results.clear();
+          results.addAll(searchResults);
+        } else {
+          // display an error if the symbol search completed with an exception
+          new Alert(AlertType.ERROR, "Error searching symbol dictionary.").show();
+        }
+      });
   }
 
   /**

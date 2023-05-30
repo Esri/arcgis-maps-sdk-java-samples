@@ -17,6 +17,7 @@
 package com.esri.samples.read_symbols_from_mobile_style_file;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -102,7 +103,7 @@ public class ReadSymbolsFromMobileStyleFileController {
    */
   private void loadSymbolsFromStyleFile() {
     // create a SymbolStyle with the .stylx file
-    var stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/emoji-mobile.stylx");
+    var stylxFile = new File(System.getProperty("data.dir"), Path.of( "samples-data", "stylx" , "emoji-mobile.stylx").toString());
     emojiStyle = new SymbolStyle(stylxFile.getAbsolutePath());
     emojiStyle.loadAsync();
 
@@ -159,33 +160,32 @@ public class ReadSymbolsFromMobileStyleFileController {
     List<String> symbolKeys = Arrays.asList("Face1", eyesKey, mouthKey, hatKey);
 
     // get the symbol from the SymbolStyle
-    emojiStyle.getSymbolAsync(symbolKeys).toCompletableFuture().whenComplete(
-      (symbol, ex)  -> {
-        if (ex == null) {
-          faceSymbol = (MultilayerPointSymbol) symbol;
-          if (faceSymbol == null) {
-            return;
-          }
-
-          // loop through all the symbol layers and lock the color
-          faceSymbol.getSymbolLayers().forEach(symbolLayer -> symbolLayer.setColorLocked(true));
-
-          // unlock the color of the base layer. Changing the symbol layer color will now only change this layer's color
-          faceSymbol.getSymbolLayers().get(0).setColorLocked(false);
-
-          // set the color of the symbol
-          faceSymbol.setColor(colorPicker.getValue());
-
-          // set the size of the symbol
-          faceSymbol.setSize((float) sizeSlider.getValue());
-
-          // update the symbol preview
-          updateSymbolPreview(faceSymbol);
-        } else {
-          // if the symbol fetch completed exceptionally, display an error
-          new Alert(Alert.AlertType.ERROR, "Error creating symbol with the provided symbol keys" + ex.getMessage()).show();
+    emojiStyle.getSymbolAsync(symbolKeys).toCompletableFuture().whenComplete((symbol, ex)  -> {
+      if (ex == null) {
+        faceSymbol = (MultilayerPointSymbol) symbol;
+        if (faceSymbol == null) {
+          return;
         }
-      });
+
+        // loop through all the symbol layers and lock the color
+        faceSymbol.getSymbolLayers().forEach(symbolLayer -> symbolLayer.setColorLocked(true));
+
+        // unlock the color of the base layer. Changing the symbol layer color will now only change this layer's color
+        faceSymbol.getSymbolLayers().get(0).setColorLocked(false);
+
+        // set the color of the symbol
+        faceSymbol.setColor(colorPicker.getValue());
+
+        // set the size of the symbol
+        faceSymbol.setSize((float) sizeSlider.getValue());
+
+        // update the symbol preview
+        updateSymbolPreview(faceSymbol);
+      } else {
+        // if the symbol fetch completed exceptionally, display an error
+        new Alert(Alert.AlertType.ERROR, "Error creating symbol with the provided symbol keys" + ex.getMessage()).show();
+      }
+    });
   }
 
   /**

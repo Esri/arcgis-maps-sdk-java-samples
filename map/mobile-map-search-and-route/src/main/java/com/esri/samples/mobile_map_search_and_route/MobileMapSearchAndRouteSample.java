@@ -18,9 +18,9 @@ package com.esri.samples.mobile_map_search_and_route;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.esri.arcgisruntime.data.TransportationNetworkDataset;
 import com.esri.arcgisruntime.geometry.Point;
@@ -90,7 +90,7 @@ public class MobileMapSearchAndRouteSample extends Application {
       var fileChooser = new FileChooser();
       FileChooser.ExtensionFilter mmpkFilter = new FileChooser.ExtensionFilter("Map Packages (*.mmpk)", "*.mmpk");
       fileChooser.getExtensionFilters().add(mmpkFilter);
-      fileChooser.setInitialDirectory(new File(System.getProperty("data.dir"), "./samples-data/mmpk"));
+      fileChooser.setInitialDirectory(new File(System.getProperty("data.dir"), Path.of( "samples-data", "mmpk").toString()));
 
       // click a button to open the file chooser
       Button findMmpkButton = new Button("Open mobile map package");
@@ -143,11 +143,11 @@ public class MobileMapSearchAndRouteSample extends Application {
             thumbnailImageView.setFitHeight(20);
             thumbnailImageView.setPreserveRatio(true);
             mobileMapPackage.getItem().fetchThumbnailAsync().toCompletableFuture().whenComplete(
-              (thumbnailData, ex) -> {
-                if (ex == null) {
+              (thumbnailData, exception) -> {
+                if (exception == null) {
                   thumbnailImageView.setImage(new Image(new ByteArrayInputStream(thumbnailData)));
                 } else {
-                  ex.printStackTrace();
+                  exception.printStackTrace();
                 }
               });
 
@@ -213,21 +213,22 @@ public class MobileMapSearchAndRouteSample extends Application {
           var reverseGeocodeParameters = new ReverseGeocodeParameters();
           reverseGeocodeParameters.setMaxResults(1);
           mobileMapPackage.getLocatorTask().reverseGeocodeAsync(mapPoint, reverseGeocodeParameters).toCompletableFuture()
-            .whenComplete((geocodes, ex) -> {
-              if (ex == null) {
+            .whenComplete((geocodeResults, exception) -> {
+              if (exception == null) {
                 // show a pin graphic and a callout with the geocode's address
-                if (geocodes.size() > 0) {
-                  GeocodeResult geocode = geocodes.get(0);
+                if (geocodeResults.size() > 0) {
+                  // get the geocode from the singleton list of geocode results
+                  GeocodeResult geocode = geocodeResults.get(0);
                   Point location = geocode.getDisplayLocation();
 
                   // get attributes from the result for the callout
                   String address = geocode.getAttributes().get("Match_addr").toString();
-                  HashMap<String, Object> attributes = new HashMap<>();
-                  attributes.put("title", address.split(",")[0]);
-                  attributes.put("detail", address.substring(address.indexOf(", ") + 2));
+                  HashMap<String, Object> graphicAttributes = new HashMap<>();
+                  graphicAttributes.put("title", address.split(",")[0]);
+                  graphicAttributes.put("detail", address.substring(address.indexOf(", ") + 2));
 
                   // create a marker for the location
-                  Graphic marker = new Graphic(geocode.getDisplayLocation(), attributes, pinSymbol);
+                  Graphic marker = new Graphic(geocode.getDisplayLocation(), graphicAttributes, pinSymbol);
                   locationsGraphicsOverlay.getGraphics().add(marker);
 
                   // display the callout at the location
@@ -247,14 +248,14 @@ public class MobileMapSearchAndRouteSample extends Application {
                     List<Stop> stops = locationGraphics.subList(Math.max(locationGraphics.size() - 2, 0), locationGraphics.size())
                       .stream()
                       .map(g -> new Stop((Point) g.getGeometry()))
-                      .collect(Collectors.toList());
+                      .toList();
                     routeTask.createDefaultParametersAsync().toCompletableFuture()
                       .thenCompose(routeParameters -> {
                         routeParameters.setStops(stops);
                         // solve the route and display the result graphic
                         return routeTask.solveRouteAsync(routeParameters).toCompletableFuture();
-                      }).whenComplete((routeResult, x) -> {
-                        if (x == null) {
+                      }).whenComplete((routeResult, throwable) -> {
+                        if (throwable == null) {
                           Route route = routeResult.getRoutes().get(0);
                           Graphic routeGraphic = new Graphic(route.getRouteGeometry(), lineSymbol);
                           routesGraphicsOverlay.getGraphics().add(routeGraphic);

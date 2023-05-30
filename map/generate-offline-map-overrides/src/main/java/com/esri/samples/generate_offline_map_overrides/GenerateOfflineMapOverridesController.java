@@ -28,7 +28,6 @@ import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -44,6 +43,7 @@ import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapResult;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapParametersKey;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapTask;
 import com.esri.arcgisruntime.tasks.tilecache.ExportTileCacheParameters;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -127,12 +127,12 @@ public class GenerateOfflineMapOverridesController {
 
     // get default offline map parameters for this task given the download area
     offlineMapTask.createDefaultGenerateOfflineMapParametersAsync(downloadArea.getGeometry())
-      .toCompletableFuture().whenComplete((parameters, ex) -> {
-        if (ex == null) {
+      .toCompletableFuture().whenComplete((parameters, exception) -> {
+        if (exception == null) {
           // get additional offline parameters (overrides) for this task
           offlineMapTask.createGenerateOfflineMapParameterOverridesAsync(parameters).toCompletableFuture()
-            .whenComplete((overrides, x) -> {
-              if (x == null) {
+            .whenComplete((overrides, throwable) -> {
+              if (throwable == null) {
                 try {
                   // get the export tile cache parameters for the base layer
                   var basemapParamKey = new OfflineMapParametersKey(
@@ -150,13 +150,14 @@ public class GenerateOfflineMapOverridesController {
                     extentBufferDistanceSpinner.getValue()));
 
                   // configure layer option parameters for each layer depending on the options selected in the UI
-                  for (Layer layer : map.getOperationalLayers()) {
-                    if (layer instanceof FeatureLayer) {
-                      var featureLayer = (FeatureLayer) layer;
+                  map.getOperationalLayers().stream()
+                    .filter(layer -> layer instanceof FeatureLayer)
+                    .map(featureLayer -> (FeatureLayer) featureLayer)
+                    .forEach(featureLayer -> {
                       ServiceFeatureTable featureTable = (ServiceFeatureTable) featureLayer.getFeatureTable();
                       long layerId = featureTable.getLayerInfo().getServiceLayerId();
                       // get the layer option parameters specifically for this layer
-                      var offlineMapParametersKey = new OfflineMapParametersKey(layer);
+                      var offlineMapParametersKey = new OfflineMapParametersKey(featureLayer);
                       GenerateGeodatabaseParameters generateGeodatabaseParameters = overrides.getGenerateGeodatabaseParameters()
                         .get(offlineMapParametersKey);
                       List<GenerateLayerOption> layerOptions = generateGeodatabaseParameters.getLayerOptions();
@@ -166,7 +167,7 @@ public class GenerateOfflineMapOverridesController {
                         while (layerOptionsIterator.hasNext()) {
                           GenerateLayerOption layerOption = layerOptionsIterator.next();
                           if (layerOption.getLayerId() == layerId) {
-                            switch (layer.getName()) {
+                            switch (featureLayer.getName()) {
                               // remove the System Valve layer from the layer options if it should not be included
                               case "System Valve":
                                 if (!systemValvesCheckBox.isSelected()) {
@@ -191,8 +192,7 @@ public class GenerateOfflineMapOverridesController {
                           }
                         }
                       }
-                    }
-                  }
+                    });
 
                   // create an offline map job with the download directory path and parameters and start the job
                   Path tempDirectory = Files.createTempDirectory("offline_map");
