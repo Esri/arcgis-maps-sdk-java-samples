@@ -179,7 +179,7 @@ public class CreateAndSaveMapController {
   }
 
   /**
-   * Save the map to the portal.
+   * Save the map to the portal and raise an exception if save not successful.
    */
   @FXML
   private void saveMap() {
