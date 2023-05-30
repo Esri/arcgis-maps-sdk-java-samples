@@ -71,8 +71,8 @@ public class WmsLayerUrlSample extends Application {
       mapView.setViewpointGeometryAsync(new Envelope(-19195297.778679, 512343.939994, -3620418.579987, 8658913.035426, 0.0, 0.0, SpatialReferences.getWebMercator()));
 
       // create a WMS layer
-      List<String> wmsLayerNames = Collections.singletonList("1");
-      String url = "https://nowcoast.noaa.gov/arcgis/services/nowcoast/radar_meteo_imagery_nexrad_time/MapServer/WMSServer?request=GetCapabilities&service=WMS";
+      List<String> wmsLayerNames = Collections.singletonList("base_reflectivity_mosaic");
+      String url = "https://nowcoast.noaa.gov/geoserver/observations/weather_radar/wms";
       wmsLayer = new WmsLayer(url, wmsLayerNames);
 
       // load the layer and add it as an operational layer
