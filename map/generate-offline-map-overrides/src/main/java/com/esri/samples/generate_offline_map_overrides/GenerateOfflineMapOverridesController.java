@@ -221,7 +221,7 @@ public class GenerateOfflineMapOverridesController {
                   new Alert(Alert.AlertType.ERROR, "Error configuring the offline map task").show();
                 }
               } else {
-                // if the generation of offline map parameter overrides completed exceltipnally, display an error
+                // if the generation of offline map parameter overrides completed exceptionally, display an error
                 new Alert(Alert.AlertType.ERROR, "Error creating override parameters").show();
               }
             });
