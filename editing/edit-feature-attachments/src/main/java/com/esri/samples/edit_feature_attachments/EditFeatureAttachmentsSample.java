@@ -159,11 +159,13 @@ public class EditFeatureAttachmentsSample extends Application {
             .whenComplete((identifyLayerResult, exception) -> {
               if (exception == null) {
                 // if the identification operation completes successfully, get the list of identified GeoElements
+                // if nothing is identified, an empty list will be returned
                 List<GeoElement> identified = identifyLayerResult.getElements();
                 if (!identified.isEmpty()) {
+                  // only proceed if an element was identified
                   GeoElement element = identified.get(0);
-                  // get selected feature
                   if (element instanceof ArcGISFeature) {
+                    // if the element is an ArcGISFeature, select the feature
                     selected = (ArcGISFeature) element;
                     featureLayer.selectFeature(selected);
                     selected.loadAsync();
