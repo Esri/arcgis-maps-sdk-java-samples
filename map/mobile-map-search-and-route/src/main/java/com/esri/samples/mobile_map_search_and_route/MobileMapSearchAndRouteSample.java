@@ -216,7 +216,7 @@ public class MobileMapSearchAndRouteSample extends Application {
             .whenComplete((geocodeResults, exception) -> {
               if (exception == null) {
                 // show a pin graphic and a callout with the geocode's address
-                if (geocodeResults.size() > 0) {
+                if (!geocodeResults.isEmpty()) {
                   // get the geocode from the singleton list of geocode results
                   GeocodeResult geocode = geocodeResults.get(0);
                   Point location = geocode.getDisplayLocation();
