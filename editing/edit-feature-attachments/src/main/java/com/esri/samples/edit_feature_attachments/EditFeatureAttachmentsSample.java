@@ -264,13 +264,16 @@ public class EditFeatureAttachmentsSample extends Application {
     // apply the changes to the server
     featureTable.applyEditsAsync().toCompletableFuture().whenComplete(
       (editResults, exception) -> {
+        // check if the server edit was successful
         if (exception == null) {
-          // check if the server edit was successful
           if (!editResults.isEmpty()) {
+            // check for any errors. In this case we are only updating 1 feature so just check the first result
             if (!editResults.get(0).hasCompletedWithErrors()) {
-              displayMessage(null, "Edited feature successfully");
+              // if there are no errors, display a success message
+              displayMessage("Success", "Edited feature successfully");
             } else {
               if (editResults.get(0).getError() != null) {
+                // if there is an error, throw
                 throw editResults.get(0).getError();
               }
             }
