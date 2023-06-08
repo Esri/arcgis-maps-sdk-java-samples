@@ -29,21 +29,13 @@ repositories {
     }
 }
 
-arcgisMapsSDK{
-    arcgisVersion = '200.1.0'
+arcgis {
+    version = '200.1.0'
 }
 
 dependencies {
     // handle SLF4J http://www.slf4j.org/codes.html#StaticLoggerBinder
     runtimeOnly 'org.slf4j:slf4j-nop:1.7.32'
-}
-
-task productionZip(type: Zip) {
-    group = 'distribution'
-    from copyNatives
-    from jar.destinationDirectory
-    into (project.name)
-    archiveBaseName = project.name
 }
 
 if (rootProject == project) {

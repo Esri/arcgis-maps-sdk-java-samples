@@ -3,6 +3,14 @@ pluginManagement {
         // version defined in settings.gradle to avoid version error when this sample is used in a multiproject build
         id 'org.openjfx.javafxplugin' version "0.0.13"
     }
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
 }
 
 rootProject.name = 'display-map'
