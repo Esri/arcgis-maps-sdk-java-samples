@@ -17,12 +17,10 @@
 package com.esri.samples.read_symbols_from_mobile_style_file;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -37,6 +35,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
@@ -45,7 +44,9 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.MultilayerPointSymbol;
+import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.SymbolStyle;
+import com.esri.arcgisruntime.symbology.SymbolStyleSearchParameters;
 import com.esri.arcgisruntime.symbology.SymbolStyleSearchResult;
 
 public class ReadSymbolsFromMobileStyleFileController {
@@ -103,7 +104,7 @@ public class ReadSymbolsFromMobileStyleFileController {
    */
   private void loadSymbolsFromStyleFile() {
     // create a SymbolStyle with the .stylx file
-    var stylxFile = new File(System.getProperty("data.dir"), Path.of( "samples-data", "stylx" , "emoji-mobile.stylx").toString());
+    File stylxFile = new File(System.getProperty("data.dir"), "./samples-data/stylx/emoji-mobile.stylx");
     emojiStyle = new SymbolStyle(stylxFile.getAbsolutePath());
     emojiStyle.loadAsync();
 
@@ -114,14 +115,21 @@ public class ReadSymbolsFromMobileStyleFileController {
         return;
       }
 
-      // perform a symbol search using the default search parameters
-      emojiStyle.getDefaultSearchParametersAsync().toCompletableFuture()
-        .thenCompose(defaultSearchParameters -> emojiStyle.searchSymbolsAsync(defaultSearchParameters).toCompletableFuture())
-        .whenComplete((symbolStyleSearchResults, ex) -> {
-          if (ex == null) {
-            // if the symbol search completed without exception, add each symbol to the appropriate category list in the GUI
-            symbolStyleSearchResults.forEach(
-              symbolStyleSearchResult -> {
+      // load the default search parameters
+      ListenableFuture<SymbolStyleSearchParameters> defaultSearchParametersFuture = emojiStyle.getDefaultSearchParametersAsync();
+      defaultSearchParametersFuture.addDoneListener(() -> {
+        try {
+          SymbolStyleSearchParameters defaultSearchParameters = defaultSearchParametersFuture.get();
+
+          // use the default parameters to perform the search, getting all the available symbols within the file
+          ListenableFuture<List<SymbolStyleSearchResult>> symbolStyleSearchResultFuture = emojiStyle.searchSymbolsAsync(defaultSearchParameters);
+          symbolStyleSearchResultFuture.addDoneListener(() -> {
+            try {
+
+              // loop through the results and add each item to a list view according to category
+              List<SymbolStyleSearchResult> symbolStyleSearchResults = symbolStyleSearchResultFuture.get();
+              symbolStyleSearchResults.forEach(symbolStyleSearchResult -> {
+
                 // add the SymbolStyleSearchResult object to the correct list for its category
                 switch (symbolStyleSearchResult.getCategory()) {
                   case "Hat":
@@ -135,13 +143,18 @@ public class ReadSymbolsFromMobileStyleFileController {
                     break;
                 }
               });
-            // create the symbol to populate the preview
-            buildCompositeSymbol();
-          } else {
-            // if the symbol search completed exceptionally, display an error
-            new Alert(Alert.AlertType.ERROR, "Error performing the symbol search" + ex.getMessage()).show();
-          }
-        });
+
+              // create the symbol to populate the preview
+              buildCompositeSymbol();
+
+            } catch (InterruptedException | ExecutionException e) {
+              new Alert(Alert.AlertType.ERROR, "Error performing the symbol search" + e.getMessage()).show();
+            }
+          });
+        } catch (InterruptedException | ExecutionException e) {
+          new Alert(Alert.AlertType.ERROR, "Error retrieving default search parameters for symbol search" + e.getMessage()).show();
+        }
+      });
     });
   }
 
@@ -160,9 +173,10 @@ public class ReadSymbolsFromMobileStyleFileController {
     List<String> symbolKeys = Arrays.asList("Face1", eyesKey, mouthKey, hatKey);
 
     // get the symbol from the SymbolStyle
-    emojiStyle.getSymbolAsync(symbolKeys).toCompletableFuture().whenComplete((symbol, ex)  -> {
-      if (ex == null) {
-        faceSymbol = (MultilayerPointSymbol) symbol;
+    ListenableFuture<Symbol> symbolFuture = emojiStyle.getSymbolAsync(symbolKeys);
+    symbolFuture.addDoneListener(() -> {
+      try {
+        faceSymbol = (MultilayerPointSymbol) symbolFuture.get();
         if (faceSymbol == null) {
           return;
         }
@@ -181,9 +195,9 @@ public class ReadSymbolsFromMobileStyleFileController {
 
         // update the symbol preview
         updateSymbolPreview(faceSymbol);
-      } else {
-        // if the symbol fetch completed exceptionally, display an error
-        new Alert(Alert.AlertType.ERROR, "Error creating symbol with the provided symbol keys" + ex.getMessage()).show();
+
+      } catch (ExecutionException | InterruptedException e) {
+        new Alert(Alert.AlertType.ERROR, "Error creating symbol with the provided symbol keys" + e.getMessage()).show();
       }
     });
   }
@@ -231,7 +245,7 @@ public class ReadSymbolsFromMobileStyleFileController {
       Point mapPoint = mapView.screenToLocation(new Point2D(e.getX(), e.getY()));
 
       // create a new graphic with the point and symbol
-      var graphic = new Graphic(mapPoint, faceSymbol);
+      Graphic graphic = new Graphic(mapPoint, faceSymbol);
       graphicsOverlay.getGraphics().add(graphic);
     }
   }
