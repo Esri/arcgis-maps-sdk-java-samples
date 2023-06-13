@@ -238,8 +238,8 @@ public class PerformValveIsolationTraceController {
 
       // run the trace and get the result
       utilityNetwork.traceAsync(utilityTraceParameters).toCompletableFuture().whenComplete(
-        (utilityTraceResults, ex) -> {
-          if (ex == null) {
+        (utilityTraceResults, exception) -> {
+          if (exception == null) {
             if (utilityTraceResults.get(0) instanceof UtilityElementTraceResult) {
               var utilityElementTraceResult = (UtilityElementTraceResult) utilityTraceResults.get(0);
 
@@ -254,14 +254,10 @@ public class PerformValveIsolationTraceController {
                     // create query parameters to find features whose network source name matches the layer's feature
                     // table name
                     var queryParameters = new QueryParameters();
-                    utilityElementTraceResult.getElements().forEach(utilityElement -> {
-
-                      String networkSourceName = utilityElement.getNetworkSource().getName();
-
-                      if (networkSourceName.equals(layer.getFeatureTable().getTableName())) {
-                        queryParameters.getObjectIds().add(utilityElement.getObjectId());
-                      }
-                    });
+                    queryParameters.getObjectIds().addAll(utilityElementTraceResult.getElements().stream()
+                      .filter(utilityElement ->
+                        utilityElement.getNetworkSource().getName().equals(layer.getFeatureTable().getTableName()))
+                      .map(UtilityElement::getObjectId).toList());
 
                     // select features that match the query
                     layer.selectFeaturesAsync(queryParameters, FeatureLayer.SelectionMode.NEW)
@@ -339,38 +335,31 @@ public class PerformValveIsolationTraceController {
                 List<UtilityElement> utilityElementList = new ArrayList<>();
                 listOfFeatures.forEach(feature -> utilityElementList.add(utilityNetwork.createElement(feature)));
 
-                // check the utility network source type of every utility element
-                utilityElementList.forEach(utilityElement -> {
+                utilityElementList.stream().filter(utilityElement ->
+                  utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.JUNCTION)
+                  .filter(junction -> junction.getAssetType().getTerminalConfiguration() != null
+                    && junction.getAssetType().getTerminalConfiguration().getTerminals().size() > 1)
+                  .forEach(junction -> {
+                    // prompt the user to select a terminal for this feature
+                    Optional<UtilityTerminal> userSelectedTerminal = promptForTerminalSelection(junction.getAssetType().getTerminalConfiguration().getTerminals());
 
-                  // check if the network source is a junction or an edge
-                  if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.JUNCTION) {
+                    // apply the selected terminal
+                    if (userSelectedTerminal.isPresent()) {
+                      UtilityTerminal terminal = userSelectedTerminal.get();
+                      junction.setTerminal(terminal);
+                      // show the terminals name in the status label
+                      String terminalName = terminal.getName() != null ? terminal.getName() : "default";
+                      statusLabel.setText("Feature added at terminal: " + terminalName);
 
-                    // check if the feature has a terminal configuration and multiple terminals
-                    if (utilityElement.getAssetType().getTerminalConfiguration() != null) {
-                      UtilityTerminalConfiguration utilityTerminalConfiguration = utilityElement.getAssetType().getTerminalConfiguration();
-                      List<UtilityTerminal> terminals = utilityTerminalConfiguration.getTerminals();
-
-                      if (terminals.size() > 1) {
-                        // prompt the user to select a terminal for this feature
-                        Optional<UtilityTerminal> userSelectedTerminal = promptForTerminalSelection(terminals);
-
-                        // apply the selected terminal
-                        if (userSelectedTerminal.isPresent()) {
-                          UtilityTerminal terminal = userSelectedTerminal.get();
-                          utilityElement.setTerminal(terminal);
-                          // show the terminals name in the status label
-                          String terminalName = terminal.getName() != null ? terminal.getName() : "default";
-                          statusLabel.setText("Feature added at terminal: " + terminalName);
-
-                          // don't create the element if no terminal was selected
-                        } else {
-                          statusLabel.setText("No terminal selected - no feature added");
-                        }
-                      }
+                      // don't create the element if no terminal was selected
+                    } else {
+                      statusLabel.setText("No terminal selected - no feature added");
                     }
+                  });
 
-                  } else if (utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.EDGE) {
-
+                // handle edges
+                utilityElementList.stream().filter(utilityElement -> utilityElement.getNetworkSource().getSourceType() == UtilityNetworkSource.Type.EDGE)
+                  .forEach(edge -> {
                     // get the geometry of the identified feature as a polyline, and remove the z component
                     Polyline polyline = (Polyline) GeometryEngine.removeZ(listOfFeatures.get(0).getGeometry());
 
@@ -382,12 +371,10 @@ public class PerformValveIsolationTraceController {
                     }
 
                     // set the fraction along edge
-                    utilityElement.setFractionAlongEdge(fractionAlongEdge);
-
+                    edge.setFractionAlongEdge(fractionAlongEdge);
                     // update the status label text
-                    statusLabel.setText("Fraction along edge: " + Math.round(utilityElement.getFractionAlongEdge() * 1000d) / 1000d);
-                  }
-                });
+                    statusLabel.setText("Fraction along edge: " + Math.round(edge.getFractionAlongEdge() * 1000d) / 1000d);
+                  });
 
                 // add the element to the list of filter barriers
                 utilityTraceParameters.getFilterBarriers().add(utilityElementList.get(0));
