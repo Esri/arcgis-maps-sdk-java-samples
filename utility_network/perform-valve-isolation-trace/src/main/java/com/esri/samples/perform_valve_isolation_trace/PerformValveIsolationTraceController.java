@@ -261,7 +261,7 @@ public class PerformValveIsolationTraceController {
 
                     // select features that match the query
                     layer.selectFeaturesAsync(queryParameters, FeatureLayer.SelectionMode.NEW)
-                      .toCompletableFuture().thenRun(() -> {
+                      .toCompletableFuture().whenComplete((result, throwable) -> {
                         // update the status text, enable the buttons and hide the progress indicator
                         statusLabel.setText("Isolation trace completed.");
                         enableUI(true);
