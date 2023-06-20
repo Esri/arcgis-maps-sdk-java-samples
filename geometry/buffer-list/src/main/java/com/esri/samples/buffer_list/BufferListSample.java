@@ -122,7 +122,7 @@ public class BufferListSample extends Application {
       // create a white cross marker symbol to show where the user clicked
       final SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.WHITE, 14);
       // create a semi-transparent
-      final SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("fuchsia", 0.8),
+      final SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("fuchsia", 0.5),
         new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.RED, 3));
 
       // create a box to hold the input controls

@@ -93,15 +93,15 @@ public class BufferSample extends Application {
       final LinearUnit meters = new LinearUnit(LinearUnitId.METERS);
 
       // create a white cross marker symbol to show where the user clicked
-      final SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.BLACK, 14);
+      final SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.WHITE, 14);
 
       // create a semi-transparent purple fill symbol for the geodesic buffers
       final SimpleFillSymbol geodesicFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID,
-        Color.web("fuchsia", 0.8), null);
+        Color.web("fuchsia", 0.5), null);
 
       // create a semi-transparent green fill symbol for the planar buffers
       final SimpleFillSymbol planarFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID,
-        Color.web("lime", 0.8), null);
+        Color.web("lime", 0.5), null);
 
       // create buffers around the clicked location
       mapView.setOnMouseClicked(e -> {

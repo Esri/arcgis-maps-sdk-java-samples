@@ -101,8 +101,8 @@ public class FindServiceAreasForMultipleFacilitiesSample extends Application {
 
     // create fill symbols for rendering the result
     ArrayList<SimpleFillSymbol> fillSymbols = new ArrayList<>();
-    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("FFA500", 0.7), null));
-    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("FF0000", 0.7), null));
+    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("orange", 0.4), null));
+    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("red", 0.4), null));
 
     // create a feature table of facilities using a FeatureServer
     ArcGISFeatureTable facilitiesTable = new ServiceFeatureTable("https://services2.arcgis.com/ZQgQTuoyBrtmoGdP/ArcGIS/rest/services/San_Diego_Facilities/FeatureServer/0");
