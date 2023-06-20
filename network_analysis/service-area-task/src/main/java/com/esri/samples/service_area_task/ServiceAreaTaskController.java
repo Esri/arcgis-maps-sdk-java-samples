@@ -126,8 +126,8 @@ public class ServiceAreaTaskController {
 
     SimpleLineSymbol barrierSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLACK, 3.0f);
     fillSymbols = new ArrayList<>();
-    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("FF0000", 0.5), barrierSymbol));
-    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("FFA500", 0.5), barrierSymbol));
+    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("orange", 0.4), barrierSymbol));
+    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("red", 0.4), barrierSymbol));
 
     // icon used to display facilities to mapview
     String facilityUrl = "http://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png";

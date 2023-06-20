@@ -91,8 +91,8 @@ public class UniqueValueRendererSample extends Application {
           new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.GRAY, 2));
       SimpleFillSymbol californiaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.RED,
           new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.RED, 2));
-      SimpleFillSymbol arizonaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.GREEN,
-          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.GREEN, 2));
+      SimpleFillSymbol arizonaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.LIME,
+          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.LIME, 2));
       SimpleFillSymbol nevadaFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.BLUE, new SimpleLineSymbol(
           SimpleLineSymbol.Style.SOLID, Color.BLUE, 2));
 

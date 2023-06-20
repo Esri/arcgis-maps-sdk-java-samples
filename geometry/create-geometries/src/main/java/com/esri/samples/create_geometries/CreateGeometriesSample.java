@@ -105,7 +105,7 @@ public class CreateGeometriesSample extends Application {
       coloradoCorners.add(-102.037, 36.989);
       coloradoCorners.add(-109.048, 36.998);
       Polygon polygon = new Polygon(coloradoCorners);
-      Graphic polygonGraphic = new Graphic(polygon, new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, Color.GREEN,
+      Graphic polygonGraphic = new Graphic(polygon, new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, Color.LIME,
           null));
 
       // create an envelope

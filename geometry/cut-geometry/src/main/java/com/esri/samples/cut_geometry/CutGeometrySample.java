@@ -80,7 +80,7 @@ public class CutGeometrySample extends Application {
 
       // create a blue polygon graphic to cut
       Graphic polygonGraphic = new Graphic(createLakeSuperiorPolygon(), new SimpleFillSymbol(SimpleFillSymbol.Style
-          .SOLID, Color.web("blue", 0.2), new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 2)));
+          .SOLID, Color.web("blue", 0.12), new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 2)));
       graphicsOverlay.getGraphics().add(polygonGraphic);
 
       // create a red polyline graphic to cut the polygon
@@ -104,9 +104,9 @@ public class CutGeometrySample extends Application {
 
           // create graphics for the US and Canada sides
           Graphic canadaSide = new Graphic(parts.get(0), new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL,
-            Color.GREEN, new SimpleLineSymbol(SimpleLineSymbol.Style.NULL, Color.BLACK, 0)));
+            Color.AQUAMARINE, new SimpleLineSymbol(SimpleLineSymbol.Style.NULL, Color.WHITE, 0)));
           Graphic usSide = new Graphic(parts.get(1), new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL,
-            Color.YELLOW, new SimpleLineSymbol(SimpleLineSymbol.Style.NULL, Color.BLACK, 0)));
+            Color.YELLOW, new SimpleLineSymbol(SimpleLineSymbol.Style.NULL, Color.WHITE, 0)));
           cutAreasOverlay.getGraphics().addAll(Arrays.asList(canadaSide, usSide));
 
           // update the button text

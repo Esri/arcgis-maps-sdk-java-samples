@@ -88,7 +88,7 @@ public class GeodesicSectorAndEllipseController {
     graphicsOverlay.getGraphics().add(sectorGraphic);
 
     // create green symbols for each sector output geometry type
-    Color transparentLime = Color.web("lime", 0.8);
+    Color transparentLime = Color.web("lime", 0.5);
     sectorFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, transparentLime, null);
     sectorLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, transparentLime, 3);
     sectorMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, transparentLime, 3);

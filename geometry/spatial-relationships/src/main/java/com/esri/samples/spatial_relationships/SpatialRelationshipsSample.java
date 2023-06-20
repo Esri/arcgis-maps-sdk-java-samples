@@ -102,8 +102,8 @@ public class SpatialRelationshipsSample extends Application {
       polygonPoints.add(new Point(-1563689.043184, 3714900.452072));
       polygonPoints.add(new Point(-3180355.516764, 5619889.608838));
       Polygon polygon = new Polygon(polygonPoints);
-      SimpleFillSymbol polygonSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL, Color.GREEN,
-          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.GREEN, 2));
+      SimpleFillSymbol polygonSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL, Color.LIME,
+          new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.LIME, 2));
       Graphic polygonGraphic = new Graphic(polygon, polygonSymbol);
       graphicsOverlay.getGraphics().add(polygonGraphic);
 
