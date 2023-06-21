@@ -101,7 +101,7 @@ public class ViewshedGeoElementSample extends Application {
       scene.setBaseSurface(surface);
 
       // add a scene layer
-      final String buildings = "https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Brest/SceneServer/layers/0";
+      final String buildings = "https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Building_Johannesburg/SceneServer";
       ArcGISSceneLayer sceneLayer = new ArcGISSceneLayer(buildings);
       scene.getOperationalLayers().add(sceneLayer);
 
@@ -122,7 +122,7 @@ public class ViewshedGeoElementSample extends Application {
       tankSymbol.setHeading(90);
       tankSymbol.setAnchorPosition(SceneSymbol.AnchorPosition.BOTTOM);
       tankSymbol.loadAsync();
-      tank = new Graphic(new Point(-4.506390, 48.385624, SpatialReferences.getWgs84()), tankSymbol);
+      tank = new Graphic(new Point(28.047199, -26.189105, SpatialReferences.getWgs84()), tankSymbol);
       tank.getAttributes().put("HEADING", 0.0);
       graphicsOverlay.getGraphics().add(tank);
 
