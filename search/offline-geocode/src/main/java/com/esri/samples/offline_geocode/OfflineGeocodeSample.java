@@ -124,7 +124,7 @@ public class OfflineGeocodeSample extends Application {
       });
 
       // create a basemap from a local tile package
-      File tpkxFile = new File(System.getProperty("data.dir"), "./samples-data/routing/streetmap_SD.tpkx");
+      File tpkxFile = new File(System.getProperty("data.dir"), "./samples-data/sandiego/streetmap_SD.tpkx");
       TileCache tileCache = new TileCache(tpkxFile.getAbsolutePath());
       tiledLayer = new ArcGISTiledLayer(tileCache);
       Basemap basemap = new Basemap(tiledLayer);
@@ -163,7 +163,7 @@ public class OfflineGeocodeSample extends Application {
 
       // create a locator task
       final String locatorPath =
-              new File(System.getProperty("data.dir"), "./samples-data/routing/SanDiego_StreetAddress.loc").getAbsolutePath();
+              new File(System.getProperty("data.dir"), "./samples-data/sandiego/SanDiego_StreetAddress.loc").getAbsolutePath();
       locatorTask = new LocatorTask(locatorPath);
 
       // set geocode task parameters
