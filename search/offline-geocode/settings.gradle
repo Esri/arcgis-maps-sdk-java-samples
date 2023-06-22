@@ -11,11 +11,11 @@ rootProject.name = 'offline-geocode'
 def ant = new groovy.util.AntBuilder()
 
 if (!file("./samples-data").exists()) {
-    file("./samples-data/sandiego").mkdirs()
+    file("./samples-data/routing").mkdirs()
 
     ant.get(
             src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/22c3083d4fa74e3e9b25adfc9f8c0496/data",
-            dest: file("./samples-data/sandiego/streetmap_SD.tpkx")
+            dest: file("./samples-data/routing/streetmap_SD.tpkx")
     )
 
     ant.get(
@@ -24,7 +24,7 @@ if (!file("./samples-data").exists()) {
     )
     ant.unzip(
             src: file("./SanDiego_StreetAddress.zip"),
-            dest: file("./samples-data/sandiego")
+            dest: file("./samples-data/routing")
     )
     delete file("./SanDiego_StreetAddress.zip")
 }

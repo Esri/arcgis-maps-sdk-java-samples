@@ -88,7 +88,7 @@ public class OfflineRoutingSample extends Application {
       stage.show();
 
       // create the map's basemap from a local tile package
-      File tpkFile = new File(System.getProperty("data.dir"), "./samples-data/sandiego/streetmap_SD.tpkx");
+      File tpkFile = new File(System.getProperty("data.dir"), "./samples-data/routing/streetmap_SD.tpkx");
       TileCache tileCache = new TileCache(tpkFile.getAbsolutePath());
       ArcGISTiledLayer tiledLayer = new ArcGISTiledLayer(tileCache);
       Basemap basemap = new Basemap(tiledLayer);
@@ -123,7 +123,7 @@ public class OfflineRoutingSample extends Application {
       });
 
       // create an offline RouteTask
-      File geodatabaseFile = new File(System.getProperty("data.dir"), "./samples-data/sandiego/sandiego.geodatabase");
+      File geodatabaseFile = new File(System.getProperty("data.dir"), "./samples-data/routing/sandiego.geodatabase");
       routeTask = new RouteTask(geodatabaseFile.getAbsolutePath(), "Streets_ND");
       routeTask.loadAsync();
       routeTask.addDoneLoadingListener(() -> {

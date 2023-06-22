@@ -17,7 +17,7 @@ if (!file("./samples-data").exists()) {
     )
     ant.unzip(
             src: file("./data.zip"),
-            dest: file("./samples-data/sandiego")
+            dest: file("./samples-data/routing")
     )
     delete file("./data.zip")
 }
