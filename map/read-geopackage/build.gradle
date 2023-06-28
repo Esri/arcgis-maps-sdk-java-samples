@@ -9,14 +9,14 @@ ext {
     arcgisVersion = '200.1.0'
 }
 
-application {
-    mainModule = "com.esri.samples.read_geopackage"
-    mainClass = "com.esri.samples.read_geopackage.ReadGeoPackageSample"
-}
-
 javafx {
     version = "17.0.2"
     modules = [ 'javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.web', 'javafx.media' ]
+}
+
+application {
+    mainModule = "com.esri.samples.read_geopackage"
+    mainClass = "com.esri.samples.read_geopackage.ReadGeoPackageSample"
 }
 
 compileJava.options.encoding = 'UTF-8'
