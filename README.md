@@ -14,16 +14,16 @@
 
 ![Gradle build](https://github.com/Esri/arcgis-runtime-samples-java/workflows/Java%20CI%20with%20Gradle/badge.svg)
 
-Welcome to the ArcGIS Maps SDK for Java Samples.
+Welcome to the ArcGIS Maps SDK for Java Samples repository.
 
 The ArcGIS Maps SDK for Java is used to build mapping, location, and GIS applications for desktop applications running on Windows, Mac, or Linux. This repo contains a set of sample projects demonstrating how to accomplish various mapping and geospatial tasks with the ArcGIS Maps SDK for Java.
 
 ### Sections
-* [Sample Viewer](#sampler-viewer)
+* [Sample Viewer](#sample-viewer)
 * [Running the samples locally via this project](#running-the-samples-locally-via-this-project)
 * [Setup an API Key](#setup-an-api-key)
 * [Offline sample data](#offline-sample-data)
-* [System Requirements for ArcGIS Maps SDK for Java](#system-requirements-for-arcgis-maps-sdk-for-java)
+* [System requirements for ArcGIS Maps SDK for Java](#system-requirements-for-arcgis-maps-sdk-for-java)
 * [Issues](#issues)
 * [Contributing](#contributing)
 
@@ -74,7 +74,7 @@ Accessing Esri location services, including basemaps, routing, and geocoding, re
 ### Offline sample data
 Some samples require offline data. A `samples-data` directory will automatically download to the project root when the Gradle project is configured/imported.
 
-### System Requirements for ArcGIS Maps SDK for Java
+### System requirements for ArcGIS Maps SDK for Java
 
 See the ArcGIS Maps SDK for Java's [system requirements](https://developers.arcgis.com/java/reference/system-requirements/).
 
