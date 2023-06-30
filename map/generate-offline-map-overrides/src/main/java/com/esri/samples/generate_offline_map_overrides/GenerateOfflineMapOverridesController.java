@@ -21,16 +21,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
-import com.esri.arcgisruntime.layers.Layer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -42,12 +39,11 @@ import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.tasks.geodatabase.GenerateGeodatabaseParameters;
 import com.esri.arcgisruntime.tasks.geodatabase.GenerateLayerOption;
 import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapJob;
-import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapParameterOverrides;
-import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapParameters;
 import com.esri.arcgisruntime.tasks.offlinemap.GenerateOfflineMapResult;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapParametersKey;
 import com.esri.arcgisruntime.tasks.offlinemap.OfflineMapTask;
 import com.esri.arcgisruntime.tasks.tilecache.ExportTileCacheParameters;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -123,122 +119,117 @@ public class GenerateOfflineMapOverridesController {
    */
   @FXML
   private void generateOfflineMap() {
-    try {
-      // show the progress bar
-      progressBar.setVisible(true);
+    // show the progress bar
+    progressBar.setVisible(true);
 
-      // create an offline map task with the map
-      var offlineMapTask = new OfflineMapTask(map);
+    // create an offline map task with the map
+    var offlineMapTask = new OfflineMapTask(map);
 
-      // get default offline map parameters for this task given the download area
-      ListenableFuture<GenerateOfflineMapParameters> generateOfflineMapParametersFuture = offlineMapTask
-        .createDefaultGenerateOfflineMapParametersAsync(downloadArea.getGeometry());
-
-      generateOfflineMapParametersFuture.addDoneListener(() -> {
-        try {
-          final GenerateOfflineMapParameters parameters = generateOfflineMapParametersFuture.get();
-
+    // get default offline map parameters for this task given the download area
+    offlineMapTask.createDefaultGenerateOfflineMapParametersAsync(downloadArea.getGeometry())
+      .toCompletableFuture().whenComplete((parameters, exception) -> {
+        if (exception == null) {
           // get additional offline parameters (overrides) for this task
-          ListenableFuture<GenerateOfflineMapParameterOverrides> parameterOverridesFuture = offlineMapTask
-            .createGenerateOfflineMapParameterOverridesAsync(parameters);
+          offlineMapTask.createGenerateOfflineMapParameterOverridesAsync(parameters).toCompletableFuture()
+            .whenComplete((overrides, throwable) -> {
+              if (throwable == null) {
+                try {
+                  // get the export tile cache parameters for the base layer
+                  var basemapParamKey = new OfflineMapParametersKey(
+                    mapView.getMap().getBasemap().getBaseLayers().get(0));
+                  ExportTileCacheParameters exportTileCacheParameters =
+                    overrides.getExportTileCacheParameters().get(basemapParamKey);
 
-          parameterOverridesFuture.addDoneListener(() -> {
-            try {
-              GenerateOfflineMapParameterOverrides overrides = parameterOverridesFuture.get();
+                  // create a new sublist of level IDs in the range requested by the user
+                  exportTileCacheParameters.getLevelIDs().clear();
+                  for (int i = minScaleLevelSpinner.getValue(); i < maxScaleLevelSpinner.getValue(); i++) {
+                    exportTileCacheParameters.getLevelIDs().add(i);
+                  }
+                  // set the area of interest to the original download area plus a buffer
+                  exportTileCacheParameters.setAreaOfInterest(GeometryEngine.buffer(downloadArea.getGeometry(),
+                    extentBufferDistanceSpinner.getValue()));
 
-              // get the export tile cache parameters for the base layer
-              OfflineMapParametersKey basemapParamKey = new OfflineMapParametersKey(
-                mapView.getMap().getBasemap().getBaseLayers().get(0));
-              ExportTileCacheParameters exportTileCacheParameters =
-                overrides.getExportTileCacheParameters().get(basemapParamKey);
-
-              // create a new sublist of level IDs in the range requested by the user
-              exportTileCacheParameters.getLevelIDs().clear();
-              for (int i = minScaleLevelSpinner.getValue(); i < maxScaleLevelSpinner.getValue(); i++) {
-                exportTileCacheParameters.getLevelIDs().add(i);
-              }
-              // set the area of interest to the original download area plus a buffer
-              exportTileCacheParameters.setAreaOfInterest(GeometryEngine.buffer(downloadArea.getGeometry(),
-                extentBufferDistanceSpinner.getValue()));
-
-              // configure layer option parameters for each layer depending on the options selected in the UI
-              for (Layer layer : map.getOperationalLayers()) {
-                if (layer instanceof FeatureLayer) {
-                  var featureLayer = (FeatureLayer) layer;
-                  ServiceFeatureTable featureTable = (ServiceFeatureTable) featureLayer.getFeatureTable();
-                  long layerId = featureTable.getLayerInfo().getServiceLayerId();
-                  // get the layer option parameters specifically for this layer
-                  OfflineMapParametersKey key = new OfflineMapParametersKey(layer);
-                  GenerateGeodatabaseParameters generateGeodatabaseParameters = overrides.getGenerateGeodatabaseParameters().get(key);
-                  List<GenerateLayerOption> layerOptions = generateGeodatabaseParameters.getLayerOptions();
-                  // use an iterator so we can remove layer options while looping over them
-                  Iterator<GenerateLayerOption> layerOptionsIterator = layerOptions.iterator();
-                  if (!layerOptions.isEmpty()) {
-                    while (layerOptionsIterator.hasNext()) {
-                      GenerateLayerOption layerOption = layerOptionsIterator.next();
-                      if (layerOption.getLayerId() == layerId) {
-                        switch (layer.getName()) {
-                          // remove the System Valve layer from the layer options if it should not be included
-                          case "System Valve":
-                            if (!systemValvesCheckBox.isSelected()) {
-                              layerOptionsIterator.remove();
+                  // configure layer option parameters for each layer depending on the options selected in the UI
+                  map.getOperationalLayers().stream()
+                    .filter(layer -> layer instanceof FeatureLayer)
+                    .map(featureLayer -> (FeatureLayer) featureLayer)
+                    .forEach(featureLayer -> {
+                      ServiceFeatureTable featureTable = (ServiceFeatureTable) featureLayer.getFeatureTable();
+                      long layerId = featureTable.getLayerInfo().getServiceLayerId();
+                      // get the layer option parameters specifically for this layer
+                      var offlineMapParametersKey = new OfflineMapParametersKey(featureLayer);
+                      GenerateGeodatabaseParameters generateGeodatabaseParameters = overrides.getGenerateGeodatabaseParameters()
+                        .get(offlineMapParametersKey);
+                      List<GenerateLayerOption> layerOptions = generateGeodatabaseParameters.getLayerOptions();
+                      // use an iterator so we can remove layer options while looping over them
+                      Iterator<GenerateLayerOption> layerOptionsIterator = layerOptions.iterator();
+                      if (!layerOptions.isEmpty()) {
+                        while (layerOptionsIterator.hasNext()) {
+                          GenerateLayerOption layerOption = layerOptionsIterator.next();
+                          if (layerOption.getLayerId() == layerId) {
+                            switch (featureLayer.getName()) {
+                              // remove the System Valve layer from the layer options if it should not be included
+                              case "System Valve":
+                                if (!systemValvesCheckBox.isSelected()) {
+                                  layerOptionsIterator.remove();
+                                }
+                                break;
+                              // remove the Service Connection layer from the layer options if it should not be included
+                              case "Service Connection":
+                                if (!serviceConnectionsCheckBox.isSelected()) {
+                                  layerOptionsIterator.remove();
+                                }
+                                break;
+                              // only download hydrant features if their flow is above the minimum specified in the UI
+                              case "Hydrant":
+                                layerOption.setWhereClause("FLOW >= " + minHydrantFlowRateSpinner.getValue());
+                                layerOption.setQueryOption(GenerateLayerOption.QueryOption.USE_FILTER);
+                                break;
+                              // clip water main feature geometries to the extent if the checkbox is selected
+                              case "Main":
+                                layerOption.setUseGeometry(waterPipesCheckBox.isSelected());
                             }
-                            break;
-                          // remove the Service Connection layer from the layer options if it should not be included
-                          case "Service Connection":
-                            if (!serviceConnectionsCheckBox.isSelected()) {
-                              layerOptionsIterator.remove();
-                            }
-                            break;
-                          // only download hydrant features if their flow is above the minimum specified in the UI
-                          case "Hydrant":
-                            layerOption.setWhereClause("FLOW >= " + minHydrantFlowRateSpinner.getValue());
-                            layerOption.setQueryOption(GenerateLayerOption.QueryOption.USE_FILTER);
-                            break;
-                          // clip water main feature geometries to the extent if the checkbox is selected
-                          case "Main":
-                            layerOption.setUseGeometry(waterPipesCheckBox.isSelected());
+                          }
                         }
                       }
-                    }
-                  }
-                }
-              }
+                    });
 
-              // create an offline map job with the download directory path and parameters and start the job
-              Path tempDirectory = Files.createTempDirectory("offline_map");
-              job = offlineMapTask.generateOfflineMap(parameters, tempDirectory.toAbsolutePath().toString(), overrides);
-              job.start();
-              generateOfflineMapButton.setDisable(true);
-              cancelJobButton.setDisable(false);
-              job.addJobDoneListener(() -> {
-                if (job.getStatus() == GenerateOfflineMapJob.Status.SUCCEEDED) {
-                  // replace the current map with the result offline map when the job finishes
-                  GenerateOfflineMapResult result = job.getResult();
-                  mapView.setMap(result.getOfflineMap());
-                  graphicsOverlay.getGraphics().clear();
-                  // disable button since the offline map is already generated
+                  // create an offline map job with the download directory path and parameters and start the job
+                  Path tempDirectory = Files.createTempDirectory("offline_map");
+                  job = offlineMapTask.generateOfflineMap(parameters, tempDirectory.toAbsolutePath().toString(), overrides);
+                  job.start();
                   generateOfflineMapButton.setDisable(true);
-                } else {
-                  new Alert(Alert.AlertType.WARNING, job.getError().getMessage()).show();
-                  generateOfflineMapButton.setDisable(false);
+                  cancelJobButton.setDisable(false);
+                  job.addJobDoneListener(() -> {
+                    if (job.getStatus() == GenerateOfflineMapJob.Status.SUCCEEDED) {
+                      // replace the current map with the result offline map when the job finishes
+                      GenerateOfflineMapResult result = job.getResult();
+                      mapView.setMap(result.getOfflineMap());
+                      graphicsOverlay.getGraphics().clear();
+                      // disable button since the offline map is already generated
+                      generateOfflineMapButton.setDisable(true);
+                    } else {
+                      new Alert(Alert.AlertType.WARNING, job.getError().getMessage()).show();
+                      generateOfflineMapButton.setDisable(false);
+                    }
+                    Platform.runLater(() -> progressBar.setVisible(false));
+                    cancelJobButton.setDisable(true);
+                  });
+                  // show the job's progress with the progress bar
+                  job.addProgressChangedListener(() -> progressBar.setProgress(job.getProgress() / 100.0));
+                } catch (IOException e){
+                  new Alert(Alert.AlertType.ERROR, "Error configuring the offline map task").show();
                 }
-                Platform.runLater(() -> progressBar.setVisible(false));
-                cancelJobButton.setDisable(true);
-              });
-              // show the job's progress with the progress bar
-              job.addProgressChangedListener(() -> progressBar.setProgress(job.getProgress() / 100.0));
-            } catch (ExecutionException | InterruptedException | IOException ex) {
-              new Alert(Alert.AlertType.ERROR, "Error configuring the offline map task").show();
-            }
-          });
-        } catch (Exception ex) {
-          new Alert(Alert.AlertType.ERROR, "Error creating override parameters").show();
+              } else {
+                // if the generation of offline map parameter overrides completed exceptionally, display an error
+                new Alert(Alert.AlertType.ERROR, "Error creating override parameters").show();
+              }
+            });
+        } else {
+          // if the generation of default offline map parameters completed exceptionally, display an error
+          new Alert(Alert.AlertType.ERROR, "Error creating offline map task default parameters").show();
         }
       });
-    } catch (Exception ex) {
-      new Alert(Alert.AlertType.ERROR, "Error creating offline map task default parameters").show();
-    }
   }
 
   /**
@@ -256,7 +247,7 @@ public class GenerateOfflineMapOverridesController {
       Point maxPoint = mapView.screenToLocation(maxScreenPoint);
       // use the points to define and return an envelope
       if (minPoint != null && maxPoint != null) {
-        Envelope envelope = new Envelope(minPoint, maxPoint);
+        var envelope = new Envelope(minPoint, maxPoint);
         downloadArea.setGeometry(envelope);
       }
     }
