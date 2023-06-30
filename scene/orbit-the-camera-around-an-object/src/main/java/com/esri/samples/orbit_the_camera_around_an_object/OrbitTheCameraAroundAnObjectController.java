@@ -18,6 +18,8 @@ package com.esri.samples.orbit_the_camera_around_an_object;
 
 import java.io.File;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
@@ -30,8 +32,6 @@ import com.esri.arcgisruntime.mapping.ArcGISTiledElevationSource;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Surface;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
-import com.esri.arcgisruntime.mapping.view.DrawStatusChangedEvent;
-import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
@@ -53,7 +53,6 @@ public class OrbitTheCameraAroundAnObjectController {
 
   private OrbitGeoElementCameraController orbitCameraController;
 
-
   public void initialize() {
 
     try {
@@ -61,7 +60,7 @@ public class OrbitTheCameraAroundAnObjectController {
       // authentication with an API key or named user is required to access basemaps and other location services
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
-      
+
       // create a scene with a basemap style and set it to the scene view
       ArcGISScene scene = new ArcGISScene(BasemapStyle.ARCGIS_IMAGERY);
       sceneView.setArcGISScene(scene);
@@ -96,50 +95,48 @@ public class OrbitTheCameraAroundAnObjectController {
       // control the plane's pitch with a slider
       planePitchSlider.valueProperty().addListener(o -> plane.getAttributes().put("PITCH", planePitchSlider.getValue()));
 
-      // listener for the view to stop loading and to add the camera controller
-      DrawStatusChangedListener listener = new DrawStatusChangedListener() {
-
+      // define a change listener for changes to the draw status property on the mapview
+      ChangeListener<DrawStatus> drawStatusPropertyChangedListener = new ChangeListener<>() {
         @Override
-        public void drawStatusChanged(DrawStatusChangedEvent drawStatusChangedEvent) {
-          if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
+        public void changed(ObservableValue<? extends DrawStatus> observable, DrawStatus oldValue, DrawStatus newValue) {
+          if (newValue == DrawStatus.COMPLETED) {
+            // create an orbit geoelement camera controller with the plane as the target
+            orbitCameraController = new OrbitGeoElementCameraController(plane, 50.0);
 
-              // create an orbit geoelement camera controller with the plane as the target
-              orbitCameraController = new OrbitGeoElementCameraController(plane, 50.0);
+            // restrict the camera's heading to stay behind the plane
+            orbitCameraController.setMinCameraHeadingOffset(-45);
+            orbitCameraController.setMaxCameraHeadingOffset(45);
 
-              // restrict the camera's heading to stay behind the plane
-              orbitCameraController.setMinCameraHeadingOffset(-45);
-              orbitCameraController.setMaxCameraHeadingOffset(45);
+            // restrict the camera's pitch so it doesn't go completely vertical or collide with the ground
+            orbitCameraController.setMinCameraPitchOffset(10);
+            orbitCameraController.setMaxCameraPitchOffset(100);
 
-              // restrict the camera's pitch so it doesn't go completely vertical or collide with the ground
-              orbitCameraController.setMinCameraPitchOffset(10);
-              orbitCameraController.setMaxCameraPitchOffset(100);
+            // restrict the camera to stay between 10 and 1000 meters from the plane
+            orbitCameraController.setMinCameraDistance(10);
+            orbitCameraController.setMaxCameraDistance(100);
 
-              // restrict the camera to stay between 10 and 1000 meters from the plane
-              orbitCameraController.setMinCameraDistance(10);
-              orbitCameraController.setMaxCameraDistance(100);
+            // position the plane a third from the bottom of the screen
+            orbitCameraController.setTargetVerticalScreenFactor(0.33f);
 
-              // position the plane a third from the bottom of the screen
-              orbitCameraController.setTargetVerticalScreenFactor(0.33f);
+            // don't pitch the camera when the plane pitches
+            orbitCameraController.setAutoPitchEnabled(false);
 
-              // don't pitch the camera when the plane pitches
-              orbitCameraController.setAutoPitchEnabled(false);
+            // set the orbit camera controller to the scene view
+            sceneView.setCameraController(orbitCameraController);
 
-              // set the orbit camera controller to the scene view
-              sceneView.setCameraController(orbitCameraController);
+            // set the camera's heading using a slider
+            cameraHeadingSlider.valueProperty().addListener(o -> orbitCameraController.setCameraHeadingOffset(cameraHeadingSlider.getValue()));
 
-              // set the camera's heading using a slider
-              cameraHeadingSlider.valueProperty().addListener(o -> orbitCameraController.setCameraHeadingOffset(cameraHeadingSlider.getValue()));
-
-              // update camera heading slider position whilst interacting with the camera heading
-              sceneView.addViewpointChangedListener( event -> cameraHeadingSlider.setValue(orbitCameraController.getCameraHeadingOffset()));
+            // update camera heading slider position whilst interacting with the camera heading
+            sceneView.addViewpointChangedListener( event -> cameraHeadingSlider.setValue(orbitCameraController.getCameraHeadingOffset()));
 
             // stop listening for the view to load
-            sceneView.removeDrawStatusChangedListener(this);
+            sceneView.drawStatusProperty().removeListener(this);
           }
         }
       };
 
-      sceneView.addDrawStatusChangedListener(listener);
+      sceneView.drawStatusProperty().addListener(drawStatusPropertyChangedListener);
 
     } catch (Exception e) {
       // on any exception, print the stack trace
@@ -169,7 +166,7 @@ public class OrbitTheCameraAroundAnObjectController {
     // animate the camera so that it is 0.01m from the target (cockpit), facing forward (0 deg heading), and aligned
     // with the horizon (90 deg pitch)
     orbitCameraController.moveCameraAsync(0 - orbitCameraController.getCameraDistance(),
-        0 - orbitCameraController.getCameraHeadingOffset(), 90 - orbitCameraController.getCameraPitchOffset(), 1).addDoneListener(() -> {
+      0 - orbitCameraController.getCameraHeadingOffset(), 90 - orbitCameraController.getCameraPitchOffset(), 1).addDoneListener(() -> {
       // once the camera is in the cockpit, only allow the camera's heading to change
       orbitCameraController.setMinCameraPitchOffset(90);
       orbitCameraController.setMaxCameraPitchOffset(90);

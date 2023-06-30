@@ -31,7 +31,6 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.TimeExtent;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
@@ -109,7 +108,7 @@ public class QueryWithCqlFiltersController {
       featureLayer.addDoneLoadingListener(() -> {
         if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
 
-          var simpleRenderer = new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.DARKMAGENTA), 3));
+          var simpleRenderer = new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.DARKMAGENTA, 3));
           featureLayer.setRenderer(simpleRenderer);
 
           // get the extent of the dataset

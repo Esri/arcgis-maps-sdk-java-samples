@@ -16,6 +16,7 @@
 
 package com.esri.samples.identify_graphics;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javafx.application.Application;
@@ -26,6 +27,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -76,11 +78,19 @@ public class IdentifyGraphicsSample extends Application {
       // create a graphics overlay
       graphicsOverlay = new GraphicsOverlay();
 
+      // create polygon
+      var pointsPoly = new PointCollection(mapView.getSpatialReference());
+      pointsPoly.addAll(Arrays.asList(
+        new Point(-20E5, 20E5), new Point(20E5, 20E5), new Point(20E5, -20E5), new Point(-20E5, -20E5)));
+      var fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.YELLOW, null);
+      var polygon = new Polygon(pointsPoly);
+      // create graphic from polygon and symbol
+      var polygonGraphic = new Graphic(polygon, fillSymbol);
+      // add the polygon graphic to the graphics overlay
+      graphicsOverlay.getGraphics().add(polygonGraphic);
+
       // add graphics overlay to the map view
       mapView.getGraphicsOverlays().add(graphicsOverlay);
-
-      // work with the MapView after it has loaded
-      mapView.addSpatialReferenceChangedListener(src -> addGraphicsOverlay());
 
       mapView.setOnMouseClicked(e -> {
         if (e.getButton() == MouseButton.PRIMARY && e.isStillSincePress()) {
@@ -104,28 +114,6 @@ public class IdentifyGraphicsSample extends Application {
   }
 
   /**
-   * Creates four different Graphics and renders them to the GraphicsOverlay.
-   * 
-   */
-  private void addGraphicsOverlay() {
-
-    // polygon graphic
-    PointCollection pointsPoly = new PointCollection(mapView.getSpatialReference());
-    pointsPoly.add(new Point(-20E5, 20E5));
-    pointsPoly.add(new Point(20E5, 20E5));
-    pointsPoly.add(new Point(20E5, -20E5));
-    pointsPoly.add(new Point(-20E5, -20E5));
-    // hex code for yellow color
-    int yellowColor = 0xFFFFFF00;
-    SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, yellowColor, null);
-    Polygon polygon = new Polygon(pointsPoly);
-    // create graphic from polygon and symbol
-    Graphic polygonGraphic = new Graphic(polygon, fillSymbol);
-    // add the polygon graphic
-    graphicsOverlay.getGraphics().add(polygonGraphic);
-  }
-
-  /**
    * Indicates when a graphic is clicked by showing an Alert.
    */
   private void createGraphicDialog() {
@@ -136,8 +124,8 @@ public class IdentifyGraphicsSample extends Application {
       List<Graphic> graphics = result.getGraphics();
 
       if (!graphics.isEmpty()) {
-        // show a alert dialog box if a graphic was returned
-        Alert dialog = new Alert(AlertType.INFORMATION);
+        // show an alert dialog box if a graphic was returned
+        var dialog = new Alert(AlertType.INFORMATION);
         dialog.initOwner(mapView.getScene().getWindow());
         dialog.setHeaderText(null);
         dialog.setTitle("Information Dialog Sample");

@@ -61,7 +61,6 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.security.UserCredential;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
@@ -133,10 +132,10 @@ public class TraceAUtilityNetworkController {
 
           // create and apply a renderer for the electric distribution lines feature layer
           UniqueValueRenderer.UniqueValue mediumVoltageValue = new UniqueValueRenderer.UniqueValue("N/A", "Medium Voltage",
-            new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.DARKCYAN), 3),
+            new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.DARKCYAN, 3),
             Collections.singletonList(5));
           UniqueValueRenderer.UniqueValue lowVoltageValue = new UniqueValueRenderer.UniqueValue("N/A", "Low Voltage",
-            new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, ColorUtil.colorToArgb(Color.DARKCYAN), 3),
+            new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.DARKCYAN, 3),
             Collections.singletonList(3));
           distributionLineFeatureLayer.setRenderer(new UniqueValueRenderer(Collections.singletonList("ASSETGROUP"),
             Arrays.asList(mediumVoltageValue, lowVoltageValue), "", new SimpleLineSymbol()));
@@ -177,11 +176,11 @@ public class TraceAUtilityNetworkController {
 
       // create and apply renderers for the starting points and barriers graphics overlays
       SimpleMarkerSymbol startingPointSymbol =
-          new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, ColorUtil.colorToArgb(Color.LIGHTGREEN), 25);
+          new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.LIGHTGREEN, 25);
       startingLocationsGraphicsOverlay.setRenderer(new SimpleRenderer(startingPointSymbol));
 
       SimpleMarkerSymbol barrierPointSymbol =
-          new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.X, ColorUtil.colorToArgb(Color.ORANGERED), 25);
+          new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.X, Color.ORANGERED, 25);
       barriersGraphicsOverlay.setRenderer(new SimpleRenderer(barrierPointSymbol));
 
       // create a list of starting locations and barriers for the trace

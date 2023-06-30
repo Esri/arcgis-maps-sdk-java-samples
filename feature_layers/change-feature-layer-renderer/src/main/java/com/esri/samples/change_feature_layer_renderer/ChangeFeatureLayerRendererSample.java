@@ -23,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -67,7 +68,7 @@ public class ChangeFeatureLayerRendererSample extends Application {
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
       // create a marker symbol renderer with a blue circle
-      SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFF0000FF, 5 );
+      SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLUE, 5 );
       SimpleRenderer blueRenderer = new SimpleRenderer(markerSymbol);
 
       // create renderer toggle switch

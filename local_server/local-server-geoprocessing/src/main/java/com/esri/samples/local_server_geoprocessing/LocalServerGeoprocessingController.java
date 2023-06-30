@@ -166,7 +166,7 @@ public class LocalServerGeoprocessingController {
       } else {
         Alert dialog = new Alert(AlertType.ERROR);
         dialog.setHeaderText("Geoprocess Job Fail");
-        dialog.setContentText("Error: " + gpJob.getError().getAdditionalMessage());
+        dialog.setContentText("Error: " + gpJob.getError().getMessage());
         dialog.showAndWait();
       }
       progressBar.setVisible(false);

@@ -1,0 +1,13 @@
+.panel-region .label {
+  -fx-text-fill: white;
+}
+
+Button {
+    -fx-font-size: 8px;
+    -fx-content-display: top;
+    -fx-pref-width: 100;
+}
+
+ComboBox {
+    -fx-font-size: 10px;
+}

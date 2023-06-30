@@ -1,6 +1,6 @@
 plugins {
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'org.openjfx.javafxplugin' // version is defined in settings.gradle
 }
 
 group = 'com.esri.samples'
@@ -11,7 +11,11 @@ ext {
 
 javafx {
     version = "17.0.2"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    modules = [ 'javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.web', 'javafx.media' ]
+}
+application {
+    mainModule = "com.esri.samples.display_device_location_with_nmea_data_sources"
+    mainClass = "com.esri.samples.display_device_location_with_nmea_data_sources.DisplayDeviceLocationWithNmeaDataSourcesSample"
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -65,22 +69,6 @@ run {
         systemProperty 'apiKey', apiKey
     }
     dependsOn copyNatives
-    mainClassName = 'com.esri.samples.display_device_location_with_nmea_data_sources.DisplayDeviceLocationWithNmeaDataSourcesLauncher'
-}
-
-jar {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest {
-        attributes("Main-Class": "$mainClassName")
-    }
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-
-    // exclude signing files that come from dependencies
-    exclude "META-INF/*.SF"
-    exclude "META-INF/*.DSA"
-    exclude "META-INF/*.RSA"
 }
 
 task productionZip(type: Zip) {
@@ -91,6 +79,10 @@ task productionZip(type: Zip) {
     archivesBaseName = project.name
 }
 
-wrapper {
-    gradleVersion = '7.5'
+if (rootProject == project) {
+    // the wrapper task is only used if this project is the root project i.e. not a subproject
+    wrapper {
+        gradleVersion = '7.5.1'
+    }
 }
+

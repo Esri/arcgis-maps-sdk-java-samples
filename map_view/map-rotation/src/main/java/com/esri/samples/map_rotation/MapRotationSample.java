@@ -17,15 +17,17 @@
 package com.esri.samples.map_rotation;
 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Slider;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -34,7 +36,6 @@ import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
@@ -43,9 +44,7 @@ import com.esri.arcgisruntime.toolkit.Compass;
 
 public class MapRotationSample extends Application {
 
-  private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private MapView mapView;
-  private Slider slider;
 
   @Override
   public void start(Stage stage) {
@@ -54,7 +53,6 @@ public class MapRotationSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/map_rotation/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Map Rotation Sample");
@@ -67,41 +65,25 @@ public class MapRotationSample extends Application {
       String yourAPIKey = System.getProperty("apiKey");
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-      // create a slider with a range of 360 units and set it to 5 degrees
-      slider = new Slider(-180.0, 180.0, 5.0);
-      styleSlider();
-
-      // listen for the value in the slider to change
-      slider.valueProperty().addListener(e -> {
-        // rotate map view based on new value in slider
-        mapView.setViewpointRotationAsync(slider.getValue());
-      });
-
       // create a map with the streets basemap style
-      map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
-
-      // enable slider when map view is done loading
-      map.addDoneLoadingListener(() -> {
-        if (map.getLoadStatus() == LoadStatus.LOADED) {
-          slider.setDisable(false);
-        } else {
-          Alert alert = new Alert(Alert.AlertType.ERROR, "Map Failed to Load!");
-          alert.show();
-        }
-      });
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS);
 
       // create a map view and set the map to it
       mapView = new MapView();
-      // disable keyboard navigation to focus on slider/compass map rotation interaction
-      mapView.setEnableKeyboardNavigation(false);
       mapView.setMap(map);
 
-      // create a compass to show the current heading when rotated
-      Compass compass = new Compass(mapView);
+      // create a compass to show the direction of north
+      var compass = new Compass(mapView);
 
-      // clicking the compass sets the map's heading to 0.0 (north) and the compass is hidden
-      // add a listener to reset the slider when this happens
-      compass.setOnMouseClicked(e -> slider.setValue(0.0));
+      // create labels for instructions and map rotation
+      var instructionsLabel = new Label("Press the A and D keys to rotate the map.");
+      instructionsLabel.setTextFill(Color.WHITE);
+      var rotationLabel = new Label("Current rotation: ");
+      rotationLabel.setTextFill(Color.WHITE);
+
+      // update the rotation label when the map rotation property changes
+      rotationLabel.textProperty().bind(Bindings.createStringBinding(()->
+        "Current map rotation: " + Math.round(mapView.getMapRotation()) + "º", mapView.mapRotationProperty()));
 
       // create a starting viewpoint for the map view
       SpatialReference spatialReference = SpatialReferences.getWebMercator();
@@ -114,32 +96,24 @@ public class MapRotationSample extends Application {
       // set viewpoint to the map view
       mapView.setViewpointAsync(viewpoint);
 
+      // create a vbox to add the labels
+      var controlsVBox = new VBox();
+      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"), CornerRadii.EMPTY,
+        Insets.EMPTY)));
+      controlsVBox.setPadding(new Insets(10.0));
+      controlsVBox.setMaxSize(250, 50);
+      controlsVBox.getChildren().addAll(instructionsLabel, rotationLabel);
+
       // add the map view, slider, and compass to the stack pane
-      stackPane.getChildren().addAll(mapView, slider, compass);
-      StackPane.setAlignment(slider, Pos.TOP_LEFT);
+      stackPane.getChildren().addAll(mapView, controlsVBox, compass);
+      StackPane.setAlignment(controlsVBox, Pos.TOP_LEFT);
+      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
       StackPane.setAlignment(compass, Pos.TOP_RIGHT);
-      StackPane.setMargin(slider, new Insets(50, 0, 0, 10));
       StackPane.setMargin(compass, new Insets(10, 10, 0, 0));
     } catch (Exception e) {
       // on any error, display the stack trace
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Styles the slider component for enhanced visibility on the map view.
-   */
-  private void styleSlider() {
-
-    slider.setMaxWidth(240.0);
-    slider.setMajorTickUnit(90);
-    slider.setShowTickLabels(true);
-    slider.setShowTickMarks(true);
-    slider.setDisable(true);
-    slider.setStyle("-fx-font-weight: bold; -fx-font-size: 15;");
-    slider.setPadding(new Insets(10, 10, 0, 10));
-    slider.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY, Insets.EMPTY)));
-
   }
 
   /**

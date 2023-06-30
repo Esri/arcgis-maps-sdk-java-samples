@@ -25,6 +25,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -50,7 +51,7 @@ public class BrowseWfsLayersSample extends Application {
 
   private MapView mapView;
   private ArcGISMap map;
-  private ProgressIndicator progressIndicator;
+  private ProgressIndicator wfsServiceIndicator, wfsTableIndicator;
 
   // keep loadables in scope to avoid garbage collection
   private WfsService wfsService;
@@ -75,13 +76,14 @@ public class BrowseWfsLayersSample extends Application {
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // create a list view to show all of the layers in a WFS service
+    // create a list view to show all the layers in a WFS service
     ListView<WfsLayerInfo> wfsLayerNamesListView = new ListView<>();
     wfsLayerNamesListView.setMaxSize(200, 160);
 
-    // create a progress indicator
-    progressIndicator = new ProgressIndicator();
-    progressIndicator.setVisible(true);
+    // create progress indicators
+    wfsServiceIndicator = new ProgressIndicator();
+    wfsTableIndicator = new ProgressIndicator();
+    wfsTableIndicator.setVisible(false);
 
     // create a map with the standard imagery basemap style
     map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
@@ -94,16 +96,18 @@ public class BrowseWfsLayersSample extends Application {
     wfsService = new WfsService("https://dservices2.arcgis.com/ZQgQTuoyBrtmoGdP/arcgis/services/Seattle_Downtown_Features/WFSServer?service=wfs&request=getcapabilities");
     wfsService.loadAsync();
 
+    // show the progress indicator when the WFS service is loading
+    wfsServiceIndicator.visibleProperty().bind(wfsService.loadStatusProperty().isEqualTo(LoadStatus.LOADING));
+
     // when the WFS service has loaded, add its layer information to the list view for browsing
-    wfsService.addDoneLoadingListener(() -> {
-      progressIndicator.setVisible(false);
-      if (wfsService.getLoadStatus() == LoadStatus.LOADED) {
+    wfsService.loadStatusProperty().addListener((observable, oldValue, newValue) -> {
+      if (newValue == LoadStatus.LOADED) {
         // add the list of WFS layers to the list view
         List<WfsLayerInfo> wfsLayerInfos = wfsService.getServiceInfo().getLayerInfos();
         wfsLayerNamesListView.getItems().addAll(wfsLayerInfos);
-      } else {
-        Alert alert = new Alert(Alert.AlertType.ERROR, "WFS Service Failed to Load!");
-        alert.show();
+      } else if (newValue == LoadStatus.FAILED_TO_LOAD) {
+        new Alert(Alert.AlertType.ERROR, "WFS Service Failed to Load!\n" +
+          wfsService.loadErrorProperty().get().getCause().getMessage()).show();
       }
     });
 
@@ -128,7 +132,7 @@ public class BrowseWfsLayersSample extends Application {
     );
 
     // add the controls to the stack pane
-    stackPane.getChildren().addAll(mapView, wfsLayerNamesListView, progressIndicator);
+    stackPane.getChildren().addAll(mapView, wfsLayerNamesListView, wfsServiceIndicator, wfsTableIndicator);
     StackPane.setAlignment(wfsLayerNamesListView, Pos.TOP_LEFT);
     StackPane.setMargin(wfsLayerNamesListView, new Insets(10));
   }
@@ -139,7 +143,8 @@ public class BrowseWfsLayersSample extends Application {
    */
   private void updateMap(WfsLayerInfo wfsLayerInfo){
 
-    progressIndicator.setVisible(true);
+    // show progress indicator when populating feature table
+    wfsTableIndicator.setVisible(true);
 
     // clear the map's operational layers
     map.getOperationalLayers().clear();
@@ -155,9 +160,9 @@ public class BrowseWfsLayersSample extends Application {
     // create a feature layer to visualize the WFS features
     FeatureLayer wfsFeatureLayer = new FeatureLayer(wfsFeatureTable);
 
-    // populate the table and then remove progress indicator and set the viewpoint to that of the layer's full extent when done.
+    // populate the table and set the viewpoint to that of the layer's full extent when done.
     wfsFeatureTable.populateFromServiceAsync(new QueryParameters(), false, null ).addDoneListener(()->{
-      progressIndicator.setVisible(false);
+      wfsTableIndicator.setVisible(false);
       mapView.setViewpointGeometryAsync(wfsFeatureLayer.getFullExtent(), 50);
     });
 
@@ -165,13 +170,13 @@ public class BrowseWfsLayersSample extends Application {
     wfsFeatureTable.addDoneLoadingListener(()->{
       switch (wfsFeatureTable.getGeometryType()) {
         case POINT:
-          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xff00f5ff, 4)));
+          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.AQUA, 4)));
           break;
         case POLYGON:
-          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xfff8ff00, null)));
+          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.YELLOW, null)));
           break;
         case POLYLINE:
-          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xffff0000, 2)));
+          wfsFeatureLayer.setRenderer(new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.RED, 2)));
           break;
       }
     });

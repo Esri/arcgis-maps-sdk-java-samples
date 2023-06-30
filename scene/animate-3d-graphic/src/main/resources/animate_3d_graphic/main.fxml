@@ -26,7 +26,7 @@
 <?import javafx.scene.paint.Color?>
 <?import java.lang.*?>
 <StackPane fx:controller="com.esri.samples.animate_3d_graphic.Animate3dGraphicController"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/animate_3d_graphic/style.css">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css">
     <!--Instantiate model instances to bind to-->
     <fx:define>
         <Timeline fx:id="animation" rate="${speedSlider.value}" cycleCount="-1"/>

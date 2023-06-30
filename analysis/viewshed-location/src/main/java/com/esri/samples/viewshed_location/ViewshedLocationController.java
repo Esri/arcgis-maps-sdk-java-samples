@@ -26,6 +26,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geoanalysis.LocationViewshed;
@@ -82,10 +83,10 @@ public class ViewshedLocationController {
         horizontalAngleSlider.getValue(), verticalAngleSlider.getValue(), minDistanceSlider.getValue(),
         maxDistanceSlider.getValue());
     // set the colors of the visible and obstructed areas
-    Viewshed.setVisibleColor(0xCC00FF00);
-    Viewshed.setObstructedColor(0xCCFF0000);
+    Viewshed.setVisibleColor(Color.rgb(0, 255, 0, 0.8));
+    Viewshed.setObstructedColor(Color.rgb(255, 0, 0, 0.8));
     // set the color and show the frustum outline
-    Viewshed.setFrustumOutlineColor(0xCC0000FF);
+    Viewshed.setFrustumOutlineColor(Color.rgb(0, 0, 255, 0.8));
     viewshed.setFrustumOutlineVisible(true);
 
     // set the camera

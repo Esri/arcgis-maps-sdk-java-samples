@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.*?>
 <StackPane
         fx:controller="com.esri.samples.perform_valve_isolation_trace.PerformValveIsolationTraceController"
-        xmlns:fx="http://javafx.com/fxml" stylesheets="/perform_valve_isolation_trace/style.css">
+        xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView" onMouseClicked="#handleMapViewClicked"/>
     <ProgressIndicator fx:id="progressIndicator" StackPane.alignment="CENTER"/>

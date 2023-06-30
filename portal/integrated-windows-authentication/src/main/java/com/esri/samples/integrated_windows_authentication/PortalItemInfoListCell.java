@@ -1,7 +1,6 @@
 package com.esri.samples.integrated_windows_authentication;
 
 import javafx.scene.control.ListCell;
-import javafx.util.Pair;
 
 import com.esri.arcgisruntime.portal.PortalItem;
 

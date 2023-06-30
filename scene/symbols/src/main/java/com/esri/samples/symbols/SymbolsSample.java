@@ -23,6 +23,7 @@ import java.util.stream.Stream;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -74,47 +75,47 @@ public class SymbolsSample extends Application {
       stackPane.getChildren().add(sceneView);
 
       // add a camera and initial camera position
-      Camera camera = new Camera(29, 45, 6000, 0, 0, 0);
+      var camera = new Camera(28.985, 44.965, 1200, 50, 70, 0);
       sceneView.setViewpointCamera(camera);
       Point cameraLocation = camera.getLocation();
 
       // add base surface for elevation data
-      ArcGISTiledElevationSource elevationSource = new ArcGISTiledElevationSource(ELEVATION_IMAGE_SERVICE);
-      Surface surface = new Surface();
+      var elevationSource = new ArcGISTiledElevationSource(ELEVATION_IMAGE_SERVICE);
+      var surface = new Surface();
       surface.getElevationSources().add(elevationSource);
       scene.setBaseSurface(surface);
 
       // add graphics overlay(s)
-      GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
+      var graphicsOverlay = new GraphicsOverlay();
       graphicsOverlay.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
       sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
       // create graphics for each type of symbol
-      AtomicInteger counter = new AtomicInteger(0);
+      var counter = new AtomicInteger(0);
       double x = 44.975;
       double y = 29;
       double z = 500;
       Stream.of(SimpleMarkerSceneSymbol.Style.values()).map(style -> {
-        int color;
+        Color color;
         switch (style) {
           case CONE:
-            color = 0xFFFF0000; // red
+            color = Color.RED;
             break;
           case TETRAHEDRON:
-            color = 0xFF00FF00; // green
+            color = Color.LIMEGREEN;
             break;
           case SPHERE:
-            color = 0xFF0000FF; // blue
+            color = Color.BLUE;
             break;
           case CYLINDER:
-            color = 0xFFFF00FF; // purple
+            color = Color.MAGENTA;
             break;
           case DIAMOND:
-            color = 0xFF00FFFF; // turquoise
+            color = Color.TURQUOISE;
             break;
           case CUBE:
           default:
-            color = 0xFFFFFFFF; // white
+            color = Color.WHITE;
         }
         SimpleMarkerSceneSymbol symbol = new SimpleMarkerSceneSymbol(style, color, 200, 200, 200,
             SceneSymbol.AnchorPosition.CENTER);

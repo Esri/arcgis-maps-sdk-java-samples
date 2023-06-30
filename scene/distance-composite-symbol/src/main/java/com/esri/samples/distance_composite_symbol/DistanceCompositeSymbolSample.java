@@ -19,6 +19,7 @@ package com.esri.samples.distance_composite_symbol;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -86,9 +87,8 @@ public class DistanceCompositeSymbolSample extends Application {
       sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
       // set up the different symbols
-      int red = 0xFFFF0000;
-      SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, red, 10);
-      SimpleMarkerSceneSymbol coneSymbol = SimpleMarkerSceneSymbol.createCone(red, 3, 10);
+      SimpleMarkerSymbol circleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.RED, 10);
+      SimpleMarkerSceneSymbol coneSymbol = SimpleMarkerSceneSymbol.createCone(Color.RED, 3, 10);
       coneSymbol.setPitch(-90);
       coneSymbol.setAnchorPosition(AnchorPosition.CENTER);
       String modelURI = new File(System.getProperty("data.dir"), "./samples-data/bristol/Collada/Bristol.dae").getAbsolutePath();

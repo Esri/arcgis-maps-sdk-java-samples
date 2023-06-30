@@ -30,6 +30,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -94,7 +95,7 @@ public class ExportVectorTilesSample extends Application {
       // create a graphic to show a red outline square around the tiles to be downloaded
       Graphic downloadArea = new Graphic();
       graphicsOverlay.getGraphics().add(downloadArea);
-      var simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
+      var simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.RED, 2);
       downloadArea.setSymbol(simpleLineSymbol);
 
       // create button to export tiles
@@ -191,7 +192,7 @@ public class ExportVectorTilesSample extends Application {
                         preview.setOnCloseRequest(event -> previewMapView.dispose());
 
                       } else {
-                        new Alert(Alert.AlertType.ERROR, exportVectorTilesJob.getError().getAdditionalMessage()).show();
+                        new Alert(Alert.AlertType.ERROR, exportVectorTilesJob.getError().getMessage()).show();
                       }
 
                       // reset the UI

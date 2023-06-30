@@ -53,6 +53,7 @@ import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaPolygon;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaPolygonDetail;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaResult;
 import com.esri.arcgisruntime.tasks.networkanalysis.ServiceAreaTask;
+import javafx.scene.paint.Color;
 
 public class ServiceAreaTaskController {
 
@@ -123,10 +124,10 @@ public class ServiceAreaTaskController {
     barrierBuilder = new PolylineBuilder(spatialReference);
     serviceAreaFacilities = new ArrayList<>();
 
-    SimpleLineSymbol outline = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 3.0f);
+    SimpleLineSymbol barrierSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLACK, 3.0f);
     fillSymbols = new ArrayList<>();
-    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x66FF0000, outline));
-    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0x66FFA500, outline));
+    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("orange", 0.4), barrierSymbol));
+    fillSymbols.add(new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("red", 0.4), barrierSymbol));
 
     // icon used to display facilities to mapview
     String facilityUrl = "http://static.arcgis.com/images/Symbols/SafetyHealth/Hospital.png";
@@ -148,7 +149,7 @@ public class ServiceAreaTaskController {
         } else if (btnAddBarrier.isSelected()) {
           // create barrier and display to mapview
           barrierBuilder.addPoint(new Point(mapPoint.getX(), mapPoint.getY(), spatialReference));
-          barrierOverlay.getGraphics().add(barrierOverlay.getGraphics().size(), new Graphic(barrierBuilder.toGeometry(), outline));
+          barrierOverlay.getGraphics().add(barrierOverlay.getGraphics().size(), new Graphic(barrierBuilder.toGeometry(), barrierSymbol));
         }
       }
     });

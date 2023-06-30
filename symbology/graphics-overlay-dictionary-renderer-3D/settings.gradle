@@ -1,3 +1,10 @@
+pluginManagement {
+    plugins {
+        // version defined in settings.gradle to avoid version error when this sample is used in a multi-project build
+        id 'org.openjfx.javafxplugin' version "0.0.13"
+    }
+}
+
 rootProject.name = 'graphics-overlay-dictionary-renderer-3D'
 
 // download sample data

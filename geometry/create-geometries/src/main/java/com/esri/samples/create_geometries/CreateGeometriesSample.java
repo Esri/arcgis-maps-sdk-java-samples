@@ -21,6 +21,7 @@ import java.util.Arrays;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -76,7 +77,7 @@ public class CreateGeometriesSample extends Application {
 
       // create a point geometry
       Point point = new Point(-117.195800, 34.056295, SpatialReferences.getWgs84());
-      Graphic pointGraphic = new Graphic(point, new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFF0000FF, 14));
+      Graphic pointGraphic = new Graphic(point, new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, Color.BLUE, 14));
 
       // create a multipoint geometry
       PointCollection stateCapitalsPST = new PointCollection(SpatialReferences.getWgs84());
@@ -86,7 +87,7 @@ public class CreateGeometriesSample extends Application {
       stateCapitalsPST.add(-119.766999, 39.164885); // Carson City, NV
       Multipoint multipoint = new Multipoint(stateCapitalsPST);
       Graphic multipointGraphic = new Graphic(multipoint, new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE,
-          0xFFFF0000, 12));
+          Color.RED, 12));
 
       // create a polyline geometry
       PointCollection borderCAtoNV = new PointCollection(SpatialReferences.getWgs84());
@@ -94,7 +95,7 @@ public class CreateGeometriesSample extends Application {
       borderCAtoNV.add(-119.994, 38.994);
       borderCAtoNV.add(-114.620, 35.0);
       Polyline polyline = new Polyline(borderCAtoNV);
-      Graphic polylineGraphic = new Graphic(polyline, new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF00FFFF,
+      Graphic polylineGraphic = new Graphic(polyline, new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.CYAN,
           3));
 
       // create a polygon geometry
@@ -104,7 +105,7 @@ public class CreateGeometriesSample extends Application {
       coloradoCorners.add(-102.037, 36.989);
       coloradoCorners.add(-109.048, 36.998);
       Polygon polygon = new Polygon(coloradoCorners);
-      Graphic polygonGraphic = new Graphic(polygon, new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, 0xFF00FF00,
+      Graphic polygonGraphic = new Graphic(polygon, new SimpleFillSymbol(SimpleFillSymbol.Style.CROSS, Color.LIME,
           null));
 
       // create an envelope

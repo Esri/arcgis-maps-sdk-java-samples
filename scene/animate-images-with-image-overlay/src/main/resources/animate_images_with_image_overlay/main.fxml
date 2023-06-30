@@ -24,7 +24,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <StackPane fx:controller="com.esri.samples.animate_images_with_image_overlay.AnimateImagesWithImageOverlayController"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/animate_images_with_image_overlay/style.css">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css">
     <SceneView fx:id="sceneView"/>
     <VBox styleClass="panel-region">
     <StackPane.margin>

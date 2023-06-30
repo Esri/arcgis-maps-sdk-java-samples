@@ -3,7 +3,6 @@ package com.esri.samples.statistical_query_group_and_sort;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javafx.fxml.FXML;

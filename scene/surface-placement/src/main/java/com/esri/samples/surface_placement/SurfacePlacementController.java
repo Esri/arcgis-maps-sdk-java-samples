@@ -40,6 +40,7 @@ import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
 import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.TextSymbol;
+import javafx.scene.paint.Color;
 
 public class SurfacePlacementController {
 
@@ -154,7 +155,7 @@ public class SurfacePlacementController {
    */
   private TextSymbol createTextSymbol(String text) {
 
-    TextSymbol textSymbol = new TextSymbol(14, text, 0xFF0000FF,
+    TextSymbol textSymbol = new TextSymbol(14, text, Color.BLUE,
       TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.MIDDLE);
     textSymbol.setOffsetX(20);
 
@@ -178,7 +179,7 @@ public class SurfacePlacementController {
     Point relativeToScenePoint = new Point(-4.4610562, 48.3902727, 70, SpatialReferences.getWgs84());
     Point relativeToSurfacePoint = new Point(-4.4609257, 48.3903965, 70, SpatialReferences.getWgs84());
     // create a red triangle symbol
-    SimpleMarkerSymbol triangleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFFFF0000, 12);
+    SimpleMarkerSymbol triangleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, Color.RED, 12);
 
     if (graphicsOverlay.getSceneProperties().getSurfacePlacement() != LayerSceneProperties.SurfacePlacement.RELATIVE_TO_SCENE) {
       graphicsOverlay.getGraphics().add(new Graphic(relativeToSurfacePoint, triangleSymbol));

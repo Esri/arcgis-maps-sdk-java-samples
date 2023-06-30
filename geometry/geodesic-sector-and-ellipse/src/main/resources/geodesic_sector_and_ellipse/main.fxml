@@ -24,7 +24,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.geometry.Insets?>
 <StackPane fx:controller="com.esri.samples.geodesic_sector_and_ellipse.GeodesicSectorAndEllipseController" xmlns:fx="http://javafx.com/fxml"
-           stylesheets="/geodesic_sector_and_ellipse/style.css">
+           stylesheets="@style.css">
     <MapView fx:id="mapView"/>
     <VBox StackPane.alignment="TOP_LEFT" maxWidth="350" maxHeight="300" styleClass="panel-region" spacing="10"
           alignment="CENTER">

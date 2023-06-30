@@ -32,7 +32,7 @@
 <?import javafx.scene.control.ComboBox?>
 <StackPane
         fx:controller="com.esri.samples.trace_a_utility_network.TraceAUtilityNetworkController"
-        xmlns:fx="http://javafx.com/fxml" stylesheets="/trace_a_utility_network/style.css">
+        xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView" onMouseClicked="#handleMapViewClicked"/>
     <ProgressIndicator fx:id="progressIndicator" StackPane.alignment="CENTER"/>

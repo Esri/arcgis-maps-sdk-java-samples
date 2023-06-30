@@ -49,7 +49,6 @@ import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.FillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
@@ -98,13 +97,13 @@ public class ViewshedGeoprocessingSample extends Application {
       mapView.setViewpoint(new Viewpoint(45.3790902612337, 6.84905317262762, 144447));
 
       // create an input graphics overlay to show red point markers where the user clicks
-      SimpleMarkerSymbol pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 10);
+      SimpleMarkerSymbol pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.RED, 10);
       SimpleRenderer renderer = new SimpleRenderer(pointSymbol);
       GraphicsOverlay inputGraphicsOverlay = new GraphicsOverlay();
       inputGraphicsOverlay.setRenderer(renderer);
 
       // create an output graphics overlay to show the viewsheds as orange areas
-      int fillColor = ColorUtil.colorToArgb(Color.rgb(226, 119, 40, 0.5));
+      Color fillColor = Color.rgb(226, 119, 40, 0.5);
       FillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, fillColor, null);
       GraphicsOverlay outputGraphicsOverlay = new GraphicsOverlay();
       outputGraphicsOverlay.setRenderer(new SimpleRenderer(fillSymbol));

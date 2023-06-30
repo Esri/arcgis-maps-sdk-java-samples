@@ -132,11 +132,8 @@ public class ToggleBetweenFeatureRequestModesSample extends Application {
       // set the starting viewpoint for the map view
       mapView.setViewpoint(new Viewpoint(45.5266, -122.6219, 6000));
       // disable the vbox and show a progress indicator when the map view is drawing (e.g. when fetching caches)
-      mapView.addDrawStatusChangedListener(e -> {
-        boolean drawStatusInProgress = e.getDrawStatus() == DrawStatus.IN_PROGRESS;
-        progressIndicator.setVisible(drawStatusInProgress);
-        controlsVBox.setDisable(drawStatusInProgress);
-      });
+      controlsVBox.disableProperty().bind(mapView.drawStatusProperty().isEqualTo(DrawStatus.IN_PROGRESS));
+      progressIndicator.visibleProperty().bind(mapView.drawStatusProperty().isEqualTo(DrawStatus.IN_PROGRESS));
 
       // add label and button to the control panel
       controlsVBox.getChildren().addAll(cacheButton, noCacheButton, manualCacheButton, label, populateButton);

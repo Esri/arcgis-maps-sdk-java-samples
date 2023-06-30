@@ -23,7 +23,7 @@
 <?import javafx.scene.control.ComboBox?>
 <StackPane fx:controller="com.esri.samples.realistic_lighting_and_shadows.RealisticLightingAndShadowsController"
            xmlns="http://javafx.com/javafx"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/realistic_lighting_and_shadows/style.css">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css">
     <!--SceneView-->
     <SceneView fx:id="sceneView"/>
     <StackPane.margin>
@@ -34,8 +34,8 @@
         <Label fx:id="timeLabel"/>
         <ComboBox fx:id="comboBox" maxWidth="Infinity">
         </ComboBox>
-        <Slider fx:id="timeSlider" showTickLabels="true" showTickMarks="true" majorTickUnit="240" minorTickCount="60"
-                max="1440" value="720" onMouseDragged="#updateTimeOfDay" onMouseClicked="#updateTimeOfDay" >
+        <Slider fx:id="timeSlider" showTickLabels="true" showTickMarks="true"
+                majorTickUnit="240" minorTickCount="60" max="1440" value="720">
             <padding>
                 <Insets topRightBottomLeft="10"/>
             </padding>

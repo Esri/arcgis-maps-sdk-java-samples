@@ -18,6 +18,7 @@ package com.esri.samples.scene_properties_expressions;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
+import javafx.scene.paint.Color;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Point;
@@ -66,8 +67,8 @@ public class ScenePropertiesExpressionsController {
     renderer.getSceneProperties().setPitchExpression("[PITCH]");
     graphicsOverlay.setRenderer(renderer);
 
-    // create a red (0xFFFF0000) cone graphic
-    SimpleMarkerSceneSymbol coneSymbol = SimpleMarkerSceneSymbol.createCone(0xFFFF0000, 100, 100);
+    // create a red cone graphic
+    SimpleMarkerSceneSymbol coneSymbol = SimpleMarkerSceneSymbol.createCone(Color.RED, 100, 100);
     coneSymbol.setPitch(-90);  // correct symbol's default pitch
     Graphic cone = new Graphic(new Point(83.9, 28.41, 200, SpatialReferences.getWgs84()), coneSymbol);
     graphicsOverlay.getGraphics().add(cone);

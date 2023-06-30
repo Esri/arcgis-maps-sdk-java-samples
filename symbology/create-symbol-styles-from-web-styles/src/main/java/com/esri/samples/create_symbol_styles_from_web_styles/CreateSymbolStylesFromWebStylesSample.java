@@ -31,7 +31,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -166,9 +173,10 @@ public class CreateSymbolStylesFromWebStylesSample extends Application {
         });
       }
 
-      // add a map scale changed listener on the map view to control the symbol sizes at different scales
-      mapView.addMapScaleChangedListener(mapScaleChangedEvent ->
-        featureLayer.setScaleSymbols(mapView.getMapScale() >= 80000));
+      // add a map scale listener on the map view to control the symbol sizes at different scales
+      mapView.mapScaleProperty().addListener((observable, oldValue, newValue) -> {
+        featureLayer.setScaleSymbols((double) newValue >= 80000);
+      });
 
       // add the map view and vbox to the stack pane
       stackPane.getChildren().addAll(mapView, vBox);
@@ -275,7 +283,7 @@ public class CreateSymbolStylesFromWebStylesSample extends Application {
 
     // create an image view for displaying the symbol in the legend
     ImageView imageView = new ImageView();
-    ListenableFuture<Image> imageOfSymbol = symbol.createSwatchAsync(0x00000000, 1f);
+    ListenableFuture<Image> imageOfSymbol = symbol.createSwatchAsync(Color.TRANSPARENT, 1f);
     imageOfSymbol.addDoneListener(() -> {
       try {
         // add the symbol image to the image view

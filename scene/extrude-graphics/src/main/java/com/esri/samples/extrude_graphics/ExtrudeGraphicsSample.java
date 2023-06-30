@@ -40,7 +40,6 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.LayerSceneProperties;
 import com.esri.arcgisruntime.mapping.view.SceneView;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.Renderer.SceneProperties;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
@@ -109,7 +108,7 @@ public class ExtrudeGraphicsSample extends Application {
       // create and style graphics
       points.forEach(p -> {
         double z = (int) (maxHeight * Math.random());
-        int color = ColorUtil.colorToArgb(Color.color(1.0 / maxHeight * z, 0, 0.5, 1));
+        Color color = Color.color(1.0 / maxHeight * z, 0, 0.5, 1);
         Polygon polygon = new Polygon(new PointCollection(Arrays.asList(new Point(p.getX(), p.getY(), z), new Point(p
             .getX() + squareSize, p.getY(), z), new Point(p.getX() + squareSize, p.getY() + squareSize, z), new Point(p
                 .getX(), p.getY() + squareSize, z))));

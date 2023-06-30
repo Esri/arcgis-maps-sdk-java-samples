@@ -8,6 +8,7 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.symbology.Symbol;
@@ -41,7 +42,7 @@ class SymbolLayerInfoListCell extends ListCell<SymbolStyleSearchResult> {
           // get the resulting symbol
           Symbol symbol = symbolFuture.get();
           // create a bitmap swatch from the symbol
-          ListenableFuture<Image> imageListenableFuture = symbol.createSwatchAsync(0x00000000, 1);
+          ListenableFuture<Image> imageListenableFuture = symbol.createSwatchAsync(Color.TRANSPARENT, 1);
           imageListenableFuture.addDoneListener(() -> {
             try {
               Image symbolImage = imageListenableFuture.get();
