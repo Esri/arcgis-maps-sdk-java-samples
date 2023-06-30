@@ -73,7 +73,6 @@ import com.esri.arcgisruntime.raster.HillshadeRenderer;
 import com.esri.arcgisruntime.raster.Raster;
 import com.esri.arcgisruntime.raster.RasterFunction;
 import com.esri.arcgisruntime.raster.RasterFunctionArguments;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
@@ -138,8 +137,7 @@ public class LocalServerGenerateElevationProfileController {
       // create a graphics overlay for displaying the sketched polyline and add it to the scene view's list of 
       // graphics overlays
       graphicsOverlay = new GraphicsOverlay();
-      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH,
-        ColorUtil.colorToArgb(Color.BLACK), 3);
+      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.BLACK, 3);
       graphicsOverlay.setRenderer(new SimpleRenderer(lineSymbol));
       sceneView.getGraphicsOverlays().add(graphicsOverlay);
 
@@ -296,7 +294,7 @@ public class LocalServerGenerateElevationProfileController {
 
                 featureLayer.getSceneProperties().setSurfacePlacement(LayerSceneProperties.SurfacePlacement.ABSOLUTE);
                 featureLayer.setRenderer(new SimpleRenderer(
-                  new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.WHITE), 3)));
+                  new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.WHITE, 3)));
 
                 sceneView.setViewpointCameraAsync(createCameraFacingElevationProfile(), 2);
                 instructionsLabel.setText("Elevation Profile drawn");
@@ -312,7 +310,7 @@ public class LocalServerGenerateElevationProfileController {
 
           } else {
             new Alert(AlertType.ERROR, "Geoprocess Job Fail. Error: " +
-              gpJob.getError().getAdditionalMessage()).showAndWait();
+              gpJob.getError().getMessage()).showAndWait();
           }
           progressBar.setVisible(false);
 
@@ -377,8 +375,7 @@ public class LocalServerGenerateElevationProfileController {
     // create a temporary graphics overlay to display point collection on map
     var tempGraphicsOverlay = new GraphicsOverlay();
     sceneView.getGraphicsOverlays().add(tempGraphicsOverlay);
-    var simpleMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS,
-      ColorUtil.colorToArgb(Color.BLACK), 10);
+    var simpleMarkerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.BLACK, 10);
     tempGraphicsOverlay.setRenderer(new SimpleRenderer(simpleMarkerSymbol));
 
     // create a point collection with the same spatial reference as the raster layer

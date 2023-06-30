@@ -80,16 +80,10 @@ public class AddEncExchangeSetSample extends Application {
       progressIndicator.setStyle("-fx-progress-color: white;");
       progressIndicator.setMaxSize(25, 25);
       progressIndicator.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
-      stackPane.getChildren().add(progressIndicator);
 
       // hide progress indicator when map is done drawing
-      mapView.addDrawStatusChangedListener(e -> {
-        if (e.getDrawStatus() == DrawStatus.IN_PROGRESS) {
-          progressIndicator.setVisible(true);
-        } else if (e.getDrawStatus() == DrawStatus.COMPLETED) {
-          progressIndicator.setVisible(false);
-        }
-      });
+      // show the progress indicator when map is drawing
+      progressIndicator.visibleProperty().bind(mapView.drawStatusProperty().isEqualTo(DrawStatus.IN_PROGRESS));
 
       // load the ENC exchange set from local data
       File encPath = new File(System.getProperty("data.dir"), "./samples-data/enc/ExchangeSetwithoutUpdates/ENC_ROOT/CATALOG.031");
@@ -123,8 +117,8 @@ public class AddEncExchangeSetSample extends Application {
         }
       });
 
-      // add the map view to the stack pane
-      stackPane.getChildren().add(mapView);
+      // add the map view and the progress indicator to the stack pane
+      stackPane.getChildren().addAll(mapView, progressIndicator);
 
     } catch (Exception e) {
       // on any error, display the stack trace.

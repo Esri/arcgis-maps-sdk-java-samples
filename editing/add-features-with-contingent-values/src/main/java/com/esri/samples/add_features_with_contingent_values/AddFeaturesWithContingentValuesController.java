@@ -59,7 +59,6 @@ import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
@@ -129,11 +128,10 @@ public class AddFeaturesWithContingentValuesController {
       // create a graphics overlay to display the nest buffer exclusion area
       graphicsOverlay = new GraphicsOverlay();
       var bufferSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL,
-              ColorUtil.colorToArgb(Color.RED), new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID,
-              ColorUtil.colorToArgb(Color.BLACK), 2));
+              Color.RED, new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLACK, 2));
       graphicsOverlay.setRenderer(new SimpleRenderer(bufferSymbol));
       // create a new simple marker symbol to mark where new feature is being added on the map
-      var symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, ColorUtil.colorToArgb(Color.BLACK), 11);
+      var symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLACK, 11);
       // add the graphics overlay to the mapview
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 

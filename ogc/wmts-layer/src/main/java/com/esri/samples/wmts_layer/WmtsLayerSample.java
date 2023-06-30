@@ -61,8 +61,8 @@ public class WmtsLayerSample extends Application {
       // create a WMTS service from a URL
       String serviceURL = "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best";
       wmtsService = new WmtsService(serviceURL);
-      wmtsService.addDoneLoadingListener(() -> {
-        if (wmtsService.getLoadStatus() == LoadStatus.LOADED) {
+      wmtsService.loadStatusProperty().addListener((observable, oldValue, newValue) -> {
+        if (newValue == LoadStatus.LOADED) {
           WmtsServiceInfo wmtsServiceInfo = wmtsService.getServiceInfo();
           // obtain the read only list of WMTS layer info objects, and select the one with the desired Id value.
           List<WmtsLayerInfo> wmtsLayerInfos = wmtsServiceInfo.getLayerInfos();
@@ -71,9 +71,9 @@ public class WmtsLayerSample extends Application {
           // create the WMTS layer with the LayerInfo
           WmtsLayer wmtsLayer = new WmtsLayer(layerInfo);
           map.setBasemap(new Basemap(wmtsLayer));
-        } else {
-          Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to load WMTS layer");
-          alert.show();
+        } else if (newValue == LoadStatus.FAILED_TO_LOAD) {
+          new Alert(Alert.AlertType.ERROR, "Failed to load WMTS layer.\n" +
+            wmtsService.loadErrorProperty().get().getCause().getMessage()).show();
         }
       });
       wmtsService.loadAsync();

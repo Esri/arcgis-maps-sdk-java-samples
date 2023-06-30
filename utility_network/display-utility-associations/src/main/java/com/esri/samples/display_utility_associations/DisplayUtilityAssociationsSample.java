@@ -30,6 +30,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -99,7 +100,7 @@ public class DisplayUtilityAssociationsSample extends Application {
 
       // add the utility network to the map before loading
       map.getUtilityNetworks().add(utilityNetwork);
-      // load the utility network and get all of the edges and junctions in the network
+      // load the utility network and get all edges and junctions in the network
       utilityNetwork.loadAsync();
       utilityNetwork.addDoneLoadingListener(() -> {
         List<UtilityNetworkSource> networkSources = utilityNetwork.getDefinition().getNetworkSources();
@@ -117,7 +118,7 @@ public class DisplayUtilityAssociationsSample extends Application {
         // add association graphics at the initial view point
         addAssociationsGraphics();
         // listen for navigation changes
-        mapView.addNavigationChangedListener(event -> addAssociationsGraphics());
+        mapView.navigatingProperty().addListener((observable, oldValue, newValue) -> addAssociationsGraphics());
       });
       
       // create labels for the preview
@@ -125,8 +126,8 @@ public class DisplayUtilityAssociationsSample extends Application {
       Label connectivityLabel = new Label("Connectivity");
       
       // create symbols for the associations and preview
-      SimpleLineSymbol attachmentSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, 0xFF00FF00, 5);
-      SimpleLineSymbol connectivitySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, 0xFFFF0000, 5);
+      SimpleLineSymbol attachmentSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, Color.LIME, 5);
+      SimpleLineSymbol connectivitySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DOT, Color.RED, 5);
       
       // create image views for the association symbols to display them in the legend
       ImageView attachmentImageView = addSymbolToImageView(attachmentSymbol);
@@ -184,7 +185,7 @@ public class DisplayUtilityAssociationsSample extends Application {
         Envelope extent = mapView.getCurrentViewpoint(Viewpoint.Type.BOUNDING_GEOMETRY).getTargetGeometry().getExtent();
         if (extent != null) {
           
-          // get all of the associations in the extent of the viewpoint
+          // get all the associations in the extent of the viewpoint
           ListenableFuture<List<UtilityAssociation>> associationsFuture = utilityNetwork.getAssociationsAsync(extent);
           associationsFuture.addDoneListener(() -> {
             try {
@@ -233,7 +234,7 @@ public class DisplayUtilityAssociationsSample extends Application {
     
     // add the connectivity symbol to the image view to display it in the legend
     ImageView imageView = new ImageView();
-    ListenableFuture<Image> connectivityImage = symbol.createSwatchAsync(0x00000000);
+    ListenableFuture<Image> connectivityImage = symbol.createSwatchAsync(Color.TRANSPARENT);
     connectivityImage.addDoneListener(() -> {
       try {
         // display the image in the image view

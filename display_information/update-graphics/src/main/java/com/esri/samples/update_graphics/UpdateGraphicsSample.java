@@ -37,6 +37,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -64,12 +65,6 @@ public class UpdateGraphicsSample extends Application {
   private Graphic identifiedGraphic;
   private GraphicsOverlay graphicsOverlay;
   private Point2D mapViewPoint;
-
-  // colors for symbols
-  private static final int PURPLE = 0xFF800080;
-  private static final int BLUE = 0xFF0000FF;
-  private static final int RED = 0xFFFF0000;
-  private static final int GREEN = 0xFF00FF00;
 
   @Override
   public void start(Stage stage) {
@@ -243,10 +238,10 @@ public class UpdateGraphicsSample extends Application {
 
     // create simple marker symbols for the points
     markers = new ArrayList<>();
-    markers.add(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, RED, 10));
-    markers.add(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, PURPLE, 10));
-    markers.add(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, GREEN, 10));
-    markers.add(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, BLUE, 10));
+    markers.add(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.RED, 10));
+    markers.add(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, Color.PURPLE, 10));
+    markers.add(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.GREEN, 10));
+    markers.add(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, Color.BLUE, 10));
 
     // create a list of names for graphics
     List<String> names = new ArrayList<>();

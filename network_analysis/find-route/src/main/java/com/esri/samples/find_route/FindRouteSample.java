@@ -18,6 +18,7 @@ package com.esri.samples.find_route;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -32,6 +33,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -70,8 +72,6 @@ public class FindRouteSample extends Application {
   private final GraphicsOverlay routeGraphicsOverlay = new GraphicsOverlay();
 
   private final SpatialReference ESPG_3857 = SpatialReference.create(102100);
-  private static final int WHITE_COLOR = 0xffffffff;
-  private static final int BLUE_COLOR = 0xff0000ff;
 
   private static final String ROUTE_TASK_SANDIEGO =
       "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NetworkAnalysis/SanDiego/NAServer/Route";
@@ -83,7 +83,7 @@ public class FindRouteSample extends Application {
       // create stack pane and application scene
       StackPane stackPane = new StackPane();
       Scene scene = new Scene(stackPane);
-      scene.getStylesheets().add(getClass().getResource("/find_route/style.css").toExternalForm());
+      scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/find_route/style.css")).toExternalForm());
 
       // set title, size, and add scene to stage
       stage.setTitle("Find Route Sample");
@@ -125,7 +125,8 @@ public class FindRouteSample extends Application {
           }
           Route route = routes.get(0);
           Geometry shape = route.getRouteGeometry();
-          routeGraphic = new Graphic(shape, new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, BLUE_COLOR, 2));
+
+          routeGraphic = new Graphic(shape, new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 2));
           routeGraphicsOverlay.getGraphics().add(routeGraphic);
 
           // get the direction text for each maneuver
@@ -197,15 +198,14 @@ public class FindRouteSample extends Application {
               routeParameters.setStops(routeStops);
 
               // add route stops to the stops overlay
-              SimpleMarkerSymbol stopMarker = new SimpleMarkerSymbol(Style.CIRCLE, BLUE_COLOR, 14);
+              SimpleMarkerSymbol stopMarker = new SimpleMarkerSymbol(Style.CIRCLE, Color.BLUE, 14);
               routeGraphicsOverlay.getGraphics().add(new Graphic(stop1Loc, stopMarker));
               routeGraphicsOverlay.getGraphics().add(new Graphic(stop2Loc, stopMarker));
 
               // add order text symbols to the stops
-              TextSymbol stop1Text = new TextSymbol(10, "1", WHITE_COLOR, HorizontalAlignment.CENTER,
-                  VerticalAlignment.MIDDLE);
-              TextSymbol stop2Text = new TextSymbol(10, "2", WHITE_COLOR, HorizontalAlignment.CENTER,
-                  VerticalAlignment.MIDDLE);
+
+              TextSymbol stop1Text = new TextSymbol(10, "1", Color.WHITE, HorizontalAlignment.CENTER, VerticalAlignment.MIDDLE);
+              TextSymbol stop2Text = new TextSymbol(10, "2", Color.WHITE, HorizontalAlignment.CENTER, VerticalAlignment.MIDDLE);
               routeGraphicsOverlay.getGraphics().add(new Graphic(stop1Loc, stop1Text));
               routeGraphicsOverlay.getGraphics().add(new Graphic(stop2Loc, stop2Text));
 

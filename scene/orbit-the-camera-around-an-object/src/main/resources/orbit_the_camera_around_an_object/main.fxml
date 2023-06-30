@@ -33,7 +33,7 @@
 <StackPane
         fx:controller="com.esri.samples.orbit_the_camera_around_an_object.OrbitTheCameraAroundAnObjectController"
         xmlns:fx="http://javafx.com/fxml"
-        stylesheets="/orbit_the_camera_around_an_object/style.css">
+        stylesheets="@style.css">
     <SceneView fx:id="sceneView"/>
 
     <BorderPane pickOnBounds="false">

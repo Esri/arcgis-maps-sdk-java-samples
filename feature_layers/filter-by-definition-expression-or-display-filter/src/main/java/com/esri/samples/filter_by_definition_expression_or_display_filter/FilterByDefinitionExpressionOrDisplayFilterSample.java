@@ -53,7 +53,7 @@ import com.esri.arcgisruntime.mapping.view.DrawStatus;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class FilterByDefinitionExpressionOrDisplayFilterSample extends Application {
-  
+
   private Button applyExpressionButton;
   private Button applyFilterButton;
   private Button resetButton;
@@ -103,10 +103,12 @@ public class FilterByDefinitionExpressionOrDisplayFilterSample extends Applicati
       // set the viewpoint for the map view
       mapView.setViewpointCenterAsync(startPoint, 20000);
 
-      // set up user interface and add a progress indicator
+      // set up user interface
       VBox vBox = controlsVBox();
+
+      // add a progress indicator and display it when drawing is in progress
       var progressIndicator = new ProgressIndicator();
-      progressIndicator.setVisible(true);
+      progressIndicator.visibleProperty().bind(mapView.drawStatusProperty().isEqualTo(DrawStatus.IN_PROGRESS));
 
       // create a new display filter with a name and where clause
       var displayFilter = new DisplayFilter("Damaged Trees", "req_type LIKE '%Tree Maintenance%'");
@@ -122,7 +124,7 @@ public class FilterByDefinitionExpressionOrDisplayFilterSample extends Applicati
         }
       );
 
-      // reset any existing display filter definition on the feature layer, and set a definition expression to it 
+      // reset any existing display filter definition on the feature layer, and set a definition expression to it
       applyExpressionButton.setOnAction(e -> {
         // reset the display filter definition
         featureLayer.setDisplayFilterDefinition(null);
@@ -138,18 +140,15 @@ public class FilterByDefinitionExpressionOrDisplayFilterSample extends Applicati
         featureLayer.setDefinitionExpression("");
       });
 
-      // check that the feature layer has loaded, then add a draw status changed listener to the mapview to count 
+      // check that the feature layer has loaded, then add a listener to the mapview to count
       // the features visible in the viewpoint extent every time the map is redrawn
       featureLayer.addDoneLoadingListener(() -> {
         if (featureLayer.getLoadStatus() == LoadStatus.LOADED) {
-          mapView.addDrawStatusChangedListener(drawStatusChangedEvent -> {
-            // if the draw status is in progress, show the progress indicator and set the count label text
-            if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.IN_PROGRESS) {
-              progressIndicator.setVisible(true);
+          mapView.drawStatusProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == DrawStatus.IN_PROGRESS) {
+              // set the count label text
               featureCountLabel.setText("updating..");
             } else {
-              // if draw status is complete, hide the progress indicator
-              progressIndicator.setVisible(false);
               // get the map view's current view point, create query parameters and set the view point to it
               Envelope viewPointExtent =
                 mapView.getCurrentViewpoint(Viewpoint.Type.BOUNDING_GEOMETRY).getTargetGeometry().getExtent();

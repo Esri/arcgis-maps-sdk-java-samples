@@ -26,7 +26,6 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
 
@@ -96,7 +95,7 @@ public class DisplayOgcApiCollectionSample extends Application {
 
           // create a feature layer and set a renderer to it to visualize the OGC API features
           var featureLayer = new FeatureLayer(ogcFeatureCollectionTable);
-          var simpleRenderer = new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.BLUE), 3));
+          var simpleRenderer = new SimpleRenderer(new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 3));
           featureLayer.setRenderer(simpleRenderer);
 
           // add the layer to the map

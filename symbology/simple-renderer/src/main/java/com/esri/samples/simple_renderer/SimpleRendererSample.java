@@ -19,6 +19,7 @@ package com.esri.samples.simple_renderer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -82,8 +83,8 @@ public class SimpleRendererSample extends Application {
       GraphicsOverlay graphicsOverlay = new GraphicsOverlay();
       mapView.getGraphicsOverlays().add(graphicsOverlay);
 
-      // create a red (0xFFFF0000) simple symbol for use in a simple renderer
-      SimpleMarkerSymbol symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, 0xFFFF0000, 12);
+      // create a red simple symbol for use in a simple renderer
+      SimpleMarkerSymbol symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CROSS, Color.RED, 12);
       SimpleRenderer renderer = new SimpleRenderer(symbol);
 
       // apply the renderer to the graphics overlay

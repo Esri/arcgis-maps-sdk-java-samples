@@ -24,6 +24,8 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -32,6 +34,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
@@ -43,8 +46,6 @@ import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.view.DrawStatus;
-import com.esri.arcgisruntime.mapping.view.DrawStatusChangedEvent;
-import com.esri.arcgisruntime.mapping.view.DrawStatusChangedListener;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
@@ -90,7 +91,7 @@ public class GenerateOfflineMapWithLocalBasemapSample extends Application {
       // create a graphic to show a box around the extent we want to download
       downloadArea = new Graphic();
       graphicsOverlay.getGraphics().add(downloadArea);
-      var simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
+      var simpleLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.RED, 2);
       downloadArea.setSymbol(simpleLineSymbol);
 
       // load a web map from a portal item
@@ -100,16 +101,17 @@ public class GenerateOfflineMapWithLocalBasemapSample extends Application {
       mapView.setMap(map);
 
       // draw the download extent area as a red outline when the draw status is completed for the first time
-      var drawStatusChangedListener = new DrawStatusChangedListener() {
+
+      ChangeListener<DrawStatus> drawStatusPropertyChangedListener = new ChangeListener<>() {
         @Override
-        public void drawStatusChanged(DrawStatusChangedEvent drawStatusChangedEvent) {
-          if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
+        public void changed(ObservableValue<? extends DrawStatus> observable, DrawStatus oldValue, DrawStatus newValue) {
+          if (newValue == DrawStatus.COMPLETED) {
             updateDownloadArea();
-            mapView.removeDrawStatusChangedListener(this);
+            mapView.drawStatusProperty().removeListener(this);
           }
         }
       };
-      mapView.addDrawStatusChangedListener(drawStatusChangedListener);
+      mapView.drawStatusProperty().addListener(drawStatusPropertyChangedListener);
 
       // update the download area box whenever the viewpoint changes
       mapView.addViewpointChangedListener(viewpointChangedEvent -> updateDownloadArea());
@@ -190,7 +192,7 @@ public class GenerateOfflineMapWithLocalBasemapSample extends Application {
                   offlineMapButton.setDisable(true);
                   progressBar.setVisible(false);
                 } else {
-                  new Alert(Alert.AlertType.ERROR, generateOfflineMapJob.getError().getAdditionalMessage()).show();
+                  new Alert(Alert.AlertType.ERROR, generateOfflineMapJob.getError().getMessage()).show();
                 }
               });
             }

@@ -33,6 +33,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -130,7 +131,7 @@ public class LineOfSightGeoElementSample extends Application {
 
       // create a point graph near the Empire State Building to be the observer
       Point observationPoint = new Point(-73.9853, 40.7484, 200, SpatialReferences.getWgs84());
-      Graphic observer = new Graphic(observationPoint, new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFFFF0000, 5));
+      Graphic observer = new Graphic(observationPoint, new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.RED, 5));
       graphicsOverlay.getGraphics().add(observer);
 
       // create a slider to change the observer's Z value

@@ -70,14 +70,14 @@ public class RasterRenderingRuleSample extends Application {
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
       // create a control panel
-      VBox controlsVBox = new VBox(8);
+      var controlsVBox = new VBox(8);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.6)"), CornerRadii.EMPTY, Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(260, 160);
       controlsVBox.getStyleClass().add("panel-region");
 
       // create progress indicator
-      ProgressIndicator progressIndicator = new ProgressIndicator();
+      var progressIndicator = new ProgressIndicator();
       progressIndicator.setVisible(false);
 
       // create drop down menu of Rendering Rules
@@ -148,13 +148,7 @@ public class RasterRenderingRuleSample extends Application {
             ImageServiceRaster appliedImageServiceRaster = new ImageServiceRaster(ImageServiceRasterUri);
 
             // show progress indicator while rule is loading
-            appliedImageServiceRaster.addLoadStatusChangedListener((e) -> {
-              if (e.getNewLoadStatus() == LoadStatus.LOADING) {
-                progressIndicator.setVisible(true);
-              } else {
-                progressIndicator.setVisible(false);
-              }
-            });
+            progressIndicator.visibleProperty().bind(appliedImageServiceRaster.loadStatusProperty().isEqualTo(LoadStatus.LOADING));
 
             // apply the rendering rule
             appliedImageServiceRaster.setRenderingRule(renderingRule);

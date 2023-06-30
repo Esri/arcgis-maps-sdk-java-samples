@@ -24,6 +24,7 @@ import java.util.Map;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -115,7 +116,7 @@ public class FeatureCollectionLayerSample extends Application {
     FeatureCollectionTable pointsTable = new FeatureCollectionTable(pointFields, GeometryType.POINT, WGS84);
 
     // set a default symbol for features in the collection table
-    SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(Style.TRIANGLE, 0xFFFF0000, 18);
+    SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(Style.TRIANGLE, Color.RED, 18);
     SimpleRenderer renderer = new SimpleRenderer(markerSymbol);
     pointsTable.setRenderer(renderer);
 
@@ -147,7 +148,7 @@ public class FeatureCollectionLayerSample extends Application {
     FeatureCollectionTable polylineTable = new FeatureCollectionTable(polylineFields, GeometryType.POLYLINE, WGS84);
 
     // set a default symbol for features in the collection table
-    SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0xFF00FF00, 3);
+    SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.GREEN, 3);
     SimpleRenderer renderer = new SimpleRenderer(lineSymbol);
     polylineTable.setRenderer(renderer);
 
@@ -181,8 +182,8 @@ public class FeatureCollectionLayerSample extends Application {
     FeatureCollectionTable polygonTable = new FeatureCollectionTable(polygonFields, GeometryType.POLYGON, WGS84);
 
     // set a default symbol for features in the collection table
-    SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 2);
-    SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, 0xFF00FFFF, lineSymbol);
+    SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 2);
+    SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.DIAGONAL_CROSS, Color.CYAN, lineSymbol);
     SimpleRenderer renderer = new SimpleRenderer(fillSymbol);
     polygonTable.setRenderer(renderer);
 

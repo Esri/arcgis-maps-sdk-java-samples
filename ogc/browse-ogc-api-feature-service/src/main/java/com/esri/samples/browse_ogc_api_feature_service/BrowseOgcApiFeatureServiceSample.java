@@ -16,6 +16,8 @@
 
 package com.esri.samples.browse_ogc_api_feature_service;
 
+import java.util.List;
+
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.FeatureQueryResult;
@@ -31,7 +33,6 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
@@ -41,13 +42,22 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-
-import java.util.List;
 
 public class BrowseOgcApiFeatureServiceSample extends Application {
 
@@ -210,16 +220,16 @@ public class BrowseOgcApiFeatureServiceSample extends Application {
         case POINT:
         case MULTIPOINT:
           ogcFeatureLayer.setRenderer(new SimpleRenderer(
-            new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, ColorUtil.colorToArgb(Color.BLUE), 5)));
+            new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLUE, 5)));
           break;
         case POLYGON:
         case ENVELOPE:
           ogcFeatureLayer.setRenderer(new SimpleRenderer(
-            new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.BLUE), null)));
+            new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.BLUE, null)));
           break;
         case POLYLINE:
           ogcFeatureLayer.setRenderer(new SimpleRenderer(
-            new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.BLUE), 1)));
+            new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 1)));
           break;
       }
 

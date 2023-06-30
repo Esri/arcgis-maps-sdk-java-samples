@@ -16,11 +16,6 @@
 
 package com.esri.samples.display_dimensions;
 
-import com.esri.arcgisruntime.layers.DimensionLayer;
-import com.esri.arcgisruntime.layers.Layer;
-import com.esri.arcgisruntime.loadable.LoadStatus;
-import com.esri.arcgisruntime.mapping.MobileMapPackage;
-import com.esri.arcgisruntime.mapping.view.MapView;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -31,6 +26,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+
+import com.esri.arcgisruntime.layers.DimensionLayer;
+import com.esri.arcgisruntime.layers.Layer;
+import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.mapping.MobileMapPackage;
+import com.esri.arcgisruntime.mapping.view.MapView;
 
 import java.io.File;
 import java.util.Objects;

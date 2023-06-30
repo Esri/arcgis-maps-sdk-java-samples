@@ -25,6 +25,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -79,12 +80,12 @@ public class CutGeometrySample extends Application {
 
       // create a blue polygon graphic to cut
       Graphic polygonGraphic = new Graphic(createLakeSuperiorPolygon(), new SimpleFillSymbol(SimpleFillSymbol.Style
-          .SOLID, 0x220000FF, new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 2)));
+          .SOLID, Color.web("blue", 0.12), new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 2)));
       graphicsOverlay.getGraphics().add(polygonGraphic);
 
       // create a red polyline graphic to cut the polygon
       Graphic polylineGraphic = new Graphic(createBorder(), new SimpleLineSymbol(SimpleLineSymbol.Style.DOT,
-          0xFFFF0000, 3));
+          Color.RED, 3));
       graphicsOverlay.getGraphics().add(polylineGraphic);
 
       // zoom to show the polygon graphic
@@ -103,9 +104,9 @@ public class CutGeometrySample extends Application {
 
           // create graphics for the US and Canada sides
           Graphic canadaSide = new Graphic(parts.get(0), new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL,
-            0xFF00FF00, new SimpleLineSymbol(SimpleLineSymbol.Style.NULL, 0xFFFFFFFF, 0)));
+            Color.AQUAMARINE, new SimpleLineSymbol(SimpleLineSymbol.Style.NULL, Color.WHITE, 0)));
           Graphic usSide = new Graphic(parts.get(1), new SimpleFillSymbol(SimpleFillSymbol.Style.FORWARD_DIAGONAL,
-            0xFFFFFF00, new SimpleLineSymbol(SimpleLineSymbol.Style.NULL, 0xFFFFFFFF, 0)));
+            Color.YELLOW, new SimpleLineSymbol(SimpleLineSymbol.Style.NULL, Color.WHITE, 0)));
           cutAreasOverlay.getGraphics().addAll(Arrays.asList(canadaSide, usSide));
 
           // update the button text

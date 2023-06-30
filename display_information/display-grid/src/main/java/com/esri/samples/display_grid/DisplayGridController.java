@@ -35,7 +35,6 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.mapping.view.MgrsGrid;
 import com.esri.arcgisruntime.mapping.view.UsngGrid;
 import com.esri.arcgisruntime.mapping.view.UtmGrid;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.LineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.TextSymbol;
@@ -123,14 +122,14 @@ public class DisplayGridController {
     // color the grid lines and labels for each grid level
     for (int i = 0; i < grid.getLevelCount(); i++) {
       // grid lines
-      LineSymbol gridLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(gridColorPicker
-          .getValue()), 1 + i);
+      LineSymbol gridLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID,
+        gridColorPicker.getValue(), 1 + i);
       grid.setLineSymbol(i, gridLineSymbol);
 
       // labels
-      TextSymbol labelTextSymbol = new TextSymbol(14, "text", ColorUtil.colorToArgb(labelColorPicker.getValue()),
+      TextSymbol labelTextSymbol = new TextSymbol(14, "text", labelColorPicker.getValue(),
           TextSymbol.HorizontalAlignment.LEFT, TextSymbol.VerticalAlignment.BOTTOM);
-      labelTextSymbol.setHaloColor(0xFFFFFFFF); //white
+      labelTextSymbol.setHaloColor(Color.WHITE);
       labelTextSymbol.setHaloWidth(2 + i);
       grid.setTextSymbol(i, labelTextSymbol);
     }

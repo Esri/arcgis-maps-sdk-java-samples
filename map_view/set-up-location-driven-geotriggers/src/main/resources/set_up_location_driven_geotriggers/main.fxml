@@ -24,7 +24,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.control.Separator?>
 <StackPane fx:controller="com.esri.samples.set_up_location_driven_geotriggers.SetUpLocationDrivenGeotriggersController" xmlns:fx="http://javafx.com/fxml"
-           stylesheets="/set_up_location_driven_geotriggers/style.css">
+           stylesheets="@style.css">
     <!--SDK MapView-->
     <MapView fx:id="mapView"/>
     <!--Controls box-->

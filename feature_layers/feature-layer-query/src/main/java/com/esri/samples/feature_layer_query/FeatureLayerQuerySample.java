@@ -32,6 +32,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -127,10 +128,9 @@ public class FeatureLayerQuerySample extends Application {
       // create a starting point for the view
       startPoint = new Point(-11000000, 5000000, SpatialReferences.getWebMercator());
 
-      // set fill orange (0xFFFFCC00) color for the US states with a black color
-      // (0xFF000000) outline
-      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF000000, 1);
-      SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, 0xFFFFCC00, lineSymbol);
+      // set fill to golden color for the US states with a black color outline
+      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLACK, 1);
+      SimpleFillSymbol fillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.DARKGOLDENROD, lineSymbol);
 
       // create a service feature table
       featureTable = new ServiceFeatureTable("https://services.arcgis.com/jIL9msH9OI208GCb/arcgis/rest/services/USA_Daytime_Population_2016/FeatureServer/0");

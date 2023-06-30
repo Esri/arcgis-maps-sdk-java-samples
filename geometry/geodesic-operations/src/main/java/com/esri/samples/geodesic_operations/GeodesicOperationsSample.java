@@ -26,7 +26,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -87,7 +92,7 @@ public class GeodesicOperationsSample extends Application {
 
       // add a graphic at JFK airport to represent the flight start location
       Point start = new Point(-73.7781, 40.6413, srWgs84);
-      SimpleMarkerSymbol locationMarker = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFF0000FF, 10);
+      SimpleMarkerSymbol locationMarker = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.BLUE, 10);
       Graphic startLocation = new Graphic(start, locationMarker);
       graphicsOverlay.getGraphics().add(startLocation);
 
@@ -98,7 +103,7 @@ public class GeodesicOperationsSample extends Application {
 
       // create a graphic representing the geodesic path between the two locations
       Graphic path = new Graphic();
-      path.setSymbol(new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0xFF0000FF, 5));
+      path.setSymbol(new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.BLUE, 5));
       graphicsOverlay.getGraphics().add(path);
 
       // create a label to show the distance

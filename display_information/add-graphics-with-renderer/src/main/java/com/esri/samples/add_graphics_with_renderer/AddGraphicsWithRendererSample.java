@@ -40,7 +40,6 @@ import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
@@ -94,7 +93,7 @@ public class AddGraphicsWithRendererSample extends Application {
       // create graphic for point
       Graphic pointGraphic = new Graphic(point);
       // green diamond point symbol
-      SimpleMarkerSymbol pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, ColorUtil.colorToArgb(Color.GREEN), 10);
+      SimpleMarkerSymbol pointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, Color.GREEN, 10);
       // create simple renderer
       SimpleRenderer pointRenderer = new SimpleRenderer(pointSymbol);
       // set renderer on graphics overlay
@@ -111,7 +110,7 @@ public class AddGraphicsWithRendererSample extends Application {
       lineGeometry.addPoint(20e5, 50e5);
       Graphic lineGraphic = new Graphic(lineGeometry.toGeometry());
       lineGraphicOverlay.getGraphics().add(lineGraphic);
-      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.BLUE), 5);
+      SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 5);
       SimpleRenderer lineRenderer = new SimpleRenderer(lineSymbol);
       lineGraphicOverlay.setRenderer(lineRenderer);
       mapView.getGraphicsOverlays().add(lineGraphicOverlay);
@@ -125,7 +124,7 @@ public class AddGraphicsWithRendererSample extends Application {
       polygonGeometry.addPoint(-20e5, -20e5);
       Graphic polygonGraphic = new Graphic(polygonGeometry.toGeometry());
       polygonGraphicOverlay.getGraphics().add(polygonGraphic);
-      SimpleFillSymbol polygonSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.YELLOW), null);
+      SimpleFillSymbol polygonSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.YELLOW, null);
       SimpleRenderer polygonRenderer = new SimpleRenderer(polygonSymbol);
       polygonGraphicOverlay.setRenderer(polygonRenderer);
       mapView.getGraphicsOverlays().add(polygonGraphicOverlay);
@@ -133,8 +132,8 @@ public class AddGraphicsWithRendererSample extends Application {
       // polygon with curve segments (red heart) graphic
       GraphicsOverlay curvedGraphicOverlay = new GraphicsOverlay();
       // create a simple fill symbol with outline
-      SimpleLineSymbol curvedLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.BLACK), 1);
-      SimpleFillSymbol curvedFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.RED), curvedLineSymbol);
+      SimpleLineSymbol curvedLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLACK, 1);
+      SimpleFillSymbol curvedFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.RED, curvedLineSymbol);
       SimpleRenderer curvedRenderer = new SimpleRenderer(curvedFillSymbol);
       curvedGraphicOverlay.setRenderer(curvedRenderer);
       // create a heart-shaped graphic and add it to the map view
@@ -146,7 +145,7 @@ public class AddGraphicsWithRendererSample extends Application {
 
       // purple ellipse polygon graphic
       GraphicsOverlay ellipseGraphicOverlay = new GraphicsOverlay();
-      SimpleFillSymbol ellipseSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, ColorUtil.colorToArgb(Color.PURPLE), null);
+      SimpleFillSymbol ellipseSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.PURPLE, null);
       SimpleRenderer ellipseRenderer = new SimpleRenderer(ellipseSymbol);
       ellipseGraphicOverlay.setRenderer(ellipseRenderer);
       Graphic ellipseGraphic = new Graphic(makeEllipse());

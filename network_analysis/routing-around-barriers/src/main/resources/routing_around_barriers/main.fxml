@@ -21,7 +21,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.Color?>
 <StackPane fx:controller="com.esri.samples.routing_around_barriers.RoutingAroundBarriersController"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/routing_around_barriers/style.css">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css">
     <!--SDK SceneView-->
     <MapView fx:id="mapView" onMouseClicked="#handleMapViewClicked"/>
     <!--Controls Area-->

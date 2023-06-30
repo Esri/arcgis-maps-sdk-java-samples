@@ -32,6 +32,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -42,7 +43,6 @@ import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.MultilayerPointSymbol;
 import com.esri.arcgisruntime.symbology.Symbol;
 import com.esri.arcgisruntime.symbology.SymbolStyle;
@@ -188,7 +188,7 @@ public class ReadSymbolsFromMobileStyleFileController {
         faceSymbol.getSymbolLayers().get(0).setColorLocked(false);
 
         // set the color of the symbol
-        faceSymbol.setColor(ColorUtil.colorToArgb(colorPicker.getValue()));
+        faceSymbol.setColor(colorPicker.getValue());
 
         // set the size of the symbol
         faceSymbol.setSize((float) sizeSlider.getValue());
@@ -223,7 +223,7 @@ public class ReadSymbolsFromMobileStyleFileController {
     symbolPreview.setImage(null);
 
     // create an image and image view from the symbol
-    ListenableFuture<Image> symbolImageFuture = multilayerPointSymbol.createSwatchAsync(0x00000000, 1);
+    ListenableFuture<Image> symbolImageFuture = multilayerPointSymbol.createSwatchAsync(Color.TRANSPARENT, 1);
     try {
       // display the image view in the preview area
       symbolPreview.setImage(symbolImageFuture.get());

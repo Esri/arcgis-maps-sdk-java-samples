@@ -16,10 +16,15 @@
 
 package com.esri.samples.take_screenshot;
 
-import java.io.File;
-
 import javax.imageio.ImageIO;
 
+import java.io.File;
+
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
+import com.esri.arcgisruntime.mapping.view.MapView;
 import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
@@ -27,16 +32,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.BasemapStyle;
-import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class TakeScreenshotSample extends Application {
 
@@ -75,7 +73,7 @@ public class TakeScreenshotSample extends Application {
 
       // create button to take screen shot
       Button screenShotButton = new Button("Take Screenshot");
-      
+
       screenShotButton.setOnAction(e -> {
         // export image from map view
         ListenableFuture<Image> mapImage = mapView.exportImageAsync();

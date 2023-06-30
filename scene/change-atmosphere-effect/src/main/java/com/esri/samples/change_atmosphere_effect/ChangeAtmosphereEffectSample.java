@@ -20,14 +20,10 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.mapping.ArcGISScene;
@@ -77,39 +73,48 @@ public class ChangeAtmosphereEffectSample extends Application {
       scene.setBaseSurface(surface);
 
       // add a camera and initial camera position
-      Camera camera = new Camera(64.416919, -14.483728, 100, 318, 105, 0);
+      var camera = new Camera(64.416919, -14.483728, 100, 318, 105, 0);
       sceneView.setViewpointCamera(camera);
 
-      // create a control panel
-      VBox controlsVBox = new VBox(6);
-      controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0, 0.3)"),
-          CornerRadii.EMPTY, Insets.EMPTY)));
-      controlsVBox.setPadding(new Insets(10.0));
-      controlsVBox.setMaxSize(260, 110);
-      controlsVBox.getStyleClass().add("panel-region");
+      // create combo box for the atmosphere effects
+      ComboBox<AtmosphereEffect> comboBox = new ComboBox<>();
+      comboBox.getItems().addAll(AtmosphereEffect.NONE,
+        AtmosphereEffect.REALISTIC, AtmosphereEffect.HORIZON_ONLY);
 
-      // create buttons to set each atmosphere effect
-      Button noAtmosphereButton = new Button("No Atmosphere Effect");
-      Button realisticAtmosphereButton = new Button ("Realistic Atmosphere Effect");
-      Button horizonAtmosphereButton = new Button ("Horizon Only Atmosphere Effect");
-      noAtmosphereButton.setMaxWidth(Double.MAX_VALUE);
-      realisticAtmosphereButton.setMaxWidth(Double.MAX_VALUE);
-      horizonAtmosphereButton.setMaxWidth(Double.MAX_VALUE);
+      // show the name of the atmosphere effects in the combo box
+      comboBox.setConverter(new ComboBoxStringConverter());
 
-      noAtmosphereButton.setOnAction(event -> sceneView.setAtmosphereEffect(AtmosphereEffect.NONE));
-      realisticAtmosphereButton.setOnAction(event -> sceneView.setAtmosphereEffect(AtmosphereEffect.REALISTIC));
-      horizonAtmosphereButton.setOnAction(event -> sceneView.setAtmosphereEffect(AtmosphereEffect.HORIZON_ONLY));
-
-      // add buttons to the control panel
-      controlsVBox.getChildren().addAll(noAtmosphereButton, realisticAtmosphereButton, horizonAtmosphereButton);
+      // bind the scene view atmosphere effect to the value chosen from the combo box
+      comboBox.valueProperty().bindBidirectional(sceneView.atmosphereEffectProperty());
 
       // add scene view and control panel to the stack pane
-      stackPane.getChildren().addAll(sceneView, controlsVBox);
-      StackPane.setAlignment(controlsVBox, Pos.TOP_RIGHT);
-      StackPane.setMargin(controlsVBox, new Insets(10, 0, 0, 10));
+      stackPane.getChildren().addAll(sceneView, comboBox);
+      StackPane.setAlignment(comboBox, Pos.TOP_RIGHT);
+      StackPane.setMargin(comboBox, new Insets(10, 10, 0, 0));
     } catch (Exception e) {
       // on any error, display the stack trace.
       e.printStackTrace();
+    }
+  }
+
+  /**
+   * Converts the AtmosphereEffect values to strings to display in the ComboBox.
+   */
+  private static class ComboBoxStringConverter extends StringConverter<AtmosphereEffect> {
+
+    @Override
+    public String toString(AtmosphereEffect atmosphereEffect) {
+      if (atmosphereEffect != null) {
+        if (atmosphereEffect == AtmosphereEffect.NONE) return "None";
+        else if (atmosphereEffect == AtmosphereEffect.REALISTIC) return "Realistic";
+        else if (atmosphereEffect == AtmosphereEffect.HORIZON_ONLY) return "Horizon only";
+      }
+      return "";
+    }
+
+    @Override
+    public AtmosphereEffect fromString(String string) {
+      return null;
     }
   }
 

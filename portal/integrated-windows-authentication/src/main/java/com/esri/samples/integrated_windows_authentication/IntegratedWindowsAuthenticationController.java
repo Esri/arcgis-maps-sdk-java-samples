@@ -78,8 +78,8 @@ public class IntegratedWindowsAuthenticationController {
       resultsListView.setCellFactory(c -> new PortalItemInfoListCell());
 
       // hide the progress indicator when the map is finished drawing
-      mapView.addDrawStatusChangedListener(drawStatusChangedEvent -> {
-        if (drawStatusChangedEvent.getDrawStatus() == DrawStatus.COMPLETED) {
+      mapView.drawStatusProperty().addListener((observable, oldValue, newValue) -> {
+        if (newValue == DrawStatus.COMPLETED) {
           progressIndicator.setVisible(false);
         }
       });

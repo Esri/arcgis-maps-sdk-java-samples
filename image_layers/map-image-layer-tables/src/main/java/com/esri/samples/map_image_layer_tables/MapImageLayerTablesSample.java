@@ -27,6 +27,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -108,7 +109,7 @@ public class MapImageLayerTablesSample extends Application {
 
       // show the related graphics as cyan circles
       SimpleRenderer renderer = new SimpleRenderer();
-      renderer.setSymbol(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, 0xFF00FFFF, 14));
+      renderer.setSymbol(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.CYAN, 14));
       graphicsOverlay.setRenderer(renderer);
 
       // create a list view to show the non-spatial comment features

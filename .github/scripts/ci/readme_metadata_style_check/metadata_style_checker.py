@@ -25,6 +25,7 @@ categories = {
     'ogc',
     'portal',
     'raster',
+    'real_time',
     'scene',
     'search',
     'symbology',
@@ -152,6 +153,7 @@ class MetadataCreator:
         results = list(filter(lambda x: 'build/' not in x, results)) # exclude \build folder
         results = list(filter(lambda x: 'out/' not in x, results)) # exclude \out folder
         results = list(filter(lambda x: 'Launcher' not in x, results)) # exclude *Launcher.java
+        results = list(filter(lambda x: 'module-info' not in x, results)) # exclude module-info.java
         results = list(map(lambda x: x.replace(os.sep, '/'), results)) # eliminate double backslashes in the paths
 
         return sorted(results)

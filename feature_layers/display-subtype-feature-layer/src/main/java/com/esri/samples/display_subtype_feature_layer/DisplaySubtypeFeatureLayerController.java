@@ -15,6 +15,7 @@
  */
 package com.esri.samples.display_subtype_feature_layer;
 
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
@@ -37,7 +38,6 @@ import com.esri.arcgisruntime.mapping.labeling.SimpleLabelExpression;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.security.UserCredential;
-import com.esri.arcgisruntime.symbology.ColorUtil;
 import com.esri.arcgisruntime.symbology.Renderer;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleRenderer;
@@ -66,9 +66,11 @@ public class DisplaySubtypeFeatureLayerController {
       // create a map with the streets night basemap style and add it to the map view
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_STREETS_NIGHT);
       mapView.setMap(map);
+
       // display the current map scale
-      mapView.addMapScaleChangedListener(mapScaleChangedEvent ->
-        currentMapScaleLabel.setText("Current map scale: 1:" + Math.round(mapView.getMapScale())));
+      currentMapScaleLabel.textProperty().bind(Bindings.createStringBinding(() -> {
+        return "Current map scale: 1:" + Math.round(mapView.mapScaleProperty().get());
+      }, mapView.mapScaleProperty()));
 
       // set a viewpoint on the map view, to Naperville, Illinois
       Viewpoint initialViewpoint = new Viewpoint(new Envelope(-9812691.11079696, 5128687.20710657,
@@ -89,9 +91,9 @@ public class DisplaySubtypeFeatureLayerController {
       // create a text symbol for styling the sublayer label definition
       var textSymbol = new TextSymbol();
       textSymbol.setSize(12);
-      textSymbol.setOutlineColor(ColorUtil.colorToArgb(Color.WHITE));
-      textSymbol.setColor(ColorUtil.colorToArgb(Color.BLUE));
-      textSymbol.setHaloColor(ColorUtil.colorToArgb(Color.WHITE));
+      textSymbol.setOutlineColor(Color.WHITE);
+      textSymbol.setColor(Color.BLUE);
+      textSymbol.setHaloColor(Color.WHITE);
       textSymbol.setHaloWidth(3);
 
       // create a label definition with a simple label expression
@@ -115,7 +117,7 @@ public class DisplaySubtypeFeatureLayerController {
           // get the original renderer of the sublayer (white and black circular icon)
           originalRenderer = sublayer.getRenderer();
           // create a custom renderer for the sublayer (light pink diamond symbol)
-          Symbol symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, 0xfff58f84, 20);
+          Symbol symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, Color.LIGHTPINK, 20);
           alternativeRenderer = new SimpleRenderer(symbol);
         } else {
           new Alert(Alert.AlertType.ERROR, "Failed to load feature layer").show();

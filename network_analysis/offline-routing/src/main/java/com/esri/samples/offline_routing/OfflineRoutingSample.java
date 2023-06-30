@@ -33,6 +33,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -144,14 +145,14 @@ public class OfflineRoutingSample extends Application {
       // add a graphics overlay to show the boundary
       Envelope envelope = new Envelope(new Point(-13045352.223196, 3864910.900750, 0, SpatialReferences.getWebMercator()),
           new Point(-13024588.857198, 3838880.505604, 0, SpatialReferences.getWebMercator()));
-      SimpleLineSymbol boundarySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, 0xFF00FF00, 5);
+      SimpleLineSymbol boundarySymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.DASH, Color.LIME, 5);
       Graphic boundary = new Graphic(envelope, boundarySymbol);
       GraphicsOverlay boundaryOverlay = new GraphicsOverlay();
       boundaryOverlay.getGraphics().add(boundary);
       mapView.getGraphicsOverlays().add(boundaryOverlay);
 
       // create symbol for route
-      lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFF0000FF, 3);
+      lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 3);
 
       // create mouse moved event listener to update the route when moving stops
       mouseMovedListener = event -> {
@@ -187,7 +188,7 @@ public class OfflineRoutingSample extends Application {
 
             // create graphic for stop
             TextSymbol stopLabel = new TextSymbol(20, Integer.toString(stopsOverlay.getGraphics().size() + 1),
-                0xFFFF0000, TextSymbol.HorizontalAlignment.RIGHT, TextSymbol.VerticalAlignment.TOP);
+                Color.RED, TextSymbol.HorizontalAlignment.RIGHT, TextSymbol.VerticalAlignment.TOP);
 
             // create and add the stop graphic to the graphics overlay and list
             Graphic stopGraphic = new Graphic(point, stopLabel);

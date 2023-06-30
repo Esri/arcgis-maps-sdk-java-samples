@@ -16,17 +16,6 @@
 
 package com.esri.samples.browse_building_floors;
 
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Paint;
-import javafx.stage.Stage;
-import javafx.util.StringConverter;
-
 import java.util.Objects;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -38,6 +27,20 @@ import com.esri.arcgisruntime.mapping.floor.FloorManager;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 public class BrowseBuildingFloorsSample extends Application {
 

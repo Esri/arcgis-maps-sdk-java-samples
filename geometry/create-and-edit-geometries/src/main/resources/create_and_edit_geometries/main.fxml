@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2023 Esri.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  ~ use this file except in compliance with the License. You may obtain a copy of
+  ~ the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  ~ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+
+<?import com.esri.arcgisruntime.mapping.view.MapView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.Background?>
+<?import javafx.scene.layout.BackgroundFill?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.Color?>
+<StackPane fx:controller="com.esri.samples.create_and_edit_geometries.CreateAndEditGeometriesController"
+           xmlns:fx="http://javafx.com/fxml"
+           stylesheets="@style.css">
+    <!--MapView-->
+    <MapView fx:id="mapView"/>
+    <!--GridPane to contain GeometryEditor UI controls-->
+    <GridPane vgap="6" hgap="6" alignment="CENTER" StackPane.alignment="TOP_RIGHT" maxWidth="120" maxHeight="110"
+              styleClass="panel-region">
+        <padding>
+            <Insets topRightBottomLeft="10"/>
+        </padding>
+        <background>
+            <Background>
+                <fills>
+                    <BackgroundFill>
+                        <fill>
+                            <Color opacity="0.3"/>
+                        </fill>
+                    </BackgroundFill>
+                </fills>
+            </Background>
+        </background>
+        <Label GridPane.rowIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" text="Create"/>
+        <!--Buttons configured with actions and graphics-->
+        <Button fx:id="pointButton" onAction="#handlePointButtonClicked" GridPane.rowIndex="1" GridPane.columnIndex="0"
+                text="Point">
+            <graphic>
+                <ImageView>
+                    <Image url="@icons/point-32.png"/>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Point"/>
+            </tooltip>
+        </Button>
+        <Button fx:id="multipointButton" onAction="#handleMultipointButtonClicked" GridPane.rowIndex="1"
+                GridPane.columnIndex="1" text="Multipoint">
+            <graphic>
+                <ImageView>
+                    <Image url="@icons/multipoint-32.png"/>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Multipoint"/>
+            </tooltip>
+        </Button>
+        <Button fx:id="polylineButton" onAction="#handlePolylineButtonClicked" GridPane.rowIndex="2"
+                GridPane.columnIndex="0" text="Polyline">
+            <graphic>
+                <ImageView>
+                    <Image url="@icons/line-32.png"/>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Polyline"/>
+            </tooltip>
+        </Button>
+        <Button fx:id="polygonButton" onAction="#handlePolygonButtonClicked" GridPane.rowIndex="2"
+                GridPane.columnIndex="1" text="Polygon">
+            <graphic>
+                <ImageView>
+                    <Image url="@icons/polygon-32.png"/>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Polygon"/>
+            </tooltip>
+        </Button>
+        <ComboBox fx:id="toolComboBox" disable="true" GridPane.rowIndex="3" GridPane.columnIndex="0"
+                  GridPane.columnSpan="2"/>
+        <Separator GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="2" maxWidth="100"/>
+        <Label GridPane.rowIndex="5" GridPane.columnSpan="2" GridPane.halignment="CENTER" text="Edit"/>
+        <Button fx:id="undoButton" onAction="#handleUndoButtonClicked" GridPane.rowIndex="6"
+                GridPane.columnIndex="0" text="Undo">
+            <graphic>
+                <ImageView>
+                    <Image url="@icons/undo-32.png"/>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Undo"/>
+            </tooltip>
+        </Button>
+        <Button fx:id="redoButton" onAction="#handleRedoButtonClicked" GridPane.rowIndex="6"
+                GridPane.columnIndex="1" text="Redo">
+            <graphic>
+                <ImageView>
+                    <Image url="@icons/redo-32.png"/>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Redo"/>
+            </tooltip>
+        </Button>
+        <Button fx:id="deleteSelectedElementButton" onAction="#handleDeleteSelectedElementButtonClicked"
+                disable="true" GridPane.rowIndex="7" GridPane.columnIndex="0" GridPane.columnSpan="2"
+                text="Delete selected element">
+            <graphic>
+                <ImageView>
+                    <Image url="@icons/erase-32.png" requestedHeight="24" preserveRatio="true" smooth="true"/>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Delete selected element"/>
+            </tooltip>
+        </Button>
+        <Button fx:id="stopAndSaveButton" onAction="#handleStopAndSaveButtonClicked" GridPane.rowIndex="8"
+                GridPane.columnIndex="0" GridPane.columnSpan="2" text="Stop and save edits">
+            <graphic>
+                <ImageView>
+                    <Image url="@icons/check-circle-32.png" requestedHeight="24" preserveRatio="true" smooth="true"/>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Stop and save edits"/>
+            </tooltip>
+        </Button>
+        <Button fx:id="stopAndDiscardButton" onAction="#handleStopAndDiscardButtonClicked" GridPane.rowIndex="9"
+                GridPane.columnIndex="0" GridPane.columnSpan="2" text="Stop (discards edits)">
+            <graphic>
+                <ImageView>
+                    <Image url="@icons/circle-disallowed-32.png" requestedHeight="24" preserveRatio="true"
+                           smooth="true"/>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Stop (discards edits)"/>
+            </tooltip>
+        </Button>
+        <Button fx:id="deleteAllGeometriesButton" onAction="#handleDeleteAllGeometriesButtonClicked"
+                GridPane.rowIndex="10" GridPane.columnIndex="0" GridPane.columnSpan="2" text="Delete all geometries">
+            <graphic>
+                <ImageView>
+                    <Image url="@icons/trash-32.png" requestedHeight="24" preserveRatio="true" smooth="true"/>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Delete all geometries"/>
+            </tooltip>
+        </Button>
+    </GridPane>
+</StackPane>

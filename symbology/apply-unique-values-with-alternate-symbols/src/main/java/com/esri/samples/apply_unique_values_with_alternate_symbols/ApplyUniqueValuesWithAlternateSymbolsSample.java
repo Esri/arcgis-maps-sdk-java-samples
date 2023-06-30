@@ -107,10 +107,10 @@ public class ApplyUniqueValuesWithAlternateSymbolsSample extends Application {
 
       // create simple marker symbols where the blue square and yellow diamond are alternate symbols
       // the red triangle is used to create a unique symbol and the purple diamond is the default symbol for the unique value renderer
-      SimpleMarkerSymbol simpleBlueSquareSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, 0xFF0000FF, 15);
-      SimpleMarkerSymbol simpleYellowDiamondSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, 0xFFFFFF00, 15);
-      SimpleMarkerSymbol simpleRedTriangleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, 0xFFFF0000, 15);
-      SimpleMarkerSymbol simplePurpleDiamondSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, 0xFF800080, 12);
+      SimpleMarkerSymbol simpleBlueSquareSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.SQUARE, Color.BLUE, 15);
+      SimpleMarkerSymbol simpleYellowDiamondSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, Color.YELLOW, 15);
+      SimpleMarkerSymbol simpleRedTriangleSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.TRIANGLE, Color.RED, 15);
+      SimpleMarkerSymbol simplePurpleDiamondSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.DIAMOND, Color.PURPLE, 12);
 
       // convert simple marker symbols to multilayer point symbols
       MultilayerPointSymbol multilayerBlueSquareSymbol = simpleBlueSquareSymbol.toMultilayerSymbol();
@@ -129,9 +129,6 @@ public class ApplyUniqueValuesWithAlternateSymbolsSample extends Application {
 
       // create unique value renderer
       var uniqueValRenderer = new UniqueValueRenderer(List.of("req_type"), List.of(uniqueValue), "", multilayerPurpleDiamondSymbol);
-
-      // apply default symbol for the unique value renderer
-      uniqueValRenderer.setDefaultSymbol(multilayerPurpleDiamondSymbol);
 
       // create a service feature table using the feature service url
       serviceFeatureTable = new ServiceFeatureTable(FEATURE_SERVICE_URL);

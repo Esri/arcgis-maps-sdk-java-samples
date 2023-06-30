@@ -26,7 +26,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.geometry.Insets?>
 <StackPane fx:controller="com.esri.samples.webmap_keyword_search.WebmapKeywordSearchController"
-           xmlns:fx="http://javafx.com/fxml" stylesheets="/webmap_keyword_search/style.css">
+           xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css">
     <MapView fx:id="mapView"/>
     <VBox StackPane.alignment="TOP_LEFT" spacing="10" maxWidth="250" styleClass="panel-region">
         <padding>

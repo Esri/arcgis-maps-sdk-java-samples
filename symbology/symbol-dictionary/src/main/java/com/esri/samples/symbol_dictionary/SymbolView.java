@@ -29,6 +29,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.geometry.Point;
@@ -83,7 +84,7 @@ class SymbolView extends HBox implements Initializable {
           // get the resulting symbol
           Symbol symbol = symbolFuture.get();
           // create a swatch from the symbol
-          ListenableFuture<Image> imageResult = symbol.createSwatchAsync(40, 40, 0x00FFFFFF, new Point(0, 0, 0));
+          ListenableFuture<Image> imageResult = symbol.createSwatchAsync(40, 40, Color.color(1.0,1.0,1.0,0.0), new Point(0, 0, 0));
           imageResult.addDoneListener(() -> {
             try {
               imageView.setImage(imageResult.get());

@@ -27,7 +27,7 @@
 <StackPane
     fx:controller="com.esri.samples.map_reference_scale.MapReferenceScaleController"
     xmlns:fx="http://javafx.com/fxml"
-    stylesheets="/map_reference_scale/style.css">
+    stylesheets="@style.css">
     <MapView fx:id="mapView"/>
     <ProgressIndicator fx:id="progressIndicator" maxWidth="25" maxHeight="25"/>
 
