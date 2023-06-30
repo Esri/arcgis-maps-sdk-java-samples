@@ -230,6 +230,7 @@ public class EditFeatureAttachmentsSample extends Application {
   private void addAttachment(byte[] attachment) {
 
     if (selected.canEditAttachments()) {
+      // update feature table and apply update to server when new feature is added
       selected.addAttachmentAsync(attachment, "image/png", "edit_feature_attachments/destroyed.png")
         .toCompletableFuture()
         .thenCompose(addedAttachment -> featureTable.updateFeatureAsync(selected).toCompletableFuture())
