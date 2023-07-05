@@ -34,6 +34,8 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.mapping.view.geometryeditor.FreehandTool;
 import com.esri.arcgisruntime.mapping.view.geometryeditor.GeometryEditor;
 import com.esri.arcgisruntime.mapping.view.geometryeditor.GeometryEditorTool;
+import com.esri.arcgisruntime.mapping.view.geometryeditor.ShapeTool;
+import com.esri.arcgisruntime.mapping.view.geometryeditor.ShapeToolType;
 import com.esri.arcgisruntime.mapping.view.geometryeditor.VertexTool;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
@@ -71,6 +73,10 @@ public class CreateAndEditGeometriesController {
   private GeometryEditor geometryEditor;
   private VertexTool vertexTool;
   private FreehandTool freehandTool;
+  private ShapeTool arrowShapeTool;
+  private ShapeTool ellipseShapeTool;
+  private ShapeTool rectangleShapeTool;
+  private ShapeTool triangleShapeTool;
   private GraphicsOverlay graphicsOverlay;
   private Graphic selectedGraphic;
   private SimpleFillSymbol fillSymbol;
@@ -101,11 +107,15 @@ public class CreateAndEditGeometriesController {
     geometryEditor = new GeometryEditor();
     mapView.setGeometryEditor(geometryEditor);
 
-    // create vertex and freehand tools for the geometry editor and add to combo box
+    // create vertex, freehand, and shape tools for the geometry editor and add to combo box
     vertexTool = new VertexTool();
     freehandTool = new FreehandTool();
+    arrowShapeTool = ShapeTool.create(ShapeToolType.ARROW);
+    ellipseShapeTool = ShapeTool.create(ShapeToolType.ELLIPSE);
+    rectangleShapeTool = ShapeTool.create(ShapeToolType.RECTANGLE);
+    triangleShapeTool = ShapeTool.create(ShapeToolType.TRIANGLE);
     toolComboBox.setConverter(new ComboBoxStringConverter());
-    toolComboBox.getItems().addAll(vertexTool, freehandTool);
+    toolComboBox.getItems().addAll(vertexTool, freehandTool, arrowShapeTool, ellipseShapeTool, rectangleShapeTool, triangleShapeTool);
     // bidirectionally bind the geometry editor tool to the tool selected in the combo box
     toolComboBox.valueProperty().bindBidirectional(geometryEditor.toolProperty());
 
@@ -429,7 +439,22 @@ public class CreateAndEditGeometriesController {
     public String toString(GeometryEditorTool geometryEditorTool) {
       if (geometryEditorTool != null) {
         if (geometryEditorTool instanceof VertexTool) return "Vertex Tool";
-        else if (geometryEditorTool instanceof FreehandTool) return "Freehand Tool";
+        if (geometryEditorTool instanceof FreehandTool) return "Freehand Tool";
+        if (geometryEditorTool instanceof ShapeTool){
+          switch (((ShapeTool) geometryEditorTool).getShapeType()) {
+            case ARROW:
+              return "Arrow Shape Tool";
+
+            case ELLIPSE:
+              return "Ellipse Shape Tool";
+
+            case RECTANGLE:
+              return "Rectangle Shape Tool";
+
+            case TRIANGLE:
+              return "Triangle Shape Tool";
+          }
+        }
       }
       return "";
     }
