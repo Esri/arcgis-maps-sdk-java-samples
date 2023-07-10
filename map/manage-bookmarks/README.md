@@ -17,7 +17,7 @@ The map in the sample comes pre-populated with a set of bookmarks. To access a b
 1. Instantiate a new `ArcGISMap` object and create a `BookmarkList` with `ArcGISMap.getBookmarks()`.
 2. To create a new bookmark and add it to the bookmark list:
     * Instantiate a new `Bookmark` object passing in text (the name of the bookmark) and a `Viewpoint` as parameters.
-    * Add the new bookmark to the book mark list with `BookmarkList.add(bookmark)`.
+    * Add the new bookmark to the bookmark list with `BookmarkList.add(bookmark)`.
 
 ## Relevant API
 
