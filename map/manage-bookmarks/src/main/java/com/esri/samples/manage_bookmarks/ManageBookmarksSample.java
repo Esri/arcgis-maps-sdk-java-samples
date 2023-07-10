@@ -89,8 +89,8 @@ public class ManageBookmarksSample extends Application {
       bookmarkListView.setCellFactory(p -> new BookmarkListCell());
 
       // when user clicks on a bookmark change to that location
-      bookmarkListView.getSelectionModel().selectedItemProperty().addListener((ov, old_val, new_val) -> {
-        mapView.setBookmarkAsync(new_val);
+      bookmarkListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        mapView.setBookmarkAsync(newValue);
       });
 
       // create button to add a bookmark
