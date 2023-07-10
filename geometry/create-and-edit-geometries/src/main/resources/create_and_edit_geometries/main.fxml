@@ -19,6 +19,7 @@
 <?import com.esri.arcgisruntime.mapping.view.MapView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -100,9 +101,10 @@
         </Button>
         <ComboBox fx:id="toolComboBox" disable="true" GridPane.rowIndex="3" GridPane.columnIndex="0"
                   GridPane.columnSpan="2"/>
-        <Separator GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="2" maxWidth="100"/>
-        <Label GridPane.rowIndex="5" GridPane.columnSpan="2" GridPane.halignment="CENTER" text="Edit"/>
-        <Button fx:id="undoButton" onAction="#handleUndoButtonClicked" GridPane.rowIndex="6"
+        <CheckBox fx:id="scaleModeUniformCheckBox" text="Uniform Scale" GridPane.rowIndex="4" GridPane.columnSpan="2"/>
+        <Separator GridPane.rowIndex="5" GridPane.columnIndex="0" GridPane.columnSpan="2" maxWidth="100"/>
+        <Label GridPane.rowIndex="6" GridPane.columnSpan="2" GridPane.halignment="CENTER" text="Edit"/>
+        <Button fx:id="undoButton" onAction="#handleUndoButtonClicked" GridPane.rowIndex="7"
                 GridPane.columnIndex="0" text="Undo">
             <graphic>
                 <ImageView>
@@ -113,7 +115,7 @@
                 <Tooltip text="Undo"/>
             </tooltip>
         </Button>
-        <Button fx:id="redoButton" onAction="#handleRedoButtonClicked" GridPane.rowIndex="6"
+        <Button fx:id="redoButton" onAction="#handleRedoButtonClicked" GridPane.rowIndex="7"
                 GridPane.columnIndex="1" text="Redo">
             <graphic>
                 <ImageView>
@@ -125,7 +127,7 @@
             </tooltip>
         </Button>
         <Button fx:id="deleteSelectedElementButton" onAction="#handleDeleteSelectedElementButtonClicked"
-                disable="true" GridPane.rowIndex="7" GridPane.columnIndex="0" GridPane.columnSpan="2"
+                disable="true" GridPane.rowIndex="8" GridPane.columnIndex="0" GridPane.columnSpan="2"
                 text="Delete selected element">
             <graphic>
                 <ImageView>
@@ -136,7 +138,7 @@
                 <Tooltip text="Delete selected element"/>
             </tooltip>
         </Button>
-        <Button fx:id="stopAndSaveButton" onAction="#handleStopAndSaveButtonClicked" GridPane.rowIndex="8"
+        <Button fx:id="stopAndSaveButton" onAction="#handleStopAndSaveButtonClicked" GridPane.rowIndex="9"
                 GridPane.columnIndex="0" GridPane.columnSpan="2" text="Stop and save edits">
             <graphic>
                 <ImageView>
@@ -147,7 +149,7 @@
                 <Tooltip text="Stop and save edits"/>
             </tooltip>
         </Button>
-        <Button fx:id="stopAndDiscardButton" onAction="#handleStopAndDiscardButtonClicked" GridPane.rowIndex="9"
+        <Button fx:id="stopAndDiscardButton" onAction="#handleStopAndDiscardButtonClicked" GridPane.rowIndex="10"
                 GridPane.columnIndex="0" GridPane.columnSpan="2" text="Stop (discards edits)">
             <graphic>
                 <ImageView>
@@ -160,7 +162,7 @@
             </tooltip>
         </Button>
         <Button fx:id="deleteAllGeometriesButton" onAction="#handleDeleteAllGeometriesButtonClicked"
-                GridPane.rowIndex="10" GridPane.columnIndex="0" GridPane.columnSpan="2" text="Delete all geometries">
+                GridPane.rowIndex="11" GridPane.columnIndex="0" GridPane.columnSpan="2" text="Delete all geometries">
             <graphic>
                 <ImageView>
                     <Image url="@icons/trash-32.png" requestedHeight="24" preserveRatio="true" smooth="true"/>
