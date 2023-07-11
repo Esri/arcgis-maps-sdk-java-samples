@@ -26,6 +26,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Background;
@@ -82,15 +83,14 @@ public class ManageBookmarksSample extends Application {
       Label bookmarkLabel = new Label("Bookmarks");
       bookmarkLabel.getStyleClass().add("panel-label");
 
-      // create a list to hold the names of the bookmarks
-      ListView<String> bookmarkNames = new ListView<>();
-      bookmarkNames.setMaxHeight(190);
+      // create a ListView to display the bookmarks
+      ListView<Bookmark> bookmarkListView = new ListView<>();
+      bookmarkListView.setMaxHeight(190);
+      bookmarkListView.setCellFactory(p -> new BookmarkListCell());
 
       // when user clicks on a bookmark change to that location
-      bookmarkNames.getSelectionModel().selectedItemProperty().addListener((ov, old_val, new_val) -> {
-        int index = bookmarkNames.getSelectionModel().getSelectedIndex();
-        mapView.setBookmarkAsync(bookmarkList.get(index));
-      });
+      bookmarkListView.getSelectionModel().selectedItemProperty().addListener(
+          (observable, oldValue, newValue) -> mapView.setBookmarkAsync(newValue));
 
       // create button to add a bookmark
       Button addBookmarkButton = new Button("Add Bookmark");
@@ -105,22 +105,21 @@ public class ManageBookmarksSample extends Application {
 
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(text -> {
-          if (text.trim().length() > 0 && !bookmarkNames.getItems().contains(text)) {
+          if (text.trim().length() > 0) {
             bookmark = new Bookmark(text, mapView.getCurrentViewpoint(Viewpoint.Type.BOUNDING_GEOMETRY));
             bookmarkList.add(bookmark);
-            bookmarkNames.getItems().add(bookmark.getName());
           } else {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.initOwner(mapView.getScene().getWindow());
             alert.setHeaderText("Text Error");
-            alert.setContentText("Text name already exist or no text was entered.");
+            alert.setContentText("Bookmark Name must not be empty.");
             alert.showAndWait();
           }
         });
       });
 
       // add label and bookmarks to the control panel
-      controlsVBox.getChildren().addAll(bookmarkLabel, bookmarkNames, addBookmarkButton);
+      controlsVBox.getChildren().addAll(bookmarkLabel, bookmarkListView, addBookmarkButton);
 
       // create a map with the standard imagery basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_IMAGERY_STANDARD);
@@ -132,29 +131,28 @@ public class ManageBookmarksSample extends Application {
       // get all the bookmarks from the map
       bookmarkList = map.getBookmarks();
 
+      // set bookmarkList as the data model for the ListView
+      bookmarkListView.setItems(bookmarkList);
+
       // add default bookmarks
       Viewpoint viewpoint;
 
       viewpoint = new Viewpoint(27.3805833, 33.6321389, 6e3);
       bookmark = new Bookmark("Mysterious Desert Pattern", viewpoint);
       bookmarkList.add(bookmark);
-      bookmarkNames.getItems().add(bookmark.getName());
       // set this bookmark as the map's initial viewpoint
       mapView.setBookmarkAsync(bookmarkList.get(0));
 
       viewpoint = new Viewpoint(37.401573, -116.867808, 6e3);
       bookmark = new Bookmark("Strange Symbol", viewpoint);
-      bookmarkNames.getItems().add(bookmark.getName());
       bookmarkList.add(bookmark);
 
       viewpoint = new Viewpoint(-33.867886, -63.985, 4e4);
       bookmark = new Bookmark("Guitar-Shaped Trees", viewpoint);
-      bookmarkNames.getItems().add(bookmark.getName());
       bookmarkList.add(bookmark);
 
       viewpoint = new Viewpoint(44.525049, -110.83819, 6e3);
       bookmark = new Bookmark("Grand Prismatic Spring", viewpoint);
-      bookmarkNames.getItems().add(bookmark.getName());
       bookmarkList.add(bookmark);
 
       // add the map view and control panel to stack pane
@@ -189,4 +187,19 @@ public class ManageBookmarksSample extends Application {
     Application.launch(args);
   }
 
+  /**
+   * A ListCell for displaying Bookmarks. Simply displays the Bookmark's name.
+   */
+  private static class BookmarkListCell extends ListCell<Bookmark> {
+    @Override
+    public void updateItem(Bookmark bookmark, boolean empty) {
+      super.updateItem(bookmark, empty);
+      if (empty || bookmark == null) {
+        setText(null);
+        setGraphic(null);
+      } else {
+        setText(bookmark.getName());
+      }
+    }
+  }
 }
