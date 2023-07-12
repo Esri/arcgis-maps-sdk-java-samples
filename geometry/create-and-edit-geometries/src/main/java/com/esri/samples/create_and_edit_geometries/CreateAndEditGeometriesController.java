@@ -119,6 +119,8 @@ public class CreateAndEditGeometriesController {
     triangleShapeTool = ShapeTool.create(ShapeToolType.TRIANGLE);
     toolComboBox.setConverter(new ComboBoxStringConverter());
     toolComboBox.getItems().addAll(vertexTool, freehandTool, arrowShapeTool, ellipseShapeTool, rectangleShapeTool, triangleShapeTool);
+    // initially configure the geometry editor with the vertex tool
+    geometryEditor.setTool(vertexTool);
     // bidirectionally bind the geometry editor tool to the tool selected in the combo box
     toolComboBox.valueProperty().bindBidirectional(geometryEditor.toolProperty());
 
