@@ -101,7 +101,7 @@
         </Button>
         <ComboBox fx:id="toolComboBox" disable="true" GridPane.rowIndex="3" GridPane.columnIndex="0"
                   GridPane.columnSpan="2"/>
-        <CheckBox fx:id="scaleModeUniformCheckBox" text="Uniform Scale" GridPane.rowIndex="4" GridPane.columnSpan="2"/>
+        <CheckBox fx:id="scaleModeUniformCheckBox" disable="true" text="Uniform Scale" GridPane.rowIndex="4" GridPane.columnSpan="2"/>
         <Separator GridPane.rowIndex="5" GridPane.columnIndex="0" GridPane.columnSpan="2" maxWidth="100"/>
         <Label GridPane.rowIndex="6" GridPane.columnSpan="2" GridPane.halignment="CENTER" text="Edit"/>
         <Button fx:id="undoButton" onAction="#handleUndoButtonClicked" GridPane.rowIndex="7"

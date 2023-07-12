@@ -185,6 +185,9 @@ public class CreateAndEditGeometriesController {
           Bindings.createBooleanBinding(() -> geometryEditor.getGeometry().getGeometryType().equals(GeometryType.MULTIPOINT)),
           Bindings.createBooleanBinding(() -> geometryEditor.getGeometry().getGeometryType().equals(GeometryType.POINT))
         ));
+        // disable the scaling mode checkbox when the geometry editor is editing Point geometries
+        scaleModeUniformCheckBox.disableProperty().bind(Bindings.createBooleanBinding(() ->
+                geometryEditor.getGeometry().getGeometryType().equals(GeometryType.POINT)));
       } else {
         // when the geometry editor is not started (and so the geometry is null) enable all geometry buttons
         pointButton.disableProperty().unbind();
@@ -199,6 +202,9 @@ public class CreateAndEditGeometriesController {
         // disable combo box when geometry editor is not started
         toolComboBox.disableProperty().unbind();
         toolComboBox.setDisable(true);
+        // disable the scaling mode checkbox when geometry editor is not started
+        scaleModeUniformCheckBox.disableProperty().unbind();
+        scaleModeUniformCheckBox.setDisable(true);
       }
     });
 
