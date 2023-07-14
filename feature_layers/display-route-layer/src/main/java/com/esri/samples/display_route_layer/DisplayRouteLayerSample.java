@@ -45,6 +45,7 @@ public class DisplayRouteLayerSample extends Application {
 
     private MapView mapView;
     private PortalItem portalItem; // keep loadable in scope to avoid garbage collection
+    private FeatureCollection featureCollection;  // keep loadable in scope to avoid garbage collection
 
 
     @Override
@@ -76,7 +77,7 @@ public class DisplayRouteLayerSample extends Application {
             // set a viewpoint on the map view
             mapView.setViewpoint(new Viewpoint(45.2281, -122.8309 + 0.2, 57e4));
 
-            //create a VBox
+            // create a VBox to contain all the UI controls
             var vBox = new VBox();
             vBox.setMaxSize(300, 400);
             vBox.setPadding(new Insets(10.0));
@@ -84,11 +85,12 @@ public class DisplayRouteLayerSample extends Application {
             vBox.setSpacing(10);
             vBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0 , 0.7)"), CornerRadii.EMPTY, Insets.EMPTY)));
 
-            //create scrollPane
+            //create a scrollPane to enable scrolling through the directions
             var scrollPane = new ScrollPane();
             scrollPane.setMaxSize(300, 400);
             scrollPane.setPadding(new Insets(10.0));
 
+            // create a VBox to contain the directions
             VBox directionsVBox = new VBox();
             directionsVBox.setSpacing(10);
             scrollPane.setContent(directionsVBox);
@@ -103,7 +105,7 @@ public class DisplayRouteLayerSample extends Application {
             portalItem.addDoneLoadingListener(() -> {
 
                 if (portalItem.getLoadStatus() == LoadStatus.LOADED) {
-                    var featureCollection = new FeatureCollection(portalItem);
+                    featureCollection = new FeatureCollection(portalItem);
                     featureCollection.loadAsync();
                     featureCollection.addDoneLoadingListener(() -> {
                         if (featureCollection.getLoadStatus() == LoadStatus.LOADED) {
