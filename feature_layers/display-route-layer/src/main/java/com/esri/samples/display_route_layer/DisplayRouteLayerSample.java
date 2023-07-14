@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Esri.
+ * Copyright 2023 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,54 +16,35 @@
 
 package com.esri.samples.display_route_layer;
 
-
-import com.esri.arcgisruntime.data.*;
-import com.esri.arcgisruntime.geometry.Point;
-import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
+import com.esri.arcgisruntime.data.Feature;
+import com.esri.arcgisruntime.data.FeatureCollection;
+import com.esri.arcgisruntime.data.FeatureCollectionTable;
 import com.esri.arcgisruntime.layers.FeatureCollectionLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.SceneView;
+import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
-import com.esri.arcgisruntime.symbology.SymbolStyle;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.application.Platform;
-
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
-import javafx.stage.Stage;
-import javafx.scene.layout.VBox;
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.BasemapStyle;
-import com.esri.arcgisruntime.mapping.view.MapView;
 import javafx.scene.text.TextAlignment;
-import javafx.collections.ObservableList;
+import javafx.stage.Stage;
 
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DisplayRouteLayerSample extends Application {
 
     private MapView mapView;
-    private Portal portal;
-    private TextField inputTextField;
     private PortalItem portalItem; // keep loadable in scope to avoid garbage collection
-    private FeatureCollection featureCollection;
-    private VBox vBox;
-    private GridPane legendGridPane;
-    private SymbolStyle symbolStyle;
 
 
     @Override
@@ -93,81 +74,66 @@ public class DisplayRouteLayerSample extends Application {
             mapView.setMap(map);
 
             // set a viewpoint on the map view
-            mapView.setViewpoint(new Viewpoint(45.2281, -122.8309, 57e4));
+            mapView.setViewpoint(new Viewpoint(45.2281, -122.8309 + 0.2, 57e4));
 
-            // create text field to input user's own portal item ID
-            inputTextField = new TextField("0e3c8e86b4544274b45ecb61c9f41336");
-            inputTextField.setMaxWidth(250);
-
-            //Create a VBox
-            vBox = new VBox();
-            vBox.setMaxSize(250, 700);
+            //create a VBox
+            var vBox = new VBox();
+            vBox.setMaxSize(300, 400);
             vBox.setPadding(new Insets(10.0));
             vBox.setAlignment(Pos.TOP_CENTER);
             vBox.setSpacing(10);
-            //vBox.setStyle("-fx-background-color: white;");
-            vBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(255, 255, 255 , 0.7)"), CornerRadii.EMPTY,
-                    Insets.EMPTY)));
+            vBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0 , 0.7)"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+            //create scrollPane
+            var scrollPane = new ScrollPane();
+            scrollPane.setMaxSize(300, 400);
+            scrollPane.setPadding(new Insets(10.0));
+
+            VBox directionsVBox = new VBox();
+            directionsVBox.setSpacing(10);
+            scrollPane.setContent(directionsVBox);
+            var headingLabel = new Label("Directions:");
+            headingLabel.setStyle("-fx-font-weight:bold; -fx-text-fill: white; -fx-font-size: 14;");
+            vBox.getChildren().addAll(headingLabel, scrollPane);
 
             // create portal and portalItem
-            portal = new Portal("https://www.arcgis.com/");
-
-            portalItem = new PortalItem(portal, inputTextField.getText());
-            //var portalItem = new PortalItem(portal, "0e3c8e86b4544274b45ecb61c9f41336");
-
+            var portal = new Portal("https://www.arcgis.com/");
+            portalItem = new PortalItem(portal, "0e3c8e86b4544274b45ecb61c9f41336");
             portalItem.loadAsync();
             portalItem.addDoneLoadingListener(() -> {
 
                 if (portalItem.getLoadStatus() == LoadStatus.LOADED) {
                     var featureCollection = new FeatureCollection(portalItem);
-
-                    // Create a feature collection layer using the feature collection.
-                    FeatureCollectionLayer featureCollectionLayer = new FeatureCollectionLayer(featureCollection);
-                    // add the feature collection layer to the map's operational layers
-                    mapView.getMap().getOperationalLayers().add(featureCollectionLayer);
-
-                    featureCollectionLayer.addDoneLoadingListener(() -> {
+                    featureCollection.loadAsync();
+                    featureCollection.addDoneLoadingListener(() -> {
                         if (featureCollection.getLoadStatus() == LoadStatus.LOADED) {
                             for (FeatureCollectionTable table : featureCollection.getTables()) {
                                 if (table.getTitle().equals("DirectionPoints")) {
                                     for (Feature feature : table) {
                                         String text = (String) feature.getAttributes().get("DisplayText");
-                                        //Creating a Label
+                                        //creating a Label.
                                         Label label = new Label(text);
-                                        //wrapping the label
+                                        //wrapping, aligning and setting maximum width to labels
                                         label.setWrapText(true);
-                                        //Setting the alignment to the label
                                         label.setTextAlignment(TextAlignment.LEFT);
-                                        //Setting the maximum width of the label
                                         label.setMaxWidth(200);
-                                        //Setting the position of the label
-                                        label.setTranslateX(5);
-                                        label.setTranslateY(5);
-
-
-                                        // create a scroll pane to contain the legend
-                                        //ScrollPane scrollPane = new ScrollPane();
-                                        //scrollPane.setPrefSize(595, 200);
-                                        //scrollPane.setContent(label);
-                                        Platform.runLater(() -> vBox.getChildren().add(label));
-                                        //Platform.runLater(() ->list.setItems(items));
+                                        Platform.runLater(() -> directionsVBox.getChildren().add(label));
                                     }
                                 }
                             }
+                            // create a feature collection layer using the feature collection.
+                            FeatureCollectionLayer featureCollectionLayer = new FeatureCollectionLayer(featureCollection);
+                            // add the feature collection layer to the map's operational layers
+                            mapView.getMap().getOperationalLayers().add(featureCollectionLayer);
                         }
                     });
                 }
             });
 
-//          ScrollPane scrollPane = new ScrollPane();
-//          scrollPane.setPrefSize(595, 200);
-//          scrollPane.setContent(label);
-
-
             // add the map view to the stack pane
             stackPane.getChildren().addAll(mapView, vBox);
             StackPane.setAlignment(vBox, Pos.TOP_RIGHT);
-            StackPane.setMargin(vBox, new Insets(10, 10, 0, 0));
+            StackPane.setMargin(vBox, new Insets(10, 10, 10, 0));
 
         } catch (Exception e) {
             // on any error, display the stack trace.

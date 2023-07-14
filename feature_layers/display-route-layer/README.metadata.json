@@ -19,9 +19,7 @@
         "Portal",
         "PortalItem"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/display-a-map.htm"
-    ],
+    "redirect_from": [],
     "relevant_apis": [
         "Feature",
         "FeatureCollection",

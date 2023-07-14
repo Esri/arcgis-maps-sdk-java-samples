@@ -1,29 +1,33 @@
-# Display map
+# Display route layer
 
-Display a map with an imagery basemap.
+Display a route layer and its directions using feature collection.
 
 ![Image of display map](DisplayRouteLayer.png)
 
 ## Use case
 
-The map is the fundamental building block of any GIS application and is used to specify how geographic data is organized and communicated to your users.
+Routes can be stored as feature collection layers. These layers can store useful information such as directions, estimated trip time, and more.
 
+You can create a route layer in ArcGIS Pro and store a route layer as a portal item, making it easy to access, share, or display.
 ## How to use the sample
 
-Run the sample to view the map. Pan and zoom to navigate the map.
+Pan and zoom to view the route displayed by the feature collection layer. Tap the toolbar button to view the list of directions.
 
 ## How it works
 
-1. Create an ArcGIS map using a default `BasemapStyle` such as `BasemapStyle.ARCGIS_IMAGERY_STANDARD`.
-2. Create a `MapView` object to display the map.
-3. Set the map to the map view.
+1. Create an AGSPortalItem with the item ID.
+2. Create and load an AGSFeatureCollection with the item.
+3. After loading, get the specified AGSFeatureCollectionTable by name.
+4. Create an array of AGSFeatures.
+5. Get the direction text from the attributes of each feature in the array.
+6. Create an AGSFeatureCollectionLayer with the feature collection and set it to the map's operationalLayers.
 
 ## Relevant API
 
-* ArcGISMap
-* BasemapStyle
-* MapView
+* AGSFeatureCollection
+* AGSFeatureCollectionLayer
+* AGSFeatureCollectionTable
 
 ## Tags
 
-basemap, map
+directions, feature collection, route layer

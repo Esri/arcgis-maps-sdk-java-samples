@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Esri.
+ * Copyright 2023 Esri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,9 @@ module com.esri.samples.display_route_layer {
 
   // require JavaFX modules that the application uses
   requires javafx.graphics;
+
+  // handle SLF4J http://www.slf4j.org/codes.html#StaticLoggerBinder
+  requires org.slf4j.nop;
 
   exports com.esri.samples.display_route_layer;
 }
