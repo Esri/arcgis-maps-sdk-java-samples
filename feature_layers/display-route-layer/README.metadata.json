@@ -1,31 +1,23 @@
 {
-    "category": "Feature Layers",
+    "category": "Feature layers",
     "description": "Display a route layer and its directions using a feature collection.",
     "ignore": false,
     "images": [
         "DisplayRouteLayer.png"
     ],
     "keywords": [
-        "collection",
+        "directions",
         "feature collection",
-        "feature collection layer",
-        "id",
-        "item",
-        "map notes",
-        "portal",
-        "Feature",
+        "route layer",
         "FeatureCollection",
         "FeatureCollectionLayer",
-        "Portal",
-        "PortalItem"
+        "FeatureCollectionTable"
     ],
     "redirect_from": [],
     "relevant_apis": [
-        "Feature",
         "FeatureCollection",
         "FeatureCollectionLayer",
-        "Portal",
-        "PortalItem"
+        "FeatureCollectionTable"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/display_route_layer/DisplayRouteLayerSample.java"

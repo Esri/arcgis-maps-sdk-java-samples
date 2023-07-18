@@ -28,6 +28,7 @@ import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -39,7 +40,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
 
 public class DisplayRouteLayerSample extends Application {
 
@@ -91,7 +91,7 @@ public class DisplayRouteLayerSample extends Application {
             scrollPane.setPadding(new Insets(10.0));
 
             // create a VBox to contain the directions
-            VBox directionsVBox = new VBox();
+            var directionsVBox = new VBox();
             directionsVBox.setSpacing(10);
             scrollPane.setContent(directionsVBox);
             var headingLabel = new Label("Directions:");
@@ -114,7 +114,8 @@ public class DisplayRouteLayerSample extends Application {
                                     for (Feature feature : table) {
                                         String text = (String) feature.getAttributes().get("DisplayText");
                                         //creating a Label.
-                                        Label label = new Label(text);
+                                        var label = new Label(text);
+
                                         //wrapping, aligning and setting maximum width to labels
                                         label.setWrapText(true);
                                         label.setTextAlignment(TextAlignment.LEFT);
@@ -124,7 +125,7 @@ public class DisplayRouteLayerSample extends Application {
                                 }
                             }
                             // create a feature collection layer using the feature collection.
-                            FeatureCollectionLayer featureCollectionLayer = new FeatureCollectionLayer(featureCollection);
+                            var featureCollectionLayer = new FeatureCollectionLayer(featureCollection);
                             // add the feature collection layer to the map's operational layers
                             mapView.getMap().getOperationalLayers().add(featureCollectionLayer);
                         }
@@ -143,13 +144,11 @@ public class DisplayRouteLayerSample extends Application {
         }
     }
 
-
     /**
      * Stops and releases all resources used in application.
      */
     @Override
     public void stop() {
-
         if (mapView != null) {
             mapView.dispose();
         }
@@ -161,8 +160,6 @@ public class DisplayRouteLayerSample extends Application {
      * @param args arguments passed to this application
      */
     public static void main(String[] args) {
-
         Application.launch(args);
     }
-
 }

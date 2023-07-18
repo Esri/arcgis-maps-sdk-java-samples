@@ -1,6 +1,6 @@
 # Display route layer
 
-Display a route layer and its directions using feature collection.
+Display a route layer and its directions using a feature collection.
 
 ![Image of display route layer](DisplayRouteLayer.png)
 
@@ -16,7 +16,7 @@ Pan and zoom to view the route displayed by the feature collection layer. The li
 
 ## How it works
 
-1. Create an `PortalItem` with the item ID.
+1. Create a `PortalItem` with the item ID.
 2. Create and load an `FeatureCollection` with the item.
 3. After loading, get the specified 'FeatureCollectionTable' by name.
 4. Create an array of `Features`.
