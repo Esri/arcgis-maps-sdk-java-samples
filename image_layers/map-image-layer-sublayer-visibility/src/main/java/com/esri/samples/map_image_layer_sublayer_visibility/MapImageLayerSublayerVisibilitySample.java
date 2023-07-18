@@ -16,7 +16,6 @@
 
 package com.esri.samples.map_image_layer_sublayer_visibility;
 
-import com.esri.arcgisruntime.layers.ArcGISSublayer;
 import javafx.application.Application;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
@@ -33,15 +32,16 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
+import com.esri.arcgisruntime.layers.ArcGISSublayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import javafx.util.StringConverter;
 
 public class MapImageLayerSublayerVisibilitySample extends Application {
 
@@ -76,7 +76,7 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       controlsVBox.getStyleClass().add("panel-region");
 
       // create a ListView containing a CheckBox for the visibility of each sublayer
-      Label sublayersLabel = new Label("Sublayers");
+      var sublayersLabel = new Label("Sublayers");
       ListView<ArcGISSublayer> sublayersList = new ListView<>();
       sublayersList.setCellFactory(CheckBoxListCell.forListView(
           sublayer -> {
@@ -85,14 +85,7 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
             visibleProperty.addListener((observable, oldValue, newValue) -> sublayer.setVisible(newValue));
             return visibleProperty;
           },
-          new StringConverter<>() {
-            @Override public String toString(ArcGISSublayer sublayer) {
-              return sublayer.getName();
-            }
-            @Override public ArcGISSublayer fromString(String string) {
-              return null;
-            }
-          }));
+          new ArcGISSublayerStringConverter()));
       controlsVBox.getChildren().addAll(sublayersLabel, sublayersList);
 
       // create a map with the topographic basemap style
@@ -153,5 +146,18 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
   public static void main(String[] args) {
 
     Application.launch(args);
+  }
+
+  /**
+   * A StringConverter for displaying ArcGISSublayers. Simply displays the ArcGISSublayer's name.
+   */
+  private static class ArcGISSublayerStringConverter extends StringConverter<ArcGISSublayer> {
+    @Override public String toString(ArcGISSublayer sublayer) {
+      return sublayer.getName();
+    }
+
+    @Override public ArcGISSublayer fromString(String string) {
+      return null;
+    }
   }
 }
