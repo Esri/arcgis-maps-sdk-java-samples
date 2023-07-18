@@ -16,12 +16,16 @@
 
 package com.esri.samples.map_image_layer_sublayer_visibility;
 
+import com.esri.arcgisruntime.layers.ArcGISSublayer;
 import javafx.application.Application;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -32,12 +36,12 @@ import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.layers.ArcGISMapImageLayer;
-import com.esri.arcgisruntime.layers.SublayerList;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import javafx.util.StringConverter;
 
 public class MapImageLayerSublayerVisibilitySample extends Application {
 
@@ -71,13 +75,25 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       controlsVBox.setMaxSize(180, 130);
       controlsVBox.getStyleClass().add("panel-region");
 
-      // create checkboxes for each sublayer
-      CheckBox citiesBox = new CheckBox("Cities");
-      CheckBox continentsBox = new CheckBox("Continents");
-      CheckBox worldBox = new CheckBox("World");
-
-      controlsVBox.getChildren().addAll(citiesBox, continentsBox, worldBox);
-      controlsVBox.getChildren().forEach(c -> ((CheckBox) c).setSelected(true));
+      // create a ListView containing a CheckBox for the visibility of each sublayer
+      Label sublayersLabel = new Label("Sublayers");
+      ListView<ArcGISSublayer> sublayersList = new ListView<>();
+      sublayersList.setCellFactory(CheckBoxListCell.forListView(
+          sublayer -> {
+            // set visibility of sublayer when checkbox is clicked
+            var visibleProperty = new SimpleBooleanProperty(sublayer.isVisible());
+            visibleProperty.addListener((observable, oldValue, newValue) -> sublayer.setVisible(newValue));
+            return visibleProperty;
+          },
+          new StringConverter<>() {
+            @Override public String toString(ArcGISSublayer sublayer) {
+              return sublayer.getName();
+            }
+            @Override public ArcGISSublayer fromString(String string) {
+              return null;
+            }
+          }));
+      controlsVBox.getChildren().addAll(sublayersLabel, sublayersList);
 
       // create a map with the topographic basemap style
       ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
@@ -98,19 +114,13 @@ public class MapImageLayerSublayerVisibilitySample extends Application {
       // set the image layer's opacity so that the basemap is visible behind it
       imageLayer.setOpacity(0.7f);
 
-      // show alert if layer fails to load
+      // set a done-loading listener on the layer
       imageLayer.addDoneLoadingListener(() -> {
         if (imageLayer.getLoadStatus() == LoadStatus.LOADED) {
-
-          // get the layers from the ArcGISMap image layer
-          SublayerList layers = imageLayer.getSublayers();
-
-          // handle sub layer selection
-          citiesBox.selectedProperty().addListener(e -> layers.get(0).setVisible(citiesBox.isSelected()));
-          continentsBox.selectedProperty().addListener(e -> layers.get(1).setVisible(continentsBox.isSelected()));
-          worldBox.selectedProperty().addListener(e -> layers.get(2).setVisible(worldBox.isSelected()));
-
+          // set the layer's sublayers on the ListView
+          sublayersList.setItems(imageLayer.getSublayers());
         } else {
+          // show alert if layer fails to load
           new Alert(Alert.AlertType.ERROR, "Error loading Image Layer.").show();
         }
       });
