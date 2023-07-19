@@ -17,7 +17,7 @@ Pan and zoom to view the route displayed by the feature collection layer. The li
 ## How it works
 
 1. Create a `PortalItem` with the item ID.
-2. Create and load an `FeatureCollection` with the item.
+2. Create and load a `FeatureCollection` with the item.
 3. After loading, get the specified 'FeatureCollectionTable' by name.
 4. Create an array of `Features`.
 5. Get the direction text from the attributes of each feature.

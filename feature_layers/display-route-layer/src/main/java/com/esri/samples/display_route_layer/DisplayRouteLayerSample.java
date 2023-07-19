@@ -36,130 +36,137 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class DisplayRouteLayerSample extends Application {
 
-    private MapView mapView;
-    private PortalItem portalItem; // keep loadable in scope to avoid garbage collection
-    private FeatureCollection featureCollection;  // keep loadable in scope to avoid garbage collection
+  private MapView mapView;
+  private PortalItem portalItem; // keep loadable in scope to avoid garbage collection
+  private FeatureCollection featureCollection;  // keep loadable in scope to avoid garbage collection
 
+  @Override
+  public void start(Stage stage) {
+    try {
+      // create stack pane and application scene
+      StackPane stackPane = new StackPane();
+      Scene scene = new Scene(stackPane);
 
-    @Override
-    public void start(Stage stage) {
+      // set title, size, and add scene to stage
+      stage.setTitle("Display Route Layer Sample");
+      stage.setWidth(800);
+      stage.setHeight(700);
+      stage.setScene(scene);
+      stage.show();
 
-        try {
-            // create stack pane and application scene
-            StackPane stackPane = new StackPane();
-            Scene scene = new Scene(stackPane);
+      // authentication with an API key or named user is required to access basemap and other location services
+      String yourAPIKey = System.getProperty("apiKey");
+      ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-            // set title, size, and add scene to stage
-            stage.setTitle("Display Route Layer Sample");
-            stage.setWidth(800);
-            stage.setHeight(700);
-            stage.setScene(scene);
-            stage.show();
+      // create a map with the topographical basemap style
+      ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
 
-            // authentication with an API key or named user is required to access basemap and other location services
-            String yourAPIKey = System.getProperty("apiKey");
-            ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
+      // create a map view and set the map to it
+      mapView = new MapView();
+      mapView.setMap(map);
 
-            // create a map with the topographical basemap style
-            ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_TOPOGRAPHIC);
+      // set a viewpoint on the map view
+      mapView.setViewpoint(new Viewpoint(45.2281, -122.8309 + 0.2, 57e4));
 
-            // create a map view and set the map to it
-            mapView = new MapView();
-            mapView.setMap(map);
+      // create a VBox to contain all the UI controls
+      var vBox = new VBox();
+      vBox.setMaxSize(300, 400);
+      vBox.setPadding(new Insets(10.0));
+      vBox.setAlignment(Pos.TOP_CENTER);
+      vBox.setSpacing(10);
+      vBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0 , 0.7)"), CornerRadii.EMPTY, Insets.EMPTY)));
 
-            // set a viewpoint on the map view
-            mapView.setViewpoint(new Viewpoint(45.2281, -122.8309 + 0.2, 57e4));
+      //create a scrollPane to enable scrolling through the directions
+      var scrollPane = new ScrollPane();
+      scrollPane.setMaxSize(300, 400);
+      scrollPane.setPadding(new Insets(10.0));
 
-            // create a VBox to contain all the UI controls
-            var vBox = new VBox();
-            vBox.setMaxSize(300, 400);
-            vBox.setPadding(new Insets(10.0));
-            vBox.setAlignment(Pos.TOP_CENTER);
-            vBox.setSpacing(10);
-            vBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0, 0, 0 , 0.7)"), CornerRadii.EMPTY, Insets.EMPTY)));
+      // create a VBox to contain the directions
+      var directionsVBox = new VBox();
+      directionsVBox.setSpacing(10);
+      scrollPane.setContent(directionsVBox);
+      var headingLabel = new Label("Directions:");
+      headingLabel.setStyle("-fx-font-weight:bold; -fx-text-fill: white; -fx-font-size: 14;");
+      vBox.getChildren().addAll(headingLabel, scrollPane);
 
-            //create a scrollPane to enable scrolling through the directions
-            var scrollPane = new ScrollPane();
-            scrollPane.setMaxSize(300, 400);
-            scrollPane.setPadding(new Insets(10.0));
+      // create a portal and portal item, using the portal and item ID
+      var portal = new Portal("https://www.arcgis.com/");
+      portalItem = new PortalItem(portal, "0e3c8e86b4544274b45ecb61c9f41336");
 
-            // create a VBox to contain the directions
-            var directionsVBox = new VBox();
-            directionsVBox.setSpacing(10);
-            scrollPane.setContent(directionsVBox);
-            var headingLabel = new Label("Directions:");
-            headingLabel.setStyle("-fx-font-weight:bold; -fx-text-fill: white; -fx-font-size: 14;");
-            vBox.getChildren().addAll(headingLabel, scrollPane);
+      // load the portal item
+      portalItem.loadAsync();
+      portalItem.addDoneLoadingListener(() -> {
+        if (portalItem.getLoadStatus() == LoadStatus.LOADED) {
+          featureCollection = new FeatureCollection(portalItem);
 
-            // create portal and portalItem
-            var portal = new Portal("https://www.arcgis.com/");
-            portalItem = new PortalItem(portal, "0e3c8e86b4544274b45ecb61c9f41336");
-            portalItem.loadAsync();
-            portalItem.addDoneLoadingListener(() -> {
+          // load the feature collection and access its tables
+          featureCollection.loadAsync();
+          featureCollection.addDoneLoadingListener(() -> {
+            if (featureCollection.getLoadStatus() == LoadStatus.LOADED) {
+              for (FeatureCollectionTable table : featureCollection.getTables()) {
+                // use the table called "DirectionPoints"
+                if (table.getTitle().equals("DirectionPoints")) {
+                  for (Feature feature : table) {
+                    // for each feature in the table, get the "DisplayText" attribute and create a label containing the text
+                    String text = (String) feature.getAttributes().get("DisplayText");
+                    var label = new Label(text);
 
-                if (portalItem.getLoadStatus() == LoadStatus.LOADED) {
-                    featureCollection = new FeatureCollection(portalItem);
-                    featureCollection.loadAsync();
-                    featureCollection.addDoneLoadingListener(() -> {
-                        if (featureCollection.getLoadStatus() == LoadStatus.LOADED) {
-                            for (FeatureCollectionTable table : featureCollection.getTables()) {
-                                if (table.getTitle().equals("DirectionPoints")) {
-                                    for (Feature feature : table) {
-                                        String text = (String) feature.getAttributes().get("DisplayText");
-                                        //creating a Label.
-                                        var label = new Label(text);
+                    // wrap the label text
+                    label.setWrapText(true);
+                    label.setMaxWidth(200);
 
-                                        //wrapping, aligning and setting maximum width to labels
-                                        label.setWrapText(true);
-                                        label.setTextAlignment(TextAlignment.LEFT);
-                                        label.setMaxWidth(200);
-                                        Platform.runLater(() -> directionsVBox.getChildren().add(label));
-                                    }
-                                }
-                            }
-                            // create a feature collection layer using the feature collection.
-                            var featureCollectionLayer = new FeatureCollectionLayer(featureCollection);
-                            // add the feature collection layer to the map's operational layers
-                            mapView.getMap().getOperationalLayers().add(featureCollectionLayer);
-                        }
-                    });
+                    // add the label to the directions VBox on the UI thread
+                    Platform.runLater(() -> directionsVBox.getChildren().add(label));
+                  }
                 }
-            });
+              }
+              // create a feature collection layer using the feature collection.
+              var featureCollectionLayer = new FeatureCollectionLayer(featureCollection);
 
-            // add the map view to the stack pane
-            stackPane.getChildren().addAll(mapView, vBox);
-            StackPane.setAlignment(vBox, Pos.TOP_RIGHT);
-            StackPane.setMargin(vBox, new Insets(10, 10, 10, 0));
-
-        } catch (Exception e) {
-            // on any error, display the stack trace.
-            e.printStackTrace();
+              // add the feature collection layer to the map's operational layers
+              mapView.getMap().getOperationalLayers().add(featureCollectionLayer);
+            }
+          });
         }
-    }
+      });
 
-    /**
-     * Stops and releases all resources used in application.
-     */
-    @Override
-    public void stop() {
-        if (mapView != null) {
-            mapView.dispose();
-        }
-    }
+      // add the map view to the stack pane
+      stackPane.getChildren().addAll(mapView, vBox);
+      StackPane.setAlignment(vBox, Pos.TOP_RIGHT);
+      StackPane.setMargin(vBox, new Insets(10, 10, 10, 0));
 
-    /**
-     * Opens and runs application.
-     *
-     * @param args arguments passed to this application
-     */
-    public static void main(String[] args) {
-        Application.launch(args);
+    } catch (Exception e) {
+      // on any error, display the stack trace.
+      e.printStackTrace();
     }
+  }
+
+  /**
+   * Stops and releases all resources used in application.
+   */
+  @Override
+  public void stop() {
+    if (mapView != null) {
+      mapView.dispose();
+    }
+  }
+
+  /**
+   * Opens and runs application.
+   *
+   * @param args arguments passed to this application
+   */
+  public static void main(String[] args) {
+    Application.launch(args);
+  }
 }
