@@ -125,35 +125,24 @@ public class CreateAndEditGeometriesController {
     toolComboBox.valueProperty().bindBidirectional(geometryEditor.toolProperty());
 
     // bind the tool's scale mode property to the 'selected' property of the checkbox
-    vertexTool.getConfiguration().scaleModeProperty().bind(
-            Bindings.when(scaleModeUniformCheckBox.selectedProperty())
-                    .then(GeometryEditorScaleMode.UNIFORM)
-                    .otherwise(GeometryEditorScaleMode.STRETCH));
-
-    freehandTool.getConfiguration().scaleModeProperty().bind(
-            Bindings.when(scaleModeUniformCheckBox.selectedProperty())
-                    .then(GeometryEditorScaleMode.UNIFORM)
-                    .otherwise(GeometryEditorScaleMode.STRETCH));
-
-    arrowShapeTool.getConfiguration().scaleModeProperty().bind(
-            Bindings.when(scaleModeUniformCheckBox.selectedProperty())
-                    .then(GeometryEditorScaleMode.UNIFORM)
-                    .otherwise(GeometryEditorScaleMode.STRETCH));
-
-    ellipseShapeTool.getConfiguration().scaleModeProperty().bind(
-            Bindings.when(scaleModeUniformCheckBox.selectedProperty())
-                    .then(GeometryEditorScaleMode.UNIFORM)
-                    .otherwise(GeometryEditorScaleMode.STRETCH));
-
-    rectangleShapeTool.getConfiguration().scaleModeProperty().bind(
-            Bindings.when(scaleModeUniformCheckBox.selectedProperty())
-                    .then(GeometryEditorScaleMode.UNIFORM)
-                    .otherwise(GeometryEditorScaleMode.STRETCH));
-
-    triangleShapeTool.getConfiguration().scaleModeProperty().bind(
-            Bindings.when(scaleModeUniformCheckBox.selectedProperty())
-                    .then(GeometryEditorScaleMode.UNIFORM)
-                    .otherwise(GeometryEditorScaleMode.STRETCH));
+    toolComboBox.getItems().forEach(tool -> {
+      if (tool instanceof VertexTool){
+        ((VertexTool) tool).getConfiguration().scaleModeProperty().bind(
+                Bindings.when(scaleModeUniformCheckBox.selectedProperty())
+                        .then(GeometryEditorScaleMode.UNIFORM)
+                        .otherwise(GeometryEditorScaleMode.STRETCH));
+      } else if (tool instanceof FreehandTool) {
+        ((FreehandTool) tool).getConfiguration().scaleModeProperty().bind(
+                Bindings.when(scaleModeUniformCheckBox.selectedProperty())
+                        .then(GeometryEditorScaleMode.UNIFORM)
+                        .otherwise(GeometryEditorScaleMode.STRETCH));
+      } else if (tool instanceof ShapeTool) {
+        ((ShapeTool) tool).getConfiguration().scaleModeProperty().bind(
+                Bindings.when(scaleModeUniformCheckBox.selectedProperty())
+                        .then(GeometryEditorScaleMode.UNIFORM)
+                        .otherwise(GeometryEditorScaleMode.STRETCH));
+      }
+    });
 
     // create symbols for displaying new geometries
     // orange-red square for points
