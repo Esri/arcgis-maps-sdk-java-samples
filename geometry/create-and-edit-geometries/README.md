@@ -16,7 +16,7 @@ To edit an existing geometry, tap the geometry to be edited in the map to select
 
 When the whole geometry is selected, you can use the control handles to scale and rotate the geometry.
 
-If creating or editing polyline or polygon geometries, choose the desired creation/editing tool (i.e. `VertexTool`, `FreehandTool`, or one of the available `ShapeTool`s).
+If creating or editing polyline or polygon geometries, choose the desired creation/editing tool from the combo box.
 
 Use the control panel to undo or redo changes made to the geometry, delete a selected element, save the geometry, stop the editing session and discard any edits, and remove all geometries from the map.
 
