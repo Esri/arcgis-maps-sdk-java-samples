@@ -3,7 +3,7 @@
     "description": "Create a custom dynamic entity data source and display it using a dynamic entity layer.",
     "ignore": false,
     "images": [
-        "AddCustomDynamicEntityDataSource.gif"
+        "AddCustomDynamicEntityDataSource.png"
     ],
     "keywords": [
         "data",
