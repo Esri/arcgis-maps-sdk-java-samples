@@ -30,7 +30,8 @@
         "TrackDisplayProperties"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/add_custom_dynamic_entity_data_source/AddCustomDynamicEntityDataSourceSample.java"
+        "src/main/java/com/esri/samples/add_custom_dynamic_entity_data_source/AddCustomDynamicEntityDataSourceSample.java",
+        "src/main/java/com/esri/samples/add_custom_dynamic_entity_data_source/SimulatedDataSource.java"
     ],
     "title": "Add custom dynamic entity data source"
 }
