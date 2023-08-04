@@ -39,8 +39,6 @@ public class AddCustomDynamicEntityDataSourceSample extends Application {
 
   private MapView mapView = new MapView();
 
-  DynamicEntityDataSource dynamicEntityDataSource;
-
   @Override
   public void start(Stage stage) {
     StackPane stackPane = new StackPane();
@@ -74,7 +72,7 @@ public class AddCustomDynamicEntityDataSourceSample extends Application {
     // This field value should be a unique identifier for each entity.
     // Adjusting the value for the delay will change the speed at which the entities and their observations are displayed.
     var resource = getClass().getResource("/add_custom_dynamic_entity_data_source/AIS_MarineCadastre_SelectedVessels_CustomDataSource.json");
-    dynamicEntityDataSource = new SimulatedDataSource(resource.getPath(), "MMSI", 10);
+    DynamicEntityDataSource dynamicEntityDataSource = new SimulatedDataSource(resource.getPath(), "MMSI", 10);
 
     // Create the dynamic entity layer using the custom data source.
     var dynamicEntityLayer = new DynamicEntityLayer(dynamicEntityDataSource);
