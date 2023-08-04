@@ -33,10 +33,10 @@ Configure the map view:
 
 ## Relevant API
 
-* DynamicEntity 
-* DynamicEntityDataSource 
-* DynamicEntityLayer 
-* LabelDefinition 
+* DynamicEntity
+* DynamicEntityDataSource
+* DynamicEntityLayer
+* LabelDefinition
 * TrackDisplayProperties
 
 ## About the data
