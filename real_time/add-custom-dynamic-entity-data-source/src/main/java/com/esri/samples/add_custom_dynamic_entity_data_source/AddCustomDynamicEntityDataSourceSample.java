@@ -26,7 +26,6 @@ import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.labeling.SimpleLabelExpression;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.realtime.DynamicEntityDataSource;
 import com.esri.arcgisruntime.symbology.TextSymbol;
 
 import javafx.application.Application;
@@ -38,6 +37,8 @@ import javafx.stage.Stage;
 public class AddCustomDynamicEntityDataSourceSample extends Application {
 
   private MapView mapView = new MapView();
+
+  private SimulatedDataSource dynamicEntityDataSource;
 
   @Override
   public void start(Stage stage) {
@@ -72,7 +73,7 @@ public class AddCustomDynamicEntityDataSourceSample extends Application {
     // This field value should be a unique identifier for each entity.
     // Adjusting the value for the delay will change the speed at which the entities and their observations are displayed.
     var resource = getClass().getResource("/add_custom_dynamic_entity_data_source/AIS_MarineCadastre_SelectedVessels_CustomDataSource.json");
-    DynamicEntityDataSource dynamicEntityDataSource = new SimulatedDataSource(resource.getPath(), "MMSI", 10);
+    dynamicEntityDataSource = new SimulatedDataSource(resource.getPath(), "MMSI", 10);
 
     // Create the dynamic entity layer using the custom data source.
     var dynamicEntityLayer = new DynamicEntityLayer(dynamicEntityDataSource);
@@ -128,8 +129,10 @@ public class AddCustomDynamicEntityDataSourceSample extends Application {
    */
   @Override
   public void stop() {
-    // Notify the observations thread to stop.
-    SimulatedDataSource.setCanceled();
+    // Notify the observations timer thread to stop.
+    if (dynamicEntityDataSource != null) {
+      dynamicEntityDataSource.stopObservations();
+    }
 
     // Release resources.
     if (mapView != null) {

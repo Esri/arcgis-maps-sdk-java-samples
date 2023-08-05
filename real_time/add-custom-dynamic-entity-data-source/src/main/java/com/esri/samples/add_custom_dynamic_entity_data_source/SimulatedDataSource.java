@@ -19,12 +19,17 @@ package com.esri.samples.add_custom_dynamic_entity_data_source;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import com.esri.arcgisruntime.data.Field;
 import com.esri.arcgisruntime.geometry.Point;
@@ -39,7 +44,11 @@ class SimulatedDataSource extends DynamicEntityDataSource {
   private final String fileName;
   private final String entityIdFieldName;
   private final long delay;
-  private static volatile boolean isCanceled = false;
+  private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+  private ScheduledFuture<?> observationProcessing;
+  private final AtomicInteger currentLineNumber = new AtomicInteger();
+  private final List<String> allJsonLines = new ArrayList<>();
+  private final Gson gson = new Gson();
 
   /**
    * Construct a custom DynamicEntityDataSource.
@@ -56,34 +65,40 @@ class SimulatedDataSource extends DynamicEntityDataSource {
 
   @Override
   protected CompletableFuture<Void> onConnectAsync() {
-    Thread observatonsThread = new Thread(() -> {
-      try {
-        Gson gson = new Gson();
-
-        // Open  the file
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
-          String line;
-          // Read file a line at a time
-          while (!isCanceled && (line = bufferedReader.readLine()) != null) {
-            // Process the line by parsing the json, and creating the observation, and adding to the data source.
-            Observation observation = gson.fromJson(line, Observation.class);
-            Point point = new Point(observation.geometry.x, observation.geometry.y, SpatialReferences.getWgs84());
-            addObservation(point, observation.attributes);
-            // Yield to UI thread with a delay
-            Thread.sleep(delay);
-          }
-        }
-      } catch (InterruptedException | JsonSyntaxException | IOException e) {
-        System.out.println(e.getMessage());
+    // Store all lines from file in a list
+    try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
+      String line;
+      while ((line = bufferedReader.readLine()) != null) {
+        allJsonLines.add(line);
       }
-    });
-    observatonsThread.start();
+    } catch (IOException e) {
+      System.out.println(e.getMessage());
+    }
+
+    // Process file data a line at a time
+    observationProcessing = executorService.scheduleAtFixedRate(this::processNextObservation, 0L, delay, TimeUnit.MILLISECONDS);
     return CompletableFuture.completedFuture(null);
+  }
+
+  /**
+   * Process the next observation, canceling the task when all lines have been processed.
+   */
+  private void processNextObservation() {
+    int lineNumber = currentLineNumber.getAndAdd(1);
+    if (lineNumber >= allJsonLines.size()) {
+      // Finished all the lines
+      observationProcessing.cancel(false);
+    } else {
+      // Process the line by parsing the json, and creating the observation, and adding to the data source.
+      Observation observation = gson.fromJson(allJsonLines.get(lineNumber), Observation.class);
+      Point point = new Point(observation.geometry.x, observation.geometry.y, SpatialReferences.getWgs84());
+      addObservation(point, observation.attributes);
+    }
   }
 
   @Override
   protected CompletableFuture<Void> onDisconnectAsync() {
-    isCanceled = true;
+    observationProcessing.cancel(true);
     return CompletableFuture.completedFuture(null);
   }
 
@@ -118,10 +133,13 @@ class SimulatedDataSource extends DynamicEntityDataSource {
   }
 
   /**
-   * Allow the thread processing observations from the file to be stopped.
+   * Stop processing observations from the file.
    */
-  public static void setCanceled() {
-    isCanceled = true;
+  public void stopObservations() {
+    if (observationProcessing != null) {
+      observationProcessing.cancel(true);
+    }
+    executorService.shutdown();
   }
 
   /**
