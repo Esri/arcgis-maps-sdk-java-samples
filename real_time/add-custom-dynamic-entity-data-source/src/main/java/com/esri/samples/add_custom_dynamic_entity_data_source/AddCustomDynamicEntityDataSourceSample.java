@@ -36,7 +36,7 @@ import javafx.stage.Stage;
 
 public class AddCustomDynamicEntityDataSourceSample extends Application {
 
-  private MapView mapView = new MapView();
+  private MapView mapView;
 
   private SimulatedDataSource dynamicEntityDataSource;
 
@@ -45,55 +45,53 @@ public class AddCustomDynamicEntityDataSourceSample extends Application {
     StackPane stackPane = new StackPane();
     Scene scene = new Scene(stackPane);
 
-    // Set title, size, and add scene to stage
+    // set title, size, and add scene to stage
     stage.setTitle("Add custom dynamic entity data source");
     stage.setWidth(800);
     stage.setHeight(700);
     stage.setScene(scene);
     stage.show();
 
-    // Authentication with an API key or named user is required to access basemaps and other location services
+    // authentication with an API key or named user is required to access basemaps and other location services
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // Create a new map with the navigation basemap style.
+    // create a new map with the navigation basemap style
     ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_OCEANS);
 
-    // Create a map view and set the map to it
+    // create a map view and set the map to it
     mapView = new MapView();
     mapView.setMap(map);
 
-    // Set the initial viewpoint.
+    // set the initial viewpoint
     mapView.setViewpoint(new Viewpoint(new Point(-123.657, 47.984, SpatialReferences.getWgs84()), 3e6));
 
-    // Create a custom data source implementation of a DynamicEntityDataSource.
-    // This takes the path to the simulation file, field name that will be used as the entity id, and the delay between
-    // each observation that is processed.
-    // In this example we are using a json file (stored as a resource) as our custom data source.
-    // This field value should be a unique identifier for each entity.
-    // Adjusting the value for the delay will change the speed at which the entities and their observations are displayed.
-    var resource = getClass().getResource("/add_custom_dynamic_entity_data_source/AIS_MarineCadastre_SelectedVessels_CustomDataSource.json");
-    dynamicEntityDataSource = new SimulatedDataSource(resource.getPath(), "MMSI", 10);
+    // a JSON file (stored as a resource) with observations for use as the custom data source
+    var resource = getClass().getResource("/add_custom_dynamic_entity_data_source/AIS_MarineCadastre_SelectedVessels_CustomDataSource.json").getPath();
 
-    // Create the dynamic entity layer using the custom data source.
+    // create a custom data source implementation of a DynamicEntityDataSource with a data source,
+    // an entity id field name (a unique identifier for each entity), and an update delay
+    dynamicEntityDataSource = new SimulatedDataSource(resource, "MMSI", 10);
+
+    // create the dynamic entity layer using the custom data source
     var dynamicEntityLayer = new DynamicEntityLayer(dynamicEntityDataSource);
 
-    // Set up the track display properties.
+    // set up the track display properties
     setupTrackDisplayProperties(dynamicEntityLayer);
 
-    // Set up the dynamic entity labeling.
+    // set up the dynamic entity labeling
     setupLabeling(dynamicEntityLayer);
 
-    // Add the dynamic entity layer to the map.
+    // add the dynamic entity layer to the map
     map.getOperationalLayers().add(dynamicEntityLayer);
 
-    // Add the map view to the stack pane
+    // add the map view to the stack pane
     stackPane.getChildren().addAll(mapView);
   }
 
   /**
-   *  Set up the track display properties, these properties will be used to configure the appearance of the track line
-   *  and previous observations.
+   * Set up the track display properties, these properties will be used to configure the appearance of the track line
+   * and previous observations.
    *
    * @param layer the DynamicEntityLayer to be configured
    */
@@ -110,16 +108,16 @@ public class AddCustomDynamicEntityDataSourceSample extends Application {
    * @param layer the DynamicEntityLayer for the labels
    */
   private void setupLabeling(DynamicEntityLayer layer) {
-    // Define the label expression to be used, in this case we will use the "VesselName" for each of the dynamic entities.
+    // define the label expression to be used, in this case we will use the "VesselName" for each of the dynamic entities
     var simpleLabelExpression = new SimpleLabelExpression("[VesselName]");
 
-    // Set the text symbol color and size for the labels.
+    // set the text symbol color and size for the labels
     var labelSymbol = new TextSymbol(12, "", Color.RED, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.BOTTOM);
 
-    // Set the label position.
+    // set the label position
     var labelDef = new LabelDefinition(simpleLabelExpression, labelSymbol);
 
-    // Add the label definition to the dynamic entity layer and enable labels.
+    // add the label definition to the dynamic entity layer and enable labels
     layer.getLabelDefinitions().add(labelDef);
     layer.labelsEnabledProperty().set(true);
   }
@@ -129,12 +127,12 @@ public class AddCustomDynamicEntityDataSourceSample extends Application {
    */
   @Override
   public void stop() {
-    // Notify the observations timer thread to stop.
+    // notify the observations timer thread to stop
     if (dynamicEntityDataSource != null) {
       dynamicEntityDataSource.stopObservations();
     }
 
-    // Release resources.
+    // release resources
     if (mapView != null) {
       mapView.dispose();
     }

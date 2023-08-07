@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -38,9 +39,10 @@ import com.esri.arcgisruntime.realtime.DynamicEntityDataSource;
 import com.esri.arcgisruntime.realtime.DynamicEntityDataSourceInfo;
 
 /**
- * A custom DynamicEntityDataSource for processing observations read from a given json file.
+ * A custom DynamicEntityDataSource for processing observations read from a given JSON file.
  */
 class SimulatedDataSource extends DynamicEntityDataSource {
+
   private final String fileName;
   private final String entityIdFieldName;
   private final long delay;
@@ -53,7 +55,7 @@ class SimulatedDataSource extends DynamicEntityDataSource {
   /**
    * Construct a custom DynamicEntityDataSource.
    *
-   * @param fileName name of a file with json observation data
+   * @param fileName name of a file with JSON observation data
    * @param entityIdFieldName the name of the field containing values that uniquely identifies each entity
    * @param delay millisecond delay between observations being added to the data source
    */
@@ -65,17 +67,14 @@ class SimulatedDataSource extends DynamicEntityDataSource {
 
   @Override
   protected CompletableFuture<Void> onConnectAsync() {
-    // Store all lines from file in a list
+    // store all lines from file in a list
     try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
-      String line;
-      while ((line = bufferedReader.readLine()) != null) {
-        allJsonLines.add(line);
-      }
+      allJsonLines.addAll(bufferedReader.lines().filter(Objects::nonNull).toList());
     } catch (IOException e) {
       System.out.println(e.getMessage());
     }
 
-    // Process file data a line at a time
+    // process file data a line at a time
     observationProcessing = executorService.scheduleAtFixedRate(this::processNextObservation, 0L, delay, TimeUnit.MILLISECONDS);
     return CompletableFuture.completedFuture(null);
   }
@@ -86,12 +85,12 @@ class SimulatedDataSource extends DynamicEntityDataSource {
   private void processNextObservation() {
     int lineNumber = currentLineNumber.getAndAdd(1);
     if (lineNumber >= allJsonLines.size()) {
-      // Finished all the lines
+      // finished all the lines
       observationProcessing.cancel(false);
     } else {
-      // Process the line by parsing the json, and creating the observation, and adding to the data source.
-      Observation observation = gson.fromJson(allJsonLines.get(lineNumber), Observation.class);
-      Point point = new Point(observation.geometry.x, observation.geometry.y, SpatialReferences.getWgs84());
+      // process the line by parsing the JSON, and creating the observation, and adding to the data source
+      var observation = gson.fromJson(allJsonLines.get(lineNumber), Observation.class);
+      var point = new Point(observation.geometry.x, observation.geometry.y, SpatialReferences.getWgs84());
       addObservation(point, observation.attributes);
     }
   }
