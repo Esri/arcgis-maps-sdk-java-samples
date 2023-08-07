@@ -56,7 +56,7 @@ public class AddCustomDynamicEntityDataSourceSample extends Application {
     String yourAPIKey = System.getProperty("apiKey");
     ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
-    // create a new map with the navigation basemap style
+    // create a new map with the oceans basemap style
     ArcGISMap map = new ArcGISMap(BasemapStyle.ARCGIS_OCEANS);
 
     // create a map view and set the map to it
