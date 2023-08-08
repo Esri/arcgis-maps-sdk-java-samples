@@ -16,6 +16,10 @@
 
 package com.esri.samples.add_custom_dynamic_entity_data_source;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.arcgisservices.LabelDefinition;
 import com.esri.arcgisruntime.geometry.Point;
@@ -127,9 +131,13 @@ public class AddCustomDynamicEntityDataSourceSample extends Application {
    */
   @Override
   public void stop() {
-    // notify the observations timer thread to stop
+    // notify the observations processing to stop
     if (dynamicEntityDataSource != null) {
-      dynamicEntityDataSource.stopObservations();
+      try {
+        dynamicEntityDataSource.disconnectAsync().get(2, TimeUnit.SECONDS);
+      } catch (InterruptedException | TimeoutException | ExecutionException e) {
+        System.err.println("Exception when disconnecting from data source: " + e);
+      }
     }
 
     // release resources

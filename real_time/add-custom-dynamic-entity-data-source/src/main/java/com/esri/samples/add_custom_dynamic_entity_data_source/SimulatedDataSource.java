@@ -70,9 +70,13 @@ class SimulatedDataSource extends DynamicEntityDataSource {
   protected CompletableFuture<Void> onConnectAsync() {
     return CompletableFuture.completedFuture((Void)null).whenComplete((unused, throwable) -> {
       if (throwable != null) {
-        System.out.println("Failed to connect custom data source: " + throwable.getMessage());
+        System.err.println("Failed to connect custom data source: " + throwable.getMessage());
       } else {
-        startProcessingObservations();
+        try {
+          startProcessingObservations();
+        } catch (IOException e) {
+          throw new CompletionException(e);
+        }
       }
     });
   }
@@ -80,13 +84,13 @@ class SimulatedDataSource extends DynamicEntityDataSource {
   /**
    * Read a file of observation data and start processing.
    */
-  private void startProcessingObservations() {
+  private void startProcessingObservations() throws IOException {
     // store all lines from file in a list
     try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
       allJsonLines.addAll(bufferedReader.lines().filter(Objects::nonNull).toList());
     } catch (IOException e) {
-      System.out.println("Failed to start processing observations: " + e.getMessage());
-      throw new CompletionException(e);
+      System.err.println("Failed to start processing observations: " + e.getMessage());
+      throw e;
     }
     // process file data a line at a time
     observationProcessing = executorService.scheduleAtFixedRate(this::processNextObservation, 0L, delay, TimeUnit.MILLISECONDS);
@@ -110,7 +114,10 @@ class SimulatedDataSource extends DynamicEntityDataSource {
 
   @Override
   protected CompletableFuture<Void> onDisconnectAsync() {
-    observationProcessing.cancel(true);
+    if (observationProcessing != null) {
+      observationProcessing.cancel(true);
+    }
+    executorService.shutdown();
     return CompletableFuture.completedFuture(null);
   }
 
@@ -142,16 +149,6 @@ class SimulatedDataSource extends DynamicEntityDataSource {
   @Override
   public String getUri() {
     return null;
-  }
-
-  /**
-   * Stop processing observations from the file.
-   */
-  public void stopObservations() {
-    if (observationProcessing != null) {
-      observationProcessing.cancel(true);
-    }
-    executorService.shutdown();
   }
 
   /**
