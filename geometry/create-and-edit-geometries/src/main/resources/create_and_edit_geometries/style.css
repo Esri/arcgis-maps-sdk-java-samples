@@ -11,3 +11,7 @@ Button {
 ComboBox {
     -fx-font-size: 10px;
 }
+
+.panel-region .check-box {
+   -fx-text-fill: white;
+}

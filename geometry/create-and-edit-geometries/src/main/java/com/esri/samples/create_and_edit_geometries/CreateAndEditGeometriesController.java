@@ -34,7 +34,10 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.mapping.view.geometryeditor.FreehandTool;
 import com.esri.arcgisruntime.mapping.view.geometryeditor.GeometryEditor;
 import com.esri.arcgisruntime.mapping.view.geometryeditor.GeometryEditorTool;
+import com.esri.arcgisruntime.mapping.view.geometryeditor.ShapeTool;
+import com.esri.arcgisruntime.mapping.view.geometryeditor.ShapeToolType;
 import com.esri.arcgisruntime.mapping.view.geometryeditor.VertexTool;
+import com.esri.arcgisruntime.mapping.view.geometryeditor.GeometryEditorScaleMode;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
@@ -45,6 +48,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.CheckBox;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
@@ -60,6 +64,7 @@ public class CreateAndEditGeometriesController {
   @FXML private Button multipointButton;
   @FXML private Button polylineButton;
   @FXML private Button polygonButton;
+  @FXML private CheckBox scaleModeUniformCheckBox;
   @FXML private Button redoButton;
   @FXML private Button undoButton;
   @FXML private Button deleteSelectedElementButton;
@@ -71,6 +76,10 @@ public class CreateAndEditGeometriesController {
   private GeometryEditor geometryEditor;
   private VertexTool vertexTool;
   private FreehandTool freehandTool;
+  private ShapeTool arrowShapeTool;
+  private ShapeTool ellipseShapeTool;
+  private ShapeTool rectangleShapeTool;
+  private ShapeTool triangleShapeTool;
   private GraphicsOverlay graphicsOverlay;
   private Graphic selectedGraphic;
   private SimpleFillSymbol fillSymbol;
@@ -101,13 +110,39 @@ public class CreateAndEditGeometriesController {
     geometryEditor = new GeometryEditor();
     mapView.setGeometryEditor(geometryEditor);
 
-    // create vertex and freehand tools for the geometry editor and add to combo box
+    // create vertex, freehand, and shape tools for the geometry editor and add to combo box
     vertexTool = new VertexTool();
     freehandTool = new FreehandTool();
+    arrowShapeTool = ShapeTool.create(ShapeToolType.ARROW);
+    ellipseShapeTool = ShapeTool.create(ShapeToolType.ELLIPSE);
+    rectangleShapeTool = ShapeTool.create(ShapeToolType.RECTANGLE);
+    triangleShapeTool = ShapeTool.create(ShapeToolType.TRIANGLE);
     toolComboBox.setConverter(new ComboBoxStringConverter());
-    toolComboBox.getItems().addAll(vertexTool, freehandTool);
+    toolComboBox.getItems().addAll(vertexTool, freehandTool, arrowShapeTool, ellipseShapeTool, rectangleShapeTool, triangleShapeTool);
+    // initially configure the geometry editor with the vertex tool
+    geometryEditor.setTool(vertexTool);
     // bidirectionally bind the geometry editor tool to the tool selected in the combo box
     toolComboBox.valueProperty().bindBidirectional(geometryEditor.toolProperty());
+
+    // bind the tool's scale mode property to the 'selected' property of the checkbox
+    toolComboBox.getItems().forEach(tool -> {
+      if (tool instanceof VertexTool){
+        ((VertexTool) tool).getConfiguration().scaleModeProperty().bind(
+                Bindings.when(scaleModeUniformCheckBox.selectedProperty())
+                        .then(GeometryEditorScaleMode.UNIFORM)
+                        .otherwise(GeometryEditorScaleMode.STRETCH));
+      } else if (tool instanceof FreehandTool) {
+        ((FreehandTool) tool).getConfiguration().scaleModeProperty().bind(
+                Bindings.when(scaleModeUniformCheckBox.selectedProperty())
+                        .then(GeometryEditorScaleMode.UNIFORM)
+                        .otherwise(GeometryEditorScaleMode.STRETCH));
+      } else if (tool instanceof ShapeTool) {
+        ((ShapeTool) tool).getConfiguration().scaleModeProperty().bind(
+                Bindings.when(scaleModeUniformCheckBox.selectedProperty())
+                        .then(GeometryEditorScaleMode.UNIFORM)
+                        .otherwise(GeometryEditorScaleMode.STRETCH));
+      }
+    });
 
     // create symbols for displaying new geometries
     // orange-red square for points
@@ -141,6 +176,9 @@ public class CreateAndEditGeometriesController {
           Bindings.createBooleanBinding(() -> geometryEditor.getGeometry().getGeometryType().equals(GeometryType.MULTIPOINT)),
           Bindings.createBooleanBinding(() -> geometryEditor.getGeometry().getGeometryType().equals(GeometryType.POINT))
         ));
+        // disable the scaling mode checkbox when the geometry editor is editing Point geometries
+        scaleModeUniformCheckBox.disableProperty().bind(Bindings.createBooleanBinding(() ->
+                geometryEditor.getGeometry().getGeometryType().equals(GeometryType.POINT)));
       } else {
         // when the geometry editor is not started (and so the geometry is null) enable all geometry buttons
         pointButton.disableProperty().unbind();
@@ -155,6 +193,9 @@ public class CreateAndEditGeometriesController {
         // disable combo box when geometry editor is not started
         toolComboBox.disableProperty().unbind();
         toolComboBox.setDisable(true);
+        // disable the scaling mode checkbox when geometry editor is not started
+        scaleModeUniformCheckBox.disableProperty().unbind();
+        scaleModeUniformCheckBox.setDisable(true);
       }
     });
 
@@ -366,18 +407,10 @@ public class CreateAndEditGeometriesController {
 
     // set graphic style based on geometry type
     switch (geometry.getGeometryType()) {
-      case POINT:
-        graphic.setSymbol(pointSymbol);
-        break;
-      case MULTIPOINT:
-        graphic.setSymbol(multipointSymbol);
-        break;
-      case POLYLINE:
-        graphic.setSymbol(lineSymbol);
-        break;
-      case POLYGON:
-        graphic.setSymbol(fillSymbol);
-        break;
+      case POINT -> graphic.setSymbol(pointSymbol);
+      case MULTIPOINT -> graphic.setSymbol(multipointSymbol);
+      case POLYLINE -> graphic.setSymbol(lineSymbol);
+      case POLYGON -> graphic.setSymbol(fillSymbol);
     }
 
     // add new graphic to the graphics overlay
@@ -429,7 +462,15 @@ public class CreateAndEditGeometriesController {
     public String toString(GeometryEditorTool geometryEditorTool) {
       if (geometryEditorTool != null) {
         if (geometryEditorTool instanceof VertexTool) return "Vertex Tool";
-        else if (geometryEditorTool instanceof FreehandTool) return "Freehand Tool";
+        if (geometryEditorTool instanceof FreehandTool) return "Freehand Tool";
+        if (geometryEditorTool instanceof ShapeTool){
+          return switch (((ShapeTool) geometryEditorTool).getShapeType()) {
+            case ARROW -> "Arrow Shape Tool";
+            case ELLIPSE -> "Ellipse Shape Tool";
+            case RECTANGLE -> "Rectangle Shape Tool";
+            case TRIANGLE -> "Triangle Shape Tool";
+          };
+        }
       }
       return "";
     }
