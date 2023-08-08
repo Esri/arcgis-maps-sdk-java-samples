@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -67,16 +68,28 @@ class SimulatedDataSource extends DynamicEntityDataSource {
 
   @Override
   protected CompletableFuture<Void> onConnectAsync() {
+    return CompletableFuture.completedFuture((Void)null).whenComplete((unused, throwable) -> {
+      if (throwable != null) {
+        System.out.println("Failed to connect custom data source: " + throwable.getMessage());
+      } else {
+        startProcessingObservations();
+      }
+    });
+  }
+
+  /**
+   * Read a file of observation data and start processing.
+   */
+  private void startProcessingObservations() {
     // store all lines from file in a list
     try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName))) {
       allJsonLines.addAll(bufferedReader.lines().filter(Objects::nonNull).toList());
     } catch (IOException e) {
-      System.out.println(e.getMessage());
+      System.out.println("Failed to start processing observations: " + e.getMessage());
+      throw new CompletionException(e);
     }
-
     // process file data a line at a time
     observationProcessing = executorService.scheduleAtFixedRate(this::processNextObservation, 0L, delay, TimeUnit.MILLISECONDS);
-    return CompletableFuture.completedFuture(null);
   }
 
   /**
