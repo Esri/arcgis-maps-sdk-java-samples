@@ -30,6 +30,7 @@ import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.labeling.SimpleLabelExpression;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.realtime.ConnectionStatus;
 import com.esri.arcgisruntime.symbology.TextSymbol;
 
 import javafx.application.Application;
@@ -76,6 +77,18 @@ public class AddCustomDynamicEntityDataSourceSample extends Application {
     // create a custom data source implementation of a DynamicEntityDataSource with a data source,
     // an entity id field name (a unique identifier for each entity), and an update delay
     dynamicEntityDataSource = new SimulatedDataSource(resource, "MMSI", 10);
+
+    dynamicEntityDataSource.connectionStatusProperty().addListener((property, oldValue, newValue) -> {
+      if (newValue == ConnectionStatus.FAILED) {
+        System.err.println("The connection failed");
+      }
+    });
+
+    dynamicEntityDataSource.connectionErrorProperty().addListener((property, oldValue, newValue) -> {
+      if (newValue != null) {
+        System.err.println("The connection failed: " + newValue.getMessage());
+      }
+    });
 
     // create the dynamic entity layer using the custom data source
     var dynamicEntityLayer = new DynamicEntityLayer(dynamicEntityDataSource);

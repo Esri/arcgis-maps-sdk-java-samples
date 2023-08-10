@@ -76,14 +76,6 @@ class SimulatedDataSource extends DynamicEntityDataSource {
       } catch (IOException e) {
         throw new CompletionException(e);
       }
-    }).whenComplete((unused, throwable) -> {
-      if (getConnectionStatus() == ConnectionStatus.FAILED) {
-        System.err.println("Failed to connect");
-        var error = getConnectionError();
-        if (error != null) {
-          System.err.println(error.getMessage());
-        }
-      }
     });
   }
 
