@@ -36,7 +36,6 @@ import com.google.gson.Gson;
 import com.esri.arcgisruntime.data.Field;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
-import com.esri.arcgisruntime.realtime.ConnectionStatus;
 import com.esri.arcgisruntime.realtime.DynamicEntityDataSource;
 import com.esri.arcgisruntime.realtime.DynamicEntityDataSourceInfo;
 
