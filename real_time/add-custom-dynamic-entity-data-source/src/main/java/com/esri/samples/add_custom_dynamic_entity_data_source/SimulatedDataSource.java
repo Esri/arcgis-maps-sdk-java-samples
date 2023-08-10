@@ -36,6 +36,7 @@ import com.google.gson.Gson;
 import com.esri.arcgisruntime.data.Field;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
+import com.esri.arcgisruntime.realtime.ConnectionStatus;
 import com.esri.arcgisruntime.realtime.DynamicEntityDataSource;
 import com.esri.arcgisruntime.realtime.DynamicEntityDataSourceInfo;
 
@@ -68,14 +69,19 @@ class SimulatedDataSource extends DynamicEntityDataSource {
 
   @Override
   protected CompletableFuture<Void> onConnectAsync() {
-    return CompletableFuture.completedFuture((Void)null).whenComplete((unused, throwable) -> {
-      if (throwable != null) {
-        System.err.println("Failed to connect custom data source: " + throwable.getMessage());
-      } else {
-        try {
-          startProcessingObservations();
-        } catch (IOException e) {
-          throw new CompletionException(e);
+    return new CompletableFuture<Void>().completeAsync(() -> {
+      try {
+        startProcessingObservations();
+        return null;
+      } catch (IOException e) {
+        throw new CompletionException(e);
+      }
+    }).whenComplete((unused, throwable) -> {
+      if (getConnectionStatus() == ConnectionStatus.FAILED) {
+        System.err.println("Failed to connect");
+        var error = getConnectionError();
+        if (error != null) {
+          System.err.println(error.getMessage());
         }
       }
     });
