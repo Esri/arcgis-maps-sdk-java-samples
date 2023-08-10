@@ -1,0 +1,37 @@
+{
+    "category": "Real time",
+    "description": "Create a custom dynamic entity data source and display it using a dynamic entity layer.",
+    "ignore": false,
+    "images": [
+        "AddCustomDynamicEntityDataSource.png"
+    ],
+    "keywords": [
+        "data",
+        "dynamic",
+        "entity",
+        "label",
+        "labeling",
+        "live",
+        "real-time",
+        "stream",
+        "track",
+        "DynamicEntity",
+        "DynamicEntityDataSource",
+        "DynamicEntityLayer",
+        "LabelDefinition",
+        "TrackDisplayProperties"
+    ],
+    "redirect_from":"",
+    "relevant_apis": [
+        "DynamicEntity",
+        "DynamicEntityDataSource",
+        "DynamicEntityLayer",
+        "LabelDefinition",
+        "TrackDisplayProperties"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/add_custom_dynamic_entity_data_source/AddCustomDynamicEntityDataSourceSample.java",
+        "src/main/java/com/esri/samples/add_custom_dynamic_entity_data_source/SimulatedDataSource.java"
+    ],
+    "title": "Add custom dynamic entity data source"
+}
