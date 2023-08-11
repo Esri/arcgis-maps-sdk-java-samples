@@ -16,6 +16,7 @@
 
 package com.esri.samples.add_custom_dynamic_entity_data_source;
 
+import java.io.File;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -71,8 +72,8 @@ public class AddCustomDynamicEntityDataSourceSample extends Application {
     // set the initial viewpoint
     mapView.setViewpoint(new Viewpoint(new Point(-123.657, 47.984, SpatialReferences.getWgs84()), 3e6));
 
-    // a JSON file (stored as a resource) with observations for use as the custom data source
-    var resource = getClass().getResource("/add_custom_dynamic_entity_data_source/AIS_MarineCadastre_SelectedVessels_CustomDataSource.json").getPath();
+    // a JSON file with observations for use as the custom data source
+    var resource = new File(System.getProperty("data.dir"), "./samples-data/real_time/AIS_MarineCadastre_SelectedVessels_CustomDataSource.json").getPath();
 
     // create a custom data source implementation of a DynamicEntityDataSource with a data source,
     // an entity id field name (a unique identifier for each entity), and an update delay
