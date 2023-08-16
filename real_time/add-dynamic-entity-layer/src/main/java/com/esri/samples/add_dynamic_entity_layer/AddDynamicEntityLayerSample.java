@@ -122,8 +122,8 @@ public class AddDynamicEntityLayerSample extends Application {
       streamServiceFilter.setWhereClause("speed > 0");
       streamService.setFilter(streamServiceFilter);
 
-      // set a duration of five seconds for how long observation data is stored in the data source
-      streamService.getPurgeOptions().setMaximumDuration(5);
+      // set a duration of five minutes for how long observation data is stored in the data source
+      streamService.getPurgeOptions().setMaximumDuration(300);
 
       // create a dynamic entity layer to display the data from the stream service
       var dynamicEntityLayer = new DynamicEntityLayer(streamService);
@@ -205,6 +205,10 @@ public class AddDynamicEntityLayerSample extends Application {
       trackLinesCheckBox.selectedProperty().bindBidirectional(layerTrackDisplayProperties.showTrackLineProperty());
       observationsCheckBox.selectedProperty().bindBidirectional(layerTrackDisplayProperties.showPreviousObservationsProperty());
 
+      // set checkboxes to be enabled when sample is started
+      trackLinesCheckBox.selectedProperty().set(true);
+      observationsCheckBox.selectedProperty().set(true);
+
       // configure the observations label and slider to update and control the maximum number of observations
       observationSliderLabel.textProperty().bind(Bindings.createStringBinding(() ->
         "Observations per track (" + layerTrackDisplayProperties.maximumObservationsProperty().getValue() + ")",
@@ -252,7 +256,7 @@ public class AddDynamicEntityLayerSample extends Application {
     observationsCheckBox = new CheckBox("Previous observations");
 
     // create a slider to update the number of previous observations
-    observationsSlider = new Slider(1, 5, 5);
+    observationsSlider = new Slider(1, 16, 5);
 
     // create hbox and add the observations label and slider
     var sliderHBox = new HBox();

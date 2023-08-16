@@ -1,0 +1,28 @@
+pluginManagement {
+    plugins {
+        // version defined in settings.gradle to avoid version error when this sample is used in a multiproject build
+        id 'org.openjfx.javafxplugin' version "0.0.14"
+    }
+}
+
+rootProject.name = 'add-custom-dynamic-entity-data-source'
+
+// download sample data
+def ant = new groovy.util.AntBuilder()
+
+if (!file("./samples-data").exists()) {
+    file("./samples-data/real_time").mkdirs()
+
+    // get the json file
+    ant.get(
+            src: "https://arcgisruntime.maps.arcgis.com/sharing/rest/content/items/1f52d04a8dec40f78fcc414e020b2175/data",
+            dest: file("./data.zip")
+    )
+    ant.unzip(
+            src: file("./data.zip"),
+            dest: file("./samples-data/real_time")
+    )
+
+    delete file("./data.zip")
+
+}

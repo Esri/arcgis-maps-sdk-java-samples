@@ -17,6 +17,9 @@ module com.esri.samples.apply_mosaic_rule_to_rasters {
   // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
+  // handle SLF4J http://www.slf4j.org/codes.html#StaticLoggerBinder
+  requires org.slf4j.nop;
+
   // require JavaFX modules that the application uses
   requires javafx.controls;
   requires javafx.graphics;

@@ -1,7 +1,7 @@
 pluginManagement {
     plugins {
         // version defined in settings.gradle to avoid version error when this sample is used in a multi-project build
-        id 'org.openjfx.javafxplugin' version "0.0.13"
+        id 'org.openjfx.javafxplugin' version "0.0.14"
     }
 }
 
@@ -17,7 +17,7 @@ if (!file("./samples-data").exists()) {
     )
     ant.unzip(
             src: file("./data.zip"),
-            dest: file("./samples-data/san_diego")
+            dest: file("./samples-data/sandiego")
     )
     delete file("./data.zip")
 }

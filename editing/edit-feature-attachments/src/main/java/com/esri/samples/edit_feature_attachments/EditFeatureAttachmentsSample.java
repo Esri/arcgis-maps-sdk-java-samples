@@ -18,7 +18,6 @@ package com.esri.samples.edit_feature_attachments;
 
 import org.apache.commons.io.IOUtils;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -41,10 +40,8 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.data.ArcGISFeature;
 import com.esri.arcgisruntime.data.Attachment;
-import com.esri.arcgisruntime.data.FeatureEditResult;
 import com.esri.arcgisruntime.data.ServiceFeatureTable;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
@@ -52,14 +49,12 @@ import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.GeoElement;
 import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 
 public class EditFeatureAttachmentsSample extends Application {
 
   private ListView<String> attachmentList;
   private Label attachmentsLabel;
-
   private ArcGISFeature selected;
   private List<Attachment> attachments;
   private ServiceFeatureTable featureTable;
@@ -70,8 +65,8 @@ public class EditFeatureAttachmentsSample extends Application {
 
     try {
       // create stack pane and application scene
-      StackPane stackPane = new StackPane();
-      Scene scene = new Scene(stackPane);
+      var stackPane = new StackPane();
+      var scene = new Scene(stackPane);
       scene.getStylesheets().add(getClass().getResource("/edit_feature_attachments/style.css").toExternalForm());
 
       // set title, size, and add scene to stage
@@ -88,7 +83,7 @@ public class EditFeatureAttachmentsSample extends Application {
       // create a control panel
       VBox controlsVBox = new VBox(6);
       controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.3)"), CornerRadii.EMPTY,
-              Insets.EMPTY)));
+        Insets.EMPTY)));
       controlsVBox.setPadding(new Insets(10.0));
       controlsVBox.setMaxSize(180, 250);
       controlsVBox.getStyleClass().add("panel-region");
@@ -137,7 +132,7 @@ public class EditFeatureAttachmentsSample extends Application {
       featureTable = new ServiceFeatureTable("https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0");
 
       // create a feature layer from service feature table
-      FeatureLayer featureLayer = new FeatureLayer(featureTable);
+      var featureLayer = new FeatureLayer(featureTable);
 
       // add the feature layer to the ArcGISMap
       map.getOperationalLayers().add(featureLayer);
@@ -160,32 +155,35 @@ public class EditFeatureAttachmentsSample extends Application {
           attachmentList.getItems().clear();
 
           // get the clicked feature
-          ListenableFuture<IdentifyLayerResult> results = mapView.identifyLayerAsync(featureLayer, point, 1, false);
-          results.addDoneListener(() -> {
-            try {
-              IdentifyLayerResult layer = results.get();
-              List<GeoElement> identified = layer.getElements();
-              if (identified.size() > 0) {
-                GeoElement element = identified.get(0);
-                // get selected feature
-                if (element instanceof ArcGISFeature) {
-                  selected = (ArcGISFeature) element;
-                  featureLayer.selectFeature(selected);
-                  selected.loadAsync();
-                  selected.addDoneLoadingListener(() -> {
-                    if (selected.getLoadStatus() == LoadStatus.LOADED) {
-                      fetchAttachments(selected);
-                    } else {
-                      displayMessage("Error", "Element failed to load!");
-                    }
-                  });
-                  addAttachmentButton.setDisable(false);
+          mapView.identifyLayerAsync(featureLayer, point, 1, false, 1).toCompletableFuture()
+            .whenComplete((identifyLayerResult, exception) -> {
+              if (exception == null) {
+                // if the identification operation completes successfully, get the list of identified GeoElements
+                // if nothing is identified, an empty list will be returned
+                List<GeoElement> identified = identifyLayerResult.getElements();
+                if (!identified.isEmpty()) {
+                  // only proceed if an element was identified
+                  GeoElement element = identified.get(0);
+                  if (element instanceof ArcGISFeature) {
+                    // if the element is an ArcGISFeature, select the feature
+                    selected = (ArcGISFeature) element;
+                    featureLayer.selectFeature(selected);
+                    selected.loadAsync();
+                    selected.addDoneLoadingListener(() -> {
+                      if (selected.getLoadStatus() == LoadStatus.LOADED) {
+                        fetchAttachmentsAsync(selected);
+                      } else {
+                        displayMessage("Error", "Element failed to load!");
+                      }
+                    });
+                    addAttachmentButton.setDisable(false);
+                  }
                 }
+              } else {
+                // if the identification operation completes with an exception, display an error
+                displayMessage("Exception getting identify result", exception.getCause().getMessage());
               }
-            } catch (InterruptedException | ExecutionException e) {
-              displayMessage("Exception getting identify result", e.getCause().getMessage());
-            }
-          });
+            });
         }
       });
 
@@ -201,27 +199,27 @@ public class EditFeatureAttachmentsSample extends Application {
   /**
    * Updates the UI with a list of a feature's attachments.
    */
-  private void fetchAttachments(ArcGISFeature feature) {
+  private void fetchAttachmentsAsync(ArcGISFeature feature) {
 
-    ListenableFuture<List<Attachment>> attachmentResults = feature.fetchAttachmentsAsync();
-    attachmentResults.addDoneListener(() -> {
-      try {
-        attachments = attachmentResults.get();
+    feature.fetchAttachmentsAsync().toCompletableFuture().whenComplete(
+      (attachmentResults, exception) -> {
+        if (exception == null) {
+          // if the attachments were fetched successfully, update the UI attachments list
+          attachments = attachmentResults;
 
-        // update UI attachments list
-        Platform.runLater(() -> {
-          attachmentList.getItems().clear();
-          attachments.forEach(attachment -> attachmentList.getItems().add(attachment.getName()));
-          if (!attachments.isEmpty()) {
-            attachmentsLabel.setText("Attachments: ");
-          } else {
-            attachmentsLabel.setText("No Attachments!");
-          }
-        });
-      } catch (InterruptedException | ExecutionException e) {
-        displayMessage("Exception getting feature attachments", e.getCause().getMessage());
-      }
-    });
+          Platform.runLater(() -> {
+            attachmentList.getItems().clear();
+            if (!attachments.isEmpty()) {
+              attachmentsLabel.setText("Attachments: ");
+              attachments.forEach(attachment -> attachmentList.getItems().add(attachment.getName()));
+            } else {
+              attachmentsLabel.setText("No Attachments!");
+            }
+          });
+        } else {
+          displayMessage("Exception getting feature attachments", exception.getCause().getMessage());
+        }
+      });
   }
 
   /**
@@ -232,16 +230,11 @@ public class EditFeatureAttachmentsSample extends Application {
   private void addAttachment(byte[] attachment) {
 
     if (selected.canEditAttachments()) {
-      ListenableFuture<Attachment> addResult = selected.addAttachmentAsync(attachment, "image/png",
-              "edit_feature_attachments/destroyed.png");
-      addResult.addDoneListener(() -> {
-        // update feature table
-        ListenableFuture<Void> tableResult = featureTable.updateFeatureAsync(selected);
-
-        // apply update to server when new feature is added, and update the
-        // displayed list of attachments
-        tableResult.addDoneListener(() -> applyEdits(featureTable));
-      });
+      // update feature table and apply update to server when new feature is added
+      selected.addAttachmentAsync(attachment, "image/png", "edit_feature_attachments/destroyed.png")
+        .toCompletableFuture()
+        .thenCompose(addedAttachment -> featureTable.updateFeatureAsync(selected).toCompletableFuture())
+        .thenRun(() -> applyEdits(featureTable));
     } else {
       displayMessage(null, "Cannot add attachment.");
     }
@@ -253,13 +246,10 @@ public class EditFeatureAttachmentsSample extends Application {
   private void deleteAttachment(int attachmentIndex) {
 
     if (selected.canEditAttachments()) {
-      ListenableFuture<Void> deleteResult = selected.deleteAttachmentAsync(attachments.get(attachmentIndex));
-      deleteResult.addDoneListener(() -> {
-        // update feature table
-        ListenableFuture<Void> tableResult = featureTable.updateFeatureAsync(selected);
-        // apply update to server when new feature is deleted
-        tableResult.addDoneListener(() -> applyEdits(featureTable));
-      });
+      // update feature table and apply update to server when new feature is deleted
+      selected.deleteAttachmentAsync(attachments.get(attachmentIndex)).toCompletableFuture()
+        .thenCompose(unused -> featureTable.updateFeatureAsync(selected).toCompletableFuture())
+        .thenRun(() -> applyEdits(featureTable));
     } else {
       displayMessage(null, "Cannot delete attachment");
     }
@@ -273,26 +263,28 @@ public class EditFeatureAttachmentsSample extends Application {
   private void applyEdits(ServiceFeatureTable featureTable) {
 
     // apply the changes to the server
-    ListenableFuture<List<FeatureEditResult>> editResult = featureTable.applyEditsAsync();
-    editResult.addDoneListener(() -> {
-      try {
-        List<FeatureEditResult> edits = editResult.get();
+    featureTable.applyEditsAsync().toCompletableFuture().whenComplete(
+      (editResults, exception) -> {
         // check if the server edit was successful
-        if (edits != null && edits.size() > 0) {
-          if (!edits.get(0).hasCompletedWithErrors()) {
-            displayMessage(null, "Edited feature successfully");
-          } else {
-            if (edits.get(0).getError() != null) {
-              throw edits.get(0).getError();
+        if (exception == null) {
+          if (!editResults.isEmpty()) {
+            // check for any errors. In this case we are only updating 1 feature so just check the first result
+            if (!editResults.get(0).hasCompletedWithErrors()) {
+              // if there are no errors, display a success message
+              displayMessage("Success", "Edited feature successfully");
+            } else {
+              if (editResults.get(0).getError() != null) {
+                // if there is an error, throw
+                throw editResults.get(0).getError();
+              }
             }
           }
+          // update the displayed list of attachments
+          fetchAttachmentsAsync(selected);
+        } else {
+          displayMessage("Error applying edits on server ", exception.getCause().getMessage());
         }
-        // update the displayed list of attachments
-        fetchAttachments(selected);
-      } catch (InterruptedException | ExecutionException e) {
-        displayMessage("Error applying edits on server ", e.getCause().getMessage());
-      }
-    });
+      });
   }
 
   /**
