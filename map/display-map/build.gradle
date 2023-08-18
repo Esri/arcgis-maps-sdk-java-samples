@@ -35,7 +35,7 @@ repositories {
 }
 
 arcgis {
-    version = '200.2.0-9999'
+    version = '200.2.0'
 }
 
 dependencies {
@@ -47,12 +47,5 @@ if (rootProject == project) {
     // the wrapper task is only used if this project is the root project i.e. not a subproject
     wrapper {
         gradleVersion = '7.5.1'
-    }
-}
-
-run {
-    doFirst {
-        // sets the API key from the gradle.properties file as a Java system property
-        systemProperty 'apiKey', apiKey
     }
 }
