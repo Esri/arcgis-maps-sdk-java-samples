@@ -19,12 +19,6 @@ application {
 compileJava.options.encoding = 'UTF-8'
 
 repositories {
-    maven {
-        name "reposiliteRepositoryReleases"
-        url "http://localhost:8080/releases"
-        allowInsecureProtocol=true
-    }
-    mavenLocal()
     mavenCentral()
     maven {
         url 'https://esri.jfrog.io/artifactory/arcgis'
