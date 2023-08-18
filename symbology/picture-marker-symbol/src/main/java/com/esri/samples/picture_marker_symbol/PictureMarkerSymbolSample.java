@@ -52,8 +52,7 @@ public class PictureMarkerSymbolSample extends Application {
   private PictureMarkerSymbol blueSymbol;
   private PictureMarkerSymbol orangeSymbol;
 
-  private static final String CAMPSITE_SYMBOL =
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0/images/e82f744ebb069bb35b234b3fea46deae";
+  private static final String CAMPSITE_SYMBOL = "https://static.arcgis.com/images/Symbols/OutdoorRecreation/Camping.png";
 
   @Override
   public void start(Stage stage) {
