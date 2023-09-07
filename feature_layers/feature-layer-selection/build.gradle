@@ -1,7 +1,7 @@
 plugins {
     id 'application'
     id 'idea'
-    id 'org.openjfx.javafxplugin' version '0.0.14'
+    id 'org.openjfx.javafxplugin' // version is defined in settings.gradle
 }
 
 idea {
