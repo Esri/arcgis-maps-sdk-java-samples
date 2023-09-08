@@ -1,6 +1,13 @@
 plugins {
     id 'application'
+    id 'idea'
     id 'org.openjfx.javafxplugin' // version is defined in settings.gradle
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+    }
 }
 
 group = 'com.esri.samples'
@@ -10,7 +17,7 @@ ext {
 }
 
 javafx {
-    version = "17.0.7"
+    version = "17.0.8"
     modules = [ 'javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.web', 'javafx.media' ]
 }
 
@@ -83,7 +90,7 @@ task productionZip(type: Zip) {
 if (rootProject == project) {
     // the wrapper task is only used if this project is the root project i.e. not a subproject
     wrapper {
-        gradleVersion = '8.1.1'
+        gradleVersion = '8.3'
     }
 }
 
