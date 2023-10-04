@@ -32,6 +32,7 @@ Click anywhere on the map to sketch. Press ENTER to commit the sketch or ESCAPE 
 
 ## Relevant API
 
+* GeometryEditor
 * GeometryEngine.Project
 * KmlDataset
 * KmlDocument
@@ -39,7 +40,6 @@ Click anywhere on the map to sketch. Press ENTER to commit the sketch or ESCAPE 
 * KmlLayer
 * KmlPlacemark
 * KmlStyle
-* GeometryEditor
 
 ## Tags
 
