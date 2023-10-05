@@ -42,7 +42,7 @@
                 </fills>
             </Background>
         </background>
-        <ComboBox fx:id="sketchCreationModeComboBox" maxWidth="Infinity"/>
+        <ComboBox fx:id="geometryTypeComboBox" maxWidth="Infinity"/>
         <ComboBox fx:id="pointSymbolComboBox" managed="${pointSymbolComboBox.visible}" maxWidth="Infinity"/>
         <ColorPicker fx:id="colorPicker" managed="${colorPicker.visible}" maxWidth="Infinity"/>
         <Separator/>
