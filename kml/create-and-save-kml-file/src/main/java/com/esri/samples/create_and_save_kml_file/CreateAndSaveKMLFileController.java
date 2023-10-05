@@ -19,13 +19,13 @@ package com.esri.samples.create_and_save_kml_file;
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.geometry.Geometry;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
+import com.esri.arcgisruntime.geometry.GeometryType;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.layers.KmlLayer;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.BasemapStyle;
 import com.esri.arcgisruntime.mapping.view.MapView;
-import com.esri.arcgisruntime.mapping.view.SketchCreationMode;
-import com.esri.arcgisruntime.mapping.view.SketchEditor;
+import com.esri.arcgisruntime.mapping.view.geometryeditor.GeometryEditor;
 import com.esri.arcgisruntime.ogc.kml.KmlAltitudeMode;
 import com.esri.arcgisruntime.ogc.kml.KmlDataset;
 import com.esri.arcgisruntime.ogc.kml.KmlDocument;
@@ -56,12 +56,12 @@ public class CreateAndSaveKMLFileController {
   @FXML private StackPane stackPane;
   @FXML private ColorPicker colorPicker;
   @FXML private ComboBox<String> pointSymbolComboBox;
-  @FXML private ComboBox<SketchCreationMode> sketchCreationModeComboBox;
+  @FXML private ComboBox<GeometryType> geometryTypeComboBox;
   @FXML private MapView mapView;
 
   private ArcGISMap map; // keep loadable in scope to avoid garbage collection
   private KmlDocument kmlDocument;
-  private SketchEditor sketchEditor;
+  private GeometryEditor geometryEditor;
   private FileChooser fileChooser;
 
   @FXML
@@ -75,22 +75,22 @@ public class CreateAndSaveKMLFileController {
     map = new ArcGISMap(BasemapStyle.ARCGIS_DARK_GRAY);
     mapView.setMap(map);
 
-    // create a sketch editor and add it to the map view
-    sketchEditor = new SketchEditor();
-    mapView.setSketchEditor(sketchEditor);
+    // create a geometry editor and add it to the map view
+    geometryEditor = new GeometryEditor();
+    mapView.setGeometryEditor(geometryEditor);
 
     // add geometry options for KML placemarks
-    sketchCreationModeComboBox.getItems().addAll(SketchCreationMode.POINT, SketchCreationMode.POLYLINE, SketchCreationMode.POLYGON);
+    geometryTypeComboBox.getItems().addAll(GeometryType.POINT, GeometryType.POLYLINE, GeometryType.POLYGON);
 
-    // restart the sketch editor whenever the selected creation mode changes
-    sketchCreationModeComboBox.getSelectionModel().selectedItemProperty().addListener(o -> startSketch());
+    // restart the geometry editor whenever the selected creation mode changes
+    geometryTypeComboBox.getSelectionModel().selectedItemProperty().addListener(o -> createGeometry());
 
     // start with POINT selected
-    map.addDoneLoadingListener(() -> sketchCreationModeComboBox.getSelectionModel().select(0));
+    map.addDoneLoadingListener(() -> geometryTypeComboBox.getSelectionModel().select(0));
 
-    // show style controls relevant to the selected sketch creation mode
-    colorPicker.visibleProperty().bind(sketchCreationModeComboBox.getSelectionModel().selectedItemProperty().isNotEqualTo(SketchCreationMode.POINT));
-    pointSymbolComboBox.visibleProperty().bind(sketchCreationModeComboBox.getSelectionModel().selectedItemProperty().isEqualTo(SketchCreationMode.POINT));
+    // show style controls relevant to the selected geometry type
+    colorPicker.visibleProperty().bind(geometryTypeComboBox.getSelectionModel().selectedItemProperty().isNotEqualTo(GeometryType.POINT));
+    pointSymbolComboBox.visibleProperty().bind(geometryTypeComboBox.getSelectionModel().selectedItemProperty().isEqualTo(GeometryType.POINT));
 
     // set the images for the icon selection combo box
     List<String> iconLinks = Arrays.asList(
@@ -120,34 +120,34 @@ public class CreateAndSaveKMLFileController {
   }
 
   /**
-   * Starts the sketch editor based on the selected sketch creation mode.
+   * Starts the geometry editor based on the selected geometry type.
    */
   @FXML
-  private void startSketch() {
-    // stop the sketch editor
-    sketchEditor.stop();
+  private void createGeometry() {
+    // stop the geometry editor
+    geometryEditor.stop();
 
     // request focus on stack pane to receive key events
     stackPane.requestFocus();
 
-    // start the sketch editor with the selected creation mode
-    sketchEditor.start(sketchCreationModeComboBox.getSelectionModel().getSelectedItem());
+    // start the geometry editor with the selected creation mode
+    geometryEditor.start(geometryTypeComboBox.getSelectionModel().getSelectedItem());
   }
 
   /**
-   * Discard or commit the current sketch to a KML placemark if ESCAPE or ENTER are pressed while sketching.
+   * Discard or commit the current geometry to a KML placemark if ESCAPE or ENTER are pressed while editing the geometry.
    *
    * @param keyEvent the key event
    */
   @FXML
   private void handleKeyReleased(KeyEvent keyEvent) {
     if (keyEvent.getCode() == KeyCode.ESCAPE) {
-      // clear the current sketch and start a new sketch
-      startSketch();
-    } else if (keyEvent.getCode() == KeyCode.ENTER && sketchEditor.isSketchValid()) {
-      // project the sketched geometry to WGS84 to comply with the KML standard
-      Geometry sketchGeometry = sketchEditor.getGeometry();
-      Geometry projectedGeometry = GeometryEngine.project(sketchGeometry, SpatialReferences.getWgs84());
+      // clear the current geometry and start a new geometry editing
+      createGeometry();
+    } else if (keyEvent.getCode() == KeyCode.ENTER) {
+      // project the created geometry to WGS84 to comply with the KML standard
+      Geometry geometry = geometryEditor.getGeometry();
+      Geometry projectedGeometry = GeometryEngine.project(geometry, SpatialReferences.getWgs84());
 
       // create a new KML placemark
       var kmlGeometry = new KmlGeometry(projectedGeometry, KmlAltitudeMode.CLAMP_TO_GROUND);
@@ -158,7 +158,7 @@ public class CreateAndSaveKMLFileController {
       currentKmlPlacemark.setStyle(kmlStyle);
 
       // set the selected style for the placemark
-      switch (sketchGeometry.getGeometryType()) {
+      switch (geometry.getGeometryType()) {
         case POINT:
           if (pointSymbolComboBox.getSelectionModel().getSelectedItem() != null) {
             String iconURI = pointSymbolComboBox.getSelectionModel().getSelectedItem();
@@ -188,8 +188,8 @@ public class CreateAndSaveKMLFileController {
       // add the placemark to the kml document
       kmlDocument.getChildNodes().add(currentKmlPlacemark);
 
-      // start a new sketch
-      startSketch();
+      // start a new geometry editing
+      createGeometry();
     }
   }
 
