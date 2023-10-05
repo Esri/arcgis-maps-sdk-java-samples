@@ -80,7 +80,6 @@ run {
     dependsOn copyNatives
 }
 
-
 if (rootProject == project) {
     // the wrapper task is only used if this project is the root project i.e. not a subproject
     wrapper {
