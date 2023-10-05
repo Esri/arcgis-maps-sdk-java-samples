@@ -6,29 +6,29 @@
         "CreateAndSaveKMLFile.png"
     ],
     "keywords": [
+        "Keyhole",
         "KML",
         "KMZ",
-        "Keyhole",
         "OGC",
+        "GeometryEditor",
         "GeometryEngine.Project",
         "KmlDataset",
         "KmlDocument",
         "KmlGeometry",
         "KmlLayer",
         "KmlPlacemark",
-        "KmlStyle",
-        "SketchEditor"
+        "KmlStyle"
     ],
     "redirect_from": "",
     "relevant_apis": [
+        "GeometryEditor",
         "GeometryEngine.Project",
         "KmlDataset",
         "KmlDocument",
         "KmlGeometry",
         "KmlLayer",
         "KmlPlacemark",
-        "KmlStyle",
-        "SketchEditor"
+        "KmlStyle"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/create_and_save_kml_file/CreateAndSaveKMLFileController.java",
