@@ -1,14 +1,14 @@
 pluginManagement {
     plugins {
         // version defined in settings.gradle to avoid version error when this sample is used in a multi-project build
-        id 'org.openjfx.javafxplugin' version "0.0.14"
+        id 'org.openjfx.javafxplugin' version "0.1.0"
     }
 }
 
 rootProject.name = 'display-device-location-with-nmea-data-sources'
 
 // download sample data
-def ant = new groovy.util.AntBuilder()
+def ant = new groovy.ant.AntBuilder()
 
 if (!file("./samples-data").exists()) {
     ant.get(
