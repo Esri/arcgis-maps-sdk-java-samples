@@ -6,14 +6,14 @@ Construct a KML document and save it as a KMZ file.
 
 ## Use case
 
-If you need to create and save data on the fly, you can use KML to create points, lines, and polygons by sketching on the map using the geometry editor, customizing the style, and serializing them as KML nodes in a KML Document. Once complete, you can share the KML data with others that are using a KML reading application, such as ArcGIS Earth.
+If you need to create and save data on the fly, you can use KML to create points, lines, and polygons by editing geometries on the map using the geometry editor, customizing the style, and serializing them as KML nodes in a KML Document. Once complete, you can share the KML data with others that are using a KML reading application, such as ArcGIS Earth.
 
 ## How to use the sample
 
-Select the geometry type for sketching with the first combo box.  Change the
+Select the geometry type for editing with the first combo box.  Change the
  style for the KML feature using the second combo box.
 
-Click anywhere on the map to sketch. Press ENTER to commit the sketch or ESCAPE to discard the sketch.
+Click anywhere on the map to edit. Press ENTER to commit the geometry or ESCAPE to discard the geometry.
 
  When finished, click the 'Save KMZ file' button to save the KML document to a KMZ file.
 
