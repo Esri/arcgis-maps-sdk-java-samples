@@ -72,17 +72,6 @@ run {
     dependsOn copyNatives
 }
 
-task productionZip(type: Zip) {
-    group = 'distribution'
-    from ("samples-data") {
-        into "samples-data"
-    }
-    from copyNatives
-    from jar.destinationDirectory
-    into (project.name)
-    archiveBaseName = project.name
-}
-
 if (rootProject == project) {
     // the wrapper task is only used if this project is the root project i.e. not a subproject
     wrapper {
