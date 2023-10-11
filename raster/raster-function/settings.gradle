@@ -8,7 +8,7 @@ pluginManagement {
 rootProject.name = 'raster-function'
 
 // download sample data
-def ant = new groovy.util.AntBuilder()
+def ant = new groovy.ant.AntBuilder()
 
 if (!file("./samples-data").exists()) {
     ant.get(
