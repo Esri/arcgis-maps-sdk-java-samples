@@ -17,7 +17,7 @@ ext {
 }
 
 javafx {
-    version = "17.0.8"
+    version = "21.0.1"
     modules = [ 'javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.web', 'javafx.media', 'javafx.swing' ]
 }
 
