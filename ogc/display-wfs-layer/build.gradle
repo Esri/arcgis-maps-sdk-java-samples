@@ -83,6 +83,6 @@ run {
 if (rootProject == project) {
     // the wrapper task is only used if this project is the root project i.e. not a subproject
     wrapper {
-        gradleVersion = '8.3'
+        gradleVersion = '8.4'
     }
 }
