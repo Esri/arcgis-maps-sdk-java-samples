@@ -10,7 +10,7 @@ ext {
 }
 
 javafx {
-    version = "17.0.7"
+    version = "17.0.9"
     modules = [ 'javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.web', 'javafx.media' ]
 }
 
@@ -36,12 +36,12 @@ configurations {
 }
 
 dependencies {
-    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'commons-io:commons-io:2.15.0'
     implementation "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
     // handle SLF4J http://www.slf4j.org/codes.html#StaticLoggerBinder
-    implementation 'org.slf4j:slf4j-nop:2.0.7'
+    implementation 'org.slf4j:slf4j-nop:2.0.9'
 }
 
 task createGradlePropertiesAndWriteApiKey {
@@ -84,7 +84,7 @@ task productionZip(type: Zip) {
 if (rootProject == project) {
     // the wrapper task is only used if this project is the root project i.e. not a subproject
     wrapper {
-        gradleVersion = '8.1.1'
+        gradleVersion = '8.4'
     }
 }
 
