@@ -69,7 +69,7 @@ public class WebTiledLayerSample extends Application {
           map.setBasemap(new Basemap(webTiledLayer));
           // set custom attribution on the layer
           webTiledLayer.setAttribution("Map tiles by ArcGIS Living Atlas of the World" +
-              ", under the Esri Master License Agreement." +
+              ", under the Esri Master License Agreement.  " +
               "Data by Esri, Garmin, GEBCO, NOAA NGDC, and other contributors.");
         } else {
           new Alert(Alert.AlertType.ERROR, webTiledLayer.getLoadError().getMessage()).show();
