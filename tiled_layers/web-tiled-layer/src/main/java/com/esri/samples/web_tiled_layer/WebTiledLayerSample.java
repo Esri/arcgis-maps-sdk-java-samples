@@ -58,7 +58,7 @@ public class WebTiledLayerSample extends Application {
 
       // create a list of subdomains and template URI
       List<String> subDomains = Arrays.asList("a", "b", "c", "d");
-      String templateURI = "http://{subDomain}.tile.stamen.com/terrain/{level}/{col}/{row}.png";
+      String templateURI = "https://server.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{level}/{row}/{col}.jpg";
 
       // create a web tiled layer
       webTiledLayer = new WebTiledLayer(templateURI, subDomains);
@@ -68,10 +68,9 @@ public class WebTiledLayerSample extends Application {
           // set the web tiled layer as the map's basemap
           map.setBasemap(new Basemap(webTiledLayer));
           // set custom attribution on the layer
-          webTiledLayer.setAttribution("Map tiles by <a href=\"http://stamen.com/\">Stamen Design</a>, " +
-              "under <a href=\"http://creativecommons.org/licenses/by/3.0\">CC BY 3.0</a>. " +
-              "Data by <a href=\"http://openstreetmap.org/\">OpenStreetMap</a>, " +
-              "under <a href=\"http://creativecommons.org/licenses/by-sa/3.0\">CC BY SA</a>.");
+          webTiledLayer.setAttribution("Map tiles by ArcGIS Living Atlas of the World" +
+              ", under the Esri Master License Agreement." +
+              "Data by Esri, Garmin, GEBCO, NOAA NGDC, and other contributors.");
         } else {
           new Alert(Alert.AlertType.ERROR, webTiledLayer.getLoadError().getMessage()).show();
         }
