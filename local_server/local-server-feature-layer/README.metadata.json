@@ -30,5 +30,5 @@
     "snippets": [
         "src/main/java/com/esri/samples/local_server_feature_layer/LocalServerFeatureLayerSample.java"
     ],
-    "title": "Local Server feature layer"
+    "title": "Local server feature layer"
 }
