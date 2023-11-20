@@ -1,4 +1,4 @@
-# Local Server feature layer
+# Local server feature layer
 
 Start a local feature service and display its features in a map.
 

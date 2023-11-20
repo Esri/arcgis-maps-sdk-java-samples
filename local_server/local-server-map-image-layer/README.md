@@ -1,4 +1,4 @@
-# Local Server map image layer
+# Local server map image layer
 
 Start the Local Server and Local Map Service, create an ArcGIS Map Image Layer from the Local Map Service, and add it to a map.
 

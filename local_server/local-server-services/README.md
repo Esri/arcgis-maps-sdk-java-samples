@@ -1,4 +1,4 @@
-# Local Server services
+# Local server services
 
 Demonstrates how to start and stop the Local Server and start and stop a local map, feature, and geoprocessing service running on the Local Server.
 
