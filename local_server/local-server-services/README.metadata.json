@@ -35,5 +35,5 @@
         "src/main/java/com/esri/samples/local_server_services/LocalServerServicesSample.java",
         "src/main/resources/local_server_services/main.fxml"
     ],
-    "title": "Local Server services"
+    "title": "Local server services"
 }
