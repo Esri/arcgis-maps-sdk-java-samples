@@ -1,6 +1,6 @@
-# Add clustering feature reduction to a point feature layer
+# Add feature clustering
 
-Add client side feature reduction on a point feature layer that is not pre-configured with clustering.
+Add clustering feature reduction to a point feature layer.
 
 ![Image of display map](AddFeatureClustering.png)
 
