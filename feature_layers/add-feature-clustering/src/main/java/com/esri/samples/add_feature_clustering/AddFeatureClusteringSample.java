@@ -20,13 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.jar.Attributes;
 
+import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.arcgisservices.LabelDefinition;
 import com.esri.arcgisruntime.arcgisservices.LabelingPlacement;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.LayerList;
 import com.esri.arcgisruntime.mapping.labeling.SimpleLabelExpression;
 import com.esri.arcgisruntime.mapping.popup.Popup;
@@ -35,6 +36,7 @@ import com.esri.arcgisruntime.mapping.reduction.AggregateField;
 import com.esri.arcgisruntime.mapping.reduction.AggregateStatisticType;
 import com.esri.arcgisruntime.mapping.reduction.ClusteringFeatureReduction;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
+import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 import com.esri.arcgisruntime.symbology.ClassBreaksRenderer;
@@ -47,8 +49,8 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -64,29 +66,26 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.view.MapView;
-
 public class AddFeatureClusteringSample extends Application {
 
-  private ArcGISMap mMap;
-  private CheckBox mDisplayLabelsCheckbox;
-  private Label mClusterRadiusLabel;
-  private Slider mClusterRadiusSlider;
-  private Label mMaxScaleLabel;
-  private Slider mMaxScaleSlider;
-  private Label mCurrentMapScaleLabel;
-  private FeatureLayer mLayer;
-  private Label mPopupContentLabel;
-
-  private ClusteringFeatureReduction mClusteringFeatureReduction;
+  private ArcGISMap map;
+  private CheckBox displayLabelsCheckbox;
+  private Label clusterRadiusLabel;
+  private ComboBox clusterRadiusPicker;
+  private Label maxScaleLabel;
+  private ComboBox maxScalePicker;
+  private Label currentMapScaleLabel;
+  private FeatureLayer layer;
+  private Label popupContentLabel;
+  private ClusteringFeatureReduction clusteringFeatureReduction;
   private String popupContent;
-
   private MapView mapView;
   private PortalItem portalItem; // keep loadable in scope to avoid garbage collection
 
-  private final int DEFAULT_CLUSTER_R = 60;
+  private final int DEFAULT_CLUSTER_RADIUS = 60;
+  private final int MIN_WIDTH = 100;
+  private final int MAX_WIDTH = 300;
+  private final int SPACING = 6;
 
   @Override
   public void start(Stage stage) {
@@ -111,27 +110,29 @@ public class AddFeatureClusteringSample extends Application {
       var portal = new Portal("https://www.arcgis.com/");
       portalItem = new PortalItem(portal, "aa44e79a4836413c89908e1afdace2ea");
 
-      mMap = new ArcGISMap(portalItem);
+      map = new ArcGISMap(portalItem);
 
       VBox vBoxPopupInformation = new VBox();
-      mPopupContentLabel = new Label();
-      vBoxPopupInformation.getChildren().addAll(mPopupContentLabel);
+      popupContentLabel = new Label();
+      setupVBoxStyling(vBoxPopupInformation);
+      vBoxPopupInformation.getChildren().addAll(popupContentLabel);
+      vBoxPopupInformation.setVisible(false);
 
       // Get the Zurich buildings feature layer once the map has finished loading
-      mMap.addDoneLoadingListener(() -> {
-        if (mMap.getLoadStatus() == LoadStatus.LOADED) {
-          LayerList l = mMap.getOperationalLayers();
+      map.addDoneLoadingListener(() -> {
+        if (map.getLoadStatus() == LoadStatus.LOADED) {
+          LayerList l = map.getOperationalLayers();
           if (l.isEmpty())
             return;
-          mLayer = (FeatureLayer) mMap.getOperationalLayers().get(0);
+          layer = (FeatureLayer) l.get(0);
 
           mapView.setOnMouseClicked(mouseEvent -> {
-            if (mLayer == null) {
+            if (layer == null) {
               return;
             }
             // Identify the tapped observation.
             Point2D point = new Point2D(mouseEvent.getX(), mouseEvent.getY());
-            ListenableFuture<IdentifyLayerResult> identifiedLayerResults = mapView.identifyLayerAsync(mLayer, point, 3.0, true);
+            ListenableFuture<IdentifyLayerResult> identifiedLayerResults = mapView.identifyLayerAsync(layer, point, 3.0, true);
             identifiedLayerResults.addDoneListener(() -> {
               try {
                 // clear the list of popup content
@@ -146,8 +147,9 @@ public class AddFeatureClusteringSample extends Application {
                 }
                 System.out.println("###: " + popupContent);
                 Platform.runLater(() ->{
-                  mPopupContentLabel.setText(popupContent);
-                  vBoxPopupInformation.setVisible(!mPopupContentLabel.getText().isEmpty());
+                  popupContentLabel.setText(popupContent);
+                  popupContentLabel.setTextFill(Color.WHITE);
+                  vBoxPopupInformation.setVisible(!popupContentLabel.getText().isEmpty());
                 });
 
               } catch (ExecutionException | InterruptedException e) {
@@ -160,17 +162,17 @@ public class AddFeatureClusteringSample extends Application {
           VBox vBoxControls = controlsVBox();
 
           // add the map view to the stack pane
-          stackPane.getChildren().addAll(mapView, vBoxControls/*, vBoxPopupInformation*/);
+          stackPane.getChildren().addAll(mapView, vBoxControls, vBoxPopupInformation);
           StackPane.setAlignment(vBoxControls, Pos.TOP_LEFT);
           StackPane.setMargin(vBoxControls, new Insets(10, 0, 0, 10));
-          //StackPane.setAlignment(vBoxPopupInformation, Pos.TOP_RIGHT);
-          //StackPane.setMargin(vBoxPopupInformation, new Insets(10, 0, 0, 10));
+          StackPane.setAlignment(vBoxPopupInformation, Pos.TOP_RIGHT);
+          StackPane.setMargin(vBoxPopupInformation, new Insets(10, 0, 0, 10));
 
           // Add a class break for each intended value range and define a symbol to display for features in that range.
           // In this case, the average building height ranges from 0 to 8 stories.
           // For each cluster of features with a given average building height, a symbol is defined with a specified
           // color.
-          List<ClassBreaksRenderer.ClassBreak> classBreaks = new ArrayList<ClassBreaksRenderer.ClassBreak>();
+          List<ClassBreaksRenderer.ClassBreak> classBreaks = new ArrayList<>();
           classBreaks.add(new ClassBreaksRenderer.ClassBreak("0", "0", 0.0, 1.0,
               new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.rgb(4, 251, 255), 8.0f)));
           classBreaks.add(new ClassBreaksRenderer.ClassBreak("1", "1", 1.0, 2.0,
@@ -199,46 +201,46 @@ public class AddFeatureClusteringSample extends Application {
           classBreaksRenderer.setDefaultSymbol(new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.PINK, 8));
 
           // Create a new clustering feature reduction using the class breaks renderer.
-          mClusteringFeatureReduction = new ClusteringFeatureReduction(classBreaksRenderer);
+          clusteringFeatureReduction = new ClusteringFeatureReduction(classBreaksRenderer);
 
           // Set the feature reduction's aggregate fields. Note that the field names must match the names of fields
           // in the feature layer's dataset.
           // The aggregate fields summarize values based on the defined aggregate statistic type.
-          mClusteringFeatureReduction.getAggregateFields().add(
+          clusteringFeatureReduction.getAggregateFields().add(
               new AggregateField("Total Residential Buildings", "Residential_Buildings", AggregateStatisticType.SUM));
 
-          mClusteringFeatureReduction.getAggregateFields().add(
+          clusteringFeatureReduction.getAggregateFields().add(
               new AggregateField("Average Building Height", "Most_common_number_of_storeys",
                   AggregateStatisticType.MODE));
 
           // Enable the feature reduction.
-          mClusteringFeatureReduction.setEnabled(true);
+          clusteringFeatureReduction.setEnabled(true);
 
           // Set the popup definition for the custom feature reduction.
-          mClusteringFeatureReduction.setPopupDefinition(new PopupDefinition(mClusteringFeatureReduction));
+          clusteringFeatureReduction.setPopupDefinition(new PopupDefinition(clusteringFeatureReduction));
 
           // Set values for the feature reduction's cluster minimum and maximum symbol sizes.
           // Note that the default values for Max and Min symbol size are 70 and 12 respectively.
-          mClusteringFeatureReduction.setMinSymbolSize(5.0);
-          mClusteringFeatureReduction.setMaxSymbolSize(90.0);
+          clusteringFeatureReduction.setMinSymbolSize(5.0);
+          clusteringFeatureReduction.setMaxSymbolSize(90.0);
 
           // Set the feature reduction for the layer.
-          mLayer.setFeatureReduction(mClusteringFeatureReduction);
+          layer.setFeatureReduction(clusteringFeatureReduction);
 
-          // Set initial slider values.
+          // Set initial ComboBox values.
           // Note that the default value for cluster radius is 60.
           // Increasing the cluster radius increases the number of features that are grouped together into a cluster.
-          mClusteringFeatureReduction.setRadius(DEFAULT_CLUSTER_R);
+          clusteringFeatureReduction.setRadius(DEFAULT_CLUSTER_RADIUS);
 
           // Note that the default value for max scale is 0.
           // The max scale value is the maximum scale at which clustering is applied.
-          mClusteringFeatureReduction.setMaxScale(0.0);
+          clusteringFeatureReduction.setMaxScale(0);
         }
       });
 
       // create a map view and set the map to it
       mapView = new MapView();
-      mapView.setMap(mMap);
+      mapView.setMap(map);
 
     } catch (Exception e) {
       // on any error, display the stack trace.
@@ -247,9 +249,22 @@ public class AddFeatureClusteringSample extends Application {
   }
 
   /**
-   * Creates a UI with three buttons and a label.
+   * Gets a VBox and sets up its styling.
+   */
+  private void setupVBoxStyling(VBox vBox) {
+    vBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"),
+        CornerRadii.EMPTY,
+        Insets.EMPTY)));
+    vBox.setPadding(new Insets(10.0));
+    vBox.setMaxSize(MAX_WIDTH, MIN_WIDTH);
+    vBox.getStyleClass().add("panel-region");
+    vBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
+  }
+
+  /**
+   * Creates a UI with a checkbox and two combo boxes.
    *
-   * @return a vBox populated with buttons and labels
+   * @return a vBox populated with checkbox, combo boxes, and labels
    */
   private VBox controlsVBox() {
 
@@ -258,83 +273,71 @@ public class AddFeatureClusteringSample extends Application {
     label.setFont(new Font(14));
     label.setTextFill(Color.WHITE);
 
-    final int MIN_WIDTH = 100;
-    final int MAX_WIDTH = 300;
-    final int SPACING = 6;
-
     HBox displayHBox = new HBox(SPACING);
-    Label label1 = new Label("Display Labels");
+    Label label1 = new Label("Display Labels: ");
     label1.setMinWidth(MIN_WIDTH);
     label1.setTextFill(Color.WHITE);
+
     // create checkbox to toggle the showing of cluster count
-    mDisplayLabelsCheckbox = new CheckBox();
-    mDisplayLabelsCheckbox.setSelected(false);
-    mDisplayLabelsCheckbox.setTextFill(Color.WHITE);
-    mDisplayLabelsCheckbox.selectedProperty().addListener(o -> {
-      if (mDisplayLabelsCheckbox.isSelected()) {
-        SimpleLabelExpression simpleLabelExpression = new SimpleLabelExpression("[cluster_count]");
-        TextSymbol textSymbol = new TextSymbol(15.0f, "", Color.BLUE, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.MIDDLE);
-        textSymbol.setFontWeight(TextSymbol.FontWeight.BOLD);
-        LabelDefinition labelDefinition = new LabelDefinition(simpleLabelExpression, textSymbol);
-        labelDefinition.setPlacement(LabelingPlacement.POINT_CENTER_CENTER);
-        mClusteringFeatureReduction.getLabelDefinitions().add(labelDefinition);
+
+    SimpleLabelExpression simpleLabelExpression = new SimpleLabelExpression("[cluster_count]");
+    TextSymbol textSymbol = new TextSymbol(15.0f, "", Color.BLUE, TextSymbol.HorizontalAlignment.CENTER, TextSymbol.VerticalAlignment.MIDDLE);
+    textSymbol.setFontWeight(TextSymbol.FontWeight.BOLD);
+    LabelDefinition labelDefinition = new LabelDefinition(simpleLabelExpression, textSymbol);
+    labelDefinition.setPlacement(LabelingPlacement.POINT_CENTER_CENTER);
+
+    displayLabelsCheckbox = new CheckBox();
+    displayLabelsCheckbox.setSelected(false);
+    displayLabelsCheckbox.setTextFill(Color.WHITE);
+    displayLabelsCheckbox.selectedProperty().addListener(o -> {
+      if (displayLabelsCheckbox.isSelected()) {
+        clusteringFeatureReduction.getLabelDefinitions().add(labelDefinition);
       }
       else {
-        mClusteringFeatureReduction.getLabelDefinitions().clear();
+        clusteringFeatureReduction.getLabelDefinitions().clear();
       }
     });
-    displayHBox.getChildren().addAll(label1, mDisplayLabelsCheckbox);
+    displayHBox.getChildren().addAll(label1, displayLabelsCheckbox);
 
     HBox clusterRadiusHBox = new HBox(SPACING);
-    mClusterRadiusLabel = new Label("Cluster radius: " + DEFAULT_CLUSTER_R);
-    mClusterRadiusLabel.setMinWidth(MIN_WIDTH);
-    mClusterRadiusLabel.setTextFill(Color.WHITE);
-    mClusterRadiusSlider = new Slider();
-    mClusterRadiusSlider.setValue(DEFAULT_CLUSTER_R);
+    clusterRadiusLabel = new Label("Cluster radius: ");
+    clusterRadiusLabel.setMinWidth(MIN_WIDTH);
+    clusterRadiusLabel.setTextFill(Color.WHITE);
+    clusterRadiusPicker = new ComboBox();
+    clusterRadiusPicker.getItems().addAll(30, 45, 60, 75, 90);
+    clusterRadiusPicker.setValue(DEFAULT_CLUSTER_RADIUS);
 
-    // create a slider for adjusting cluster radius
-    mClusterRadiusSlider = new Slider(30, 85, DEFAULT_CLUSTER_R);
-    mClusterRadiusSlider.setMaxWidth(MAX_WIDTH);
-    // add a listener to the slider's value property to set the cluster radius
-    mClusterRadiusSlider.setOnMouseReleased(event -> {
-      mClusterRadiusLabel.setText(String.valueOf("Cluster radius: " + (int) mClusterRadiusSlider.getValue()));
-      mClusteringFeatureReduction.setRadius(mClusterRadiusSlider.getValue());
+    // add a listener to the ComboBox's value property to set the cluster radius
+    clusterRadiusPicker.setOnAction(event -> {
+      clusteringFeatureReduction.setRadius((int) clusterRadiusPicker.getValue());
     });
-    clusterRadiusHBox.getChildren().addAll(mClusterRadiusLabel, mClusterRadiusSlider);
+    clusterRadiusHBox.getChildren().addAll(clusterRadiusLabel, clusterRadiusPicker);
 
-    final int DEFAULT_SCALE_WIDTH = 0;
-    final int MAX_SCALE_WIDTH = 150000;
     HBox maxScaleHBox = new HBox(SPACING);
-    mMaxScaleLabel = new Label("MaxScale: " + DEFAULT_SCALE_WIDTH);
-    mMaxScaleLabel.setMinWidth(MIN_WIDTH);
-    mMaxScaleLabel.setTextFill(Color.WHITE);
-    // create a slider for adjusting max scale
-    mMaxScaleSlider = new Slider(0, MAX_SCALE_WIDTH, DEFAULT_SCALE_WIDTH);
-    mMaxScaleSlider.setMaxWidth(MAX_SCALE_WIDTH);
-    // add a listener to the slider's value property to set the max scale
-    mMaxScaleSlider.setOnMouseReleased(event -> {
-      mMaxScaleLabel.setText(String.valueOf("MaxScale: " + (int) mMaxScaleSlider.getValue()));
-      mClusteringFeatureReduction.setMaxScale(mMaxScaleSlider.getValue());
+    maxScaleLabel = new Label("MaxScale: ");
+    maxScaleLabel.setMinWidth(MIN_WIDTH);
+    maxScaleLabel.setTextFill(Color.WHITE);
+    // create a ComboBox for adjusting max scale
+    maxScalePicker = new ComboBox();
+    maxScalePicker.getItems().addAll(0, 1000, 5000, 10000, 50000, 100000, 500000);
+    maxScalePicker.setValue(0);
+
+    // add a listener to the ComboBox's value property to set the max scale
+    maxScalePicker.setOnAction(event -> {
+      clusteringFeatureReduction.setMaxScale((int) maxScalePicker.getValue());
     });
-    maxScaleHBox.getChildren().addAll(mMaxScaleLabel, mMaxScaleSlider);
+    maxScaleHBox.getChildren().addAll(maxScaleLabel, maxScalePicker);
 
     // show current map scale in a label within the control panel
-    mCurrentMapScaleLabel = new Label("Scale: 1:" + mapView.getMapScale());
-    mCurrentMapScaleLabel.setTextFill(Color.WHITE);
+    currentMapScaleLabel = new Label("Scale: 1:" + mapView.getMapScale());
+    currentMapScaleLabel.setTextFill(Color.WHITE);
 
     // listen for map scale changes and update the label
-    mapView.mapScaleProperty().addListener((observable, oldValue, newValue) ->
-        mCurrentMapScaleLabel.setText("Scale: 1:" + Math.round((double) newValue)));
+    currentMapScaleLabel.textProperty().bind(mapView.mapScaleProperty().map(i -> "Scale: 1:" + Math.round(i.doubleValue())));
 
     VBox controlsVBox = new VBox(10);
-    controlsVBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"),
-        CornerRadii.EMPTY,
-        Insets.EMPTY)));
-    controlsVBox.setPadding(new Insets(10.0));
-    controlsVBox.setMaxSize(MAX_WIDTH, MIN_WIDTH);
-    controlsVBox.getStyleClass().add("panel-region");
-    controlsVBox.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
-    controlsVBox.getChildren().addAll(label, displayHBox, clusterRadiusHBox, maxScaleHBox, mCurrentMapScaleLabel);
+    setupVBoxStyling(controlsVBox);
+    controlsVBox.getChildren().addAll(label, displayHBox, clusterRadiusHBox, maxScaleHBox, currentMapScaleLabel);
 
     return controlsVBox;
   }
