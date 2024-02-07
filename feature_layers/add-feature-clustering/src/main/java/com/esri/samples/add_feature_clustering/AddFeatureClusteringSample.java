@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.arcgisservices.LabelDefinition;
@@ -71,9 +72,9 @@ public class AddFeatureClusteringSample extends Application {
   private ArcGISMap map;
   private CheckBox displayLabelsCheckbox;
   private Label clusterRadiusLabel;
-  private ComboBox clusterRadiusPicker;
+  private ComboBox<Integer> clusterRadiusPicker;
   private Label maxScaleLabel;
-  private ComboBox maxScalePicker;
+  private ComboBox<Integer> maxScalePicker;
   private Label currentMapScaleLabel;
   private FeatureLayer layer;
   private Label popupContentLabel;
@@ -139,13 +140,11 @@ public class AddFeatureClusteringSample extends Application {
                 popupContent = "";
                 IdentifyLayerResult layer = identifiedLayerResults.get();
 
-                for (Popup popup : layer.getPopups()) {
-                  final Map<String, Object> attributes = popup.getGeoElement().getAttributes();
-                  for (final String name : attributes.keySet()) {
-                    popupContent += name + ": " + attributes.get(name).toString() + "\n";
-                  }
-                }
-                System.out.println("###: " + popupContent);
+                popupContent = layer.getPopups().stream()
+                    .flatMap(popup->popup.getGeoElement().getAttributes().entrySet().stream())
+                    .map(entry->entry.getKey() + ": " + entry.getValue().toString() + "\n")
+                        .collect(Collectors.joining());
+
                 Platform.runLater(() ->{
                   popupContentLabel.setText(popupContent);
                   popupContentLabel.setTextFill(Color.WHITE);
@@ -153,7 +152,7 @@ public class AddFeatureClusteringSample extends Application {
                 });
 
               } catch (ExecutionException | InterruptedException e) {
-                throw new RuntimeException(e);
+                System.err.println(e.getMessage());
               }
             });
           });
@@ -249,7 +248,7 @@ public class AddFeatureClusteringSample extends Application {
   }
 
   /**
-   * Gets a VBox and sets up its styling.
+   * Sets styling for the given VBox.
    */
   private void setupVBoxStyling(VBox vBox) {
     vBox.setBackground(new Background(new BackgroundFill(Paint.valueOf("rgba(0,0,0,0.5)"),
@@ -303,13 +302,13 @@ public class AddFeatureClusteringSample extends Application {
     clusterRadiusLabel = new Label("Cluster radius: ");
     clusterRadiusLabel.setMinWidth(MIN_WIDTH);
     clusterRadiusLabel.setTextFill(Color.WHITE);
-    clusterRadiusPicker = new ComboBox();
+    clusterRadiusPicker = new ComboBox<>();
     clusterRadiusPicker.getItems().addAll(30, 45, 60, 75, 90);
     clusterRadiusPicker.setValue(DEFAULT_CLUSTER_RADIUS);
 
     // add a listener to the ComboBox's value property to set the cluster radius
     clusterRadiusPicker.setOnAction(event -> {
-      clusteringFeatureReduction.setRadius((int) clusterRadiusPicker.getValue());
+      clusteringFeatureReduction.setRadius(clusterRadiusPicker.getValue());
     });
     clusterRadiusHBox.getChildren().addAll(clusterRadiusLabel, clusterRadiusPicker);
 
@@ -318,13 +317,13 @@ public class AddFeatureClusteringSample extends Application {
     maxScaleLabel.setMinWidth(MIN_WIDTH);
     maxScaleLabel.setTextFill(Color.WHITE);
     // create a ComboBox for adjusting max scale
-    maxScalePicker = new ComboBox();
+    maxScalePicker = new ComboBox<>();
     maxScalePicker.getItems().addAll(0, 1000, 5000, 10000, 50000, 100000, 500000);
     maxScalePicker.setValue(0);
 
     // add a listener to the ComboBox's value property to set the max scale
     maxScalePicker.setOnAction(event -> {
-      clusteringFeatureReduction.setMaxScale((int) maxScalePicker.getValue());
+      clusteringFeatureReduction.setMaxScale(maxScalePicker.getValue());
     });
     maxScaleHBox.getChildren().addAll(maxScaleLabel, maxScalePicker);
 
