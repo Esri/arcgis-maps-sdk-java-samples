@@ -18,24 +18,32 @@ package com.esri.samples.add_feature_clustering;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.jar.Attributes;
 
 import com.esri.arcgisruntime.arcgisservices.LabelDefinition;
 import com.esri.arcgisruntime.arcgisservices.LabelingPlacement;
+import com.esri.arcgisruntime.concurrent.ListenableFuture;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.LayerList;
 import com.esri.arcgisruntime.mapping.labeling.SimpleLabelExpression;
+import com.esri.arcgisruntime.mapping.popup.Popup;
 import com.esri.arcgisruntime.mapping.popup.PopupDefinition;
 import com.esri.arcgisruntime.mapping.reduction.AggregateField;
 import com.esri.arcgisruntime.mapping.reduction.AggregateStatisticType;
 import com.esri.arcgisruntime.mapping.reduction.ClusteringFeatureReduction;
+import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 import com.esri.arcgisruntime.symbology.ClassBreaksRenderer;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.esri.arcgisruntime.symbology.TextSymbol;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
@@ -70,8 +78,10 @@ public class AddFeatureClusteringSample extends Application {
   private Slider mMaxScaleSlider;
   private Label mCurrentMapScaleLabel;
   private FeatureLayer mLayer;
+  private Label mPopupContentLabel;
 
-  ClusteringFeatureReduction mClusteringFeatureReduction;
+  private ClusteringFeatureReduction mClusteringFeatureReduction;
+  private String popupContent;
 
   private MapView mapView;
   private PortalItem portalItem; // keep loadable in scope to avoid garbage collection
@@ -103,6 +113,10 @@ public class AddFeatureClusteringSample extends Application {
 
       mMap = new ArcGISMap(portalItem);
 
+      VBox vBoxPopupInformation = new VBox();
+      mPopupContentLabel = new Label();
+      vBoxPopupInformation.getChildren().addAll(mPopupContentLabel);
+
       // Get the Zurich buildings feature layer once the map has finished loading
       mMap.addDoneLoadingListener(() -> {
         if (mMap.getLoadStatus() == LoadStatus.LOADED) {
@@ -111,13 +125,46 @@ public class AddFeatureClusteringSample extends Application {
             return;
           mLayer = (FeatureLayer) mMap.getOperationalLayers().get(0);
 
+          mapView.setOnMouseClicked(mouseEvent -> {
+            if (mLayer == null) {
+              return;
+            }
+            // Identify the tapped observation.
+            Point2D point = new Point2D(mouseEvent.getX(), mouseEvent.getY());
+            ListenableFuture<IdentifyLayerResult> identifiedLayerResults = mapView.identifyLayerAsync(mLayer, point, 3.0, true);
+            identifiedLayerResults.addDoneListener(() -> {
+              try {
+                // clear the list of popup content
+                popupContent = "";
+                IdentifyLayerResult layer = identifiedLayerResults.get();
+
+                for (Popup popup : layer.getPopups()) {
+                  final Map<String, Object> attributes = popup.getGeoElement().getAttributes();
+                  for (final String name : attributes.keySet()) {
+                    popupContent += name + ": " + attributes.get(name).toString() + "\n";
+                  }
+                }
+                System.out.println("###: " + popupContent);
+                Platform.runLater(() ->{
+                  mPopupContentLabel.setText(popupContent);
+                  vBoxPopupInformation.setVisible(!mPopupContentLabel.getText().isEmpty());
+                });
+
+              } catch (ExecutionException | InterruptedException e) {
+                throw new RuntimeException(e);
+              }
+            });
+          });
+
           // set up the user interface
-          VBox vBox = controlsVBox();
+          VBox vBoxControls = controlsVBox();
 
           // add the map view to the stack pane
-          stackPane.getChildren().addAll(mapView, vBox);
-          StackPane.setAlignment(vBox, Pos.TOP_LEFT);
-          StackPane.setMargin(vBox, new Insets(10, 0, 0, 10));
+          stackPane.getChildren().addAll(mapView, vBoxControls/*, vBoxPopupInformation*/);
+          StackPane.setAlignment(vBoxControls, Pos.TOP_LEFT);
+          StackPane.setMargin(vBoxControls, new Insets(10, 0, 0, 10));
+          //StackPane.setAlignment(vBoxPopupInformation, Pos.TOP_RIGHT);
+          //StackPane.setMargin(vBoxPopupInformation, new Insets(10, 0, 0, 10));
 
           // Add a class break for each intended value range and define a symbol to display for features in that range.
           // In this case, the average building height ranges from 0 to 8 stories.
