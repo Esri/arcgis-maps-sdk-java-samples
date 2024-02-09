@@ -1,0 +1,27 @@
+{
+    "category": "Feature layers",
+    "description": "Display a map with an imagery basemap.",
+    "ignore": false,
+    "images": [
+        "DisplayPointsUsingClustering.png"
+    ],
+    "keywords": [
+        "basemap",
+        "map",
+        "ArcGISMap",
+        "BasemapStyle",
+        "MapView"
+    ],
+    "redirect_from": [
+        "/java/latest/sample-code/display_points_using_clustering.htm"
+    ],
+    "relevant_apis": [
+        "ArcGISMap",
+        "BasemapStyle",
+        "MapView"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/display_map/DisplayPointsUsingClusteringSample.java"
+    ],
+    "title": "Display points using clustering"
+}
