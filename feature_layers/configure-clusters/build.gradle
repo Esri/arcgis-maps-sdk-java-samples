@@ -22,8 +22,8 @@ javafx {
 }
 
 application {
-    mainModule = "com.esri.samples.add_feature_clustering"
-    mainClass = "com.esri.samples.add_feature_clustering.AddFeatureClusteringSample"
+    mainModule = "com.esri.samples.configure_clusters"
+    mainClass = "com.esri.samples.configure_clusters.ConfigureClustersSample"
 }
 
 compileJava.options.encoding = 'UTF-8'

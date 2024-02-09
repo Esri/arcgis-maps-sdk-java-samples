@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module com.esri.samples.add_feature_clustering {
+module com.esri.samples.configure_clusters {
   // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
@@ -23,5 +23,5 @@ module com.esri.samples.add_feature_clustering {
   // require JavaFX modules that the application uses
   requires javafx.graphics;
 
-  exports com.esri.samples.add_feature_clustering;
+  exports com.esri.samples.configure_clusters;
 }

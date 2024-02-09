@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.esri.samples.add_feature_clustering;
+package com.esri.samples.configure_clusters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +67,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class AddFeatureClusteringSample extends Application {
+public class ConfigureClustersSample extends Application {
 
   private ArcGISMap map;
   private CheckBox displayLabelsCheckbox;
@@ -97,7 +97,7 @@ public class AddFeatureClusteringSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Feature Clustering Sample");
+      stage.setTitle("Configure Clusters Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);

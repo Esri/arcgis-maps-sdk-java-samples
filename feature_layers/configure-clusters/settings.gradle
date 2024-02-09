@@ -5,4 +5,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'add-feature-clustering'
+rootProject.name = 'configure-clusters'

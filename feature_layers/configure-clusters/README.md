@@ -31,7 +31,6 @@ Interact with the controls to customize clustering feature reduction properties.
 * FeatureReduction
 * GeoElement
 * IdentifyLayerResult
-* PopupViewer
 
 ## About the data
 
