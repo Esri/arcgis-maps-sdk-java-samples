@@ -35,7 +35,7 @@
       "IdentifyLayerResult"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/add_feature_clustering/ConfigureClustersSample.java"
+        "src/main/java/com/esri/samples/configure_clusters/ConfigureClustersSample.java"
     ],
     "title": "Configure Clusters"
 }
