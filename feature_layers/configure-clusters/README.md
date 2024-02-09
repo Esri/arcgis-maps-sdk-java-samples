@@ -1,8 +1,8 @@
-# Add feature clustering
+# Configure clusters
 
 Add clustering feature reduction to a point feature layer.
 
-![Image of display map](AddFeatureClustering.png)
+![Image of configure clusters](ConfigureClusters.png)
 
 ## Use case
 
