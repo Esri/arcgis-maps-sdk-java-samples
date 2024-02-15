@@ -17,6 +17,8 @@
 package com.esri.samples.display_clusters;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
@@ -31,13 +33,14 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.Pane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -48,6 +51,8 @@ public class DisplayClustersSample extends Application {
   private MapView mapView;
   private PortalItem portalItem; // keep loadable in scope to avoid garbage collection
   private FeatureLayer powerPlantsLayer;
+  private Callout callout;
+  private WebEngine webEngine;
 
   @Override
   public void start(Stage stage) {
@@ -58,7 +63,7 @@ public class DisplayClustersSample extends Application {
       Scene scene = new Scene(stackPane);
 
       // set title, size, and add scene to stage
-      stage.setTitle("Display Points Using Clustering Sample");
+      stage.setTitle("Display Clusters Sample");
       stage.setWidth(800);
       stage.setHeight(700);
       stage.setScene(scene);
@@ -69,12 +74,21 @@ public class DisplayClustersSample extends Application {
       ArcGISRuntimeEnvironment.setApiKey(yourAPIKey);
 
       // create a button to toggle clustering
-      Button featureClusteringToggle = new Button("Toggle Feature Clustering");
+      ToggleButton featureClusteringToggle = new ToggleButton("Toggle Feature Clustering");
       featureClusteringToggle.setDisable(true);
+      // The cluster layer is enabled by default, so let's also set the togglebutton toggled
+      featureClusteringToggle.setSelected(true);
 
       // create a portal and portal item, using the portal and item ID
       var portal = new Portal("https://www.arcgis.com/");
       portalItem = new PortalItem(portal, "8916d50c44c746c1aafae001552bad23");
+
+      WebView webView = new WebView();
+      webView.setMaxHeight(200);
+      webView.setMaxWidth(150);
+      Pane region = new Pane();
+      webEngine = webView.getEngine();
+      region.getChildren().add(webView);
 
       map = new ArcGISMap(portalItem);
       map.addDoneLoadingListener(() -> {
@@ -89,38 +103,32 @@ public class DisplayClustersSample extends Application {
               return;
             }
 
-            mapView.getCallout().setVisible(false);
+            mapView.getCallout().dismiss();
             Point2D point = new Point2D(mouseEvent.getX(), mouseEvent.getY());
-            ListenableFuture<IdentifyLayerResult> identifiedLayerResults = mapView.identifyLayerAsync(powerPlantsLayer, point, 3.0, false);
-            identifiedLayerResults.addDoneListener(() -> {
+            ListenableFuture<IdentifyLayerResult> identifiedLayerResultsFuture = mapView.identifyLayerAsync(powerPlantsLayer, point, 3.0, false);
+            identifiedLayerResultsFuture.addDoneListener(() -> {
+              IdentifyLayerResult identifiedLayerResults = null;
               try {
-                if (identifiedLayerResults.get() == null || identifiedLayerResults.get().getPopups().isEmpty()) {
+                identifiedLayerResults = identifiedLayerResultsFuture.get(10, TimeUnit.SECONDS);
+                if (identifiedLayerResults == null || identifiedLayerResults.getPopups().isEmpty()) {
                   return;
                 }
 
-                Popup popup = identifiedLayerResults.get().getPopups().get(0);
+                Popup popup = identifiedLayerResults.getPopups().get(0);
 
-                Callout callout = mapView.getCallout();
+                callout = mapView.getCallout();
                 String htmlText = popup.getDescription();
 
-                WebView webView = new WebView();
-                VBox region = new VBox();
-                WebEngine webEngine;
-                webEngine = webView.getEngine();
                 webEngine.loadContent(htmlText);
-                webView.setMaxHeight(100);
-                webView.setMaxWidth(150);
-                region.getChildren().add(webView);
 
                 callout.setCustomView(region);
 
                 callout.screenToLocal(point);
-                callout.setVisible(true);
                 // show the callout where the user clicked
                 Point mapPoint = mapView.screenToLocation(point);
                 callout.showCalloutAt(mapPoint);
 
-              } catch (ExecutionException | InterruptedException e) {
+              } catch (TimeoutException | ExecutionException | InterruptedException e) {
                 throw new RuntimeException(e);
               }
             });
@@ -128,7 +136,7 @@ public class DisplayClustersSample extends Application {
 
           featureClusteringToggle.setOnAction(event -> {
             powerPlantsLayer.getFeatureReduction().setEnabled(!powerPlantsLayer.getFeatureReduction().isEnabled());
-            mapView.getCallout().setVisible(false);
+            mapView.getCallout().dismiss();
           });
         }
       });

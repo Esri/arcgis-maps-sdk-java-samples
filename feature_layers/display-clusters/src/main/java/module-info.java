@@ -22,7 +22,6 @@ module com.esri.samples.display_clusters {
 
   // require JavaFX modules that the application uses
   requires javafx.graphics;
-  requires java.desktop;
   requires javafx.web;
 
   exports com.esri.samples.display_clusters;

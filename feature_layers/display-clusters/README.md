@@ -16,7 +16,7 @@ Pan and zoom the map to view how clustering is dynamically updated. Toggle clust
 
 1. Create a map from a web map `PortalItem`.
 2. Get the cluster enabled layer from the map's operational layers.
-3. Get the `FeatureReduction` from the feature layer and call `setEnabled(bool enabled)` to enable or disable clustering on the feature layer.
+3. Get the `FeatureReduction` from the feature layer and call `setEnabled(boolean enabled)` to enable or disable clustering on the feature layer.
 4. When the user clicks on the map, call `identifyLayerAsync` on the feature layer and pass in the map click location.
 5. Get the `Popup` from the resulting `IdentifyLayerResult`.
 6. Get the popup's `getDescription` and using a `WebView` inside a `VBox`, display it by setting the callout's `setCustomView`.
