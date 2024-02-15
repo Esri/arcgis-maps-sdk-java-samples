@@ -83,19 +83,21 @@ public class DisplayClustersSample extends Application {
       var portal = new Portal("https://www.arcgis.com/");
       portalItem = new PortalItem(portal, "8916d50c44c746c1aafae001552bad23");
 
-      WebView webView = new WebView();
-      webView.setMaxHeight(200);
-      webView.setMaxWidth(150);
-      Pane region = new Pane();
-      webEngine = webView.getEngine();
-      region.getChildren().add(webView);
-
       map = new ArcGISMap(portalItem);
       map.addDoneLoadingListener(() -> {
         if (map.getLoadStatus() == LoadStatus.LOADED) {
           featureClusteringToggle.setDisable(false);
 
           powerPlantsLayer = (FeatureLayer)map.getOperationalLayers().get(0);
+
+          WebView webView = new WebView();
+          webView.setMaxHeight(200);
+          webView.setMaxWidth(150);
+          Pane region = new Pane();
+          callout = mapView.getCallout();
+          callout.setCustomView(region);
+          webEngine = webView.getEngine();
+          region.getChildren().add(webView);
 
           // when the button is clicked, toggle the feature clustering
           mapView.setOnMouseClicked(mouseEvent -> {
@@ -116,12 +118,9 @@ public class DisplayClustersSample extends Application {
 
                 Popup popup = identifiedLayerResults.getPopups().get(0);
 
-                callout = mapView.getCallout();
                 String htmlText = popup.getDescription();
 
                 webEngine.loadContent(htmlText);
-
-                callout.setCustomView(region);
 
                 callout.screenToLocal(point);
                 // show the callout where the user clicked
