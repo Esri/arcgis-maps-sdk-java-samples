@@ -6,11 +6,6 @@
         "DisplayClusters.png"
     ],
     "keywords": [
-        "AggregateGeoElement",
-        "FeatureLayer",
-        "FeatureReduction",
-        "GeoElement",
-        "IdentifyLayerResult",
         "aggregate",
         "bin",
         "cluster",
@@ -18,7 +13,12 @@
         "merge",
         "normalize",
         "reduce",
-        "summarize"
+        "summarize",
+        "AggregateGeoElement",
+        "FeatureLayer",
+        "FeatureReduction",
+        "GeoElement",
+        "IdentifyLayerResult"
     ],
     "redirect_from": [
         "/java/latest/sample-code/display_clusters.htm"
