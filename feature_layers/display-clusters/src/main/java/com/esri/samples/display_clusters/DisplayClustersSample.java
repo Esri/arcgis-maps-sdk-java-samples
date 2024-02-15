@@ -31,11 +31,9 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -107,7 +105,7 @@ public class DisplayClustersSample extends Application {
 
                 WebView webView = new WebView();
                 VBox region = new VBox();
-                WebEngine webEngine = new WebEngine();
+                WebEngine webEngine;
                 webEngine = webView.getEngine();
                 webEngine.loadContent(htmlText);
                 webView.setMaxHeight(100);
