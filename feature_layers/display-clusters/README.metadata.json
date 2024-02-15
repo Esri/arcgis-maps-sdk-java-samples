@@ -1,0 +1,37 @@
+{
+    "category": "Feature layers",
+    "description": "Display a web map with a point feature layer that has feature reduction enabled to aggregate points into clusters.",
+    "ignore": false,
+    "images": [
+        "DisplayClusters.png"
+    ],
+    "keywords": [
+        "AggregateGeoElement",
+        "FeatureLayer",
+        "FeatureReduction",
+        "GeoElement",
+        "IdentifyLayerResult",
+        "aggregate",
+        "bin",
+        "cluster",
+        "group",
+        "merge",
+        "normalize",
+        "reduce",
+        "summarize"
+    ],
+    "redirect_from": [
+        "/java/latest/sample-code/display_clusters.htm"
+    ],
+    "relevant_apis": [
+        "AggregateGeoElement",
+        "FeatureLayer",
+        "FeatureReduction",
+        "GeoElement",
+        "IdentifyLayerResult"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/display_clusters/DisplayClustersSample.java"
+    ],
+    "title": "Display clusters"
+}

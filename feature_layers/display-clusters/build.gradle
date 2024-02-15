@@ -22,8 +22,8 @@ javafx {
 }
 
 application {
-    mainModule = "com.esri.samples.display_points_using_clustering"
-    mainClass = "com.esri.samples.display_points_using_clustering.DisplayPointsUsingClusteringSample"
+    mainModule = "com.esri.samples.display_clusters"
+    mainClass = "com.esri.samples.display_clusters.DisplayClustersSample"
 }
 
 compileJava.options.encoding = 'UTF-8'

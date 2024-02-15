@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module com.esri.samples.display_points_using_clustering {
+module com.esri.samples.display_clusters {
   // require ArcGIS Maps SDK for Java module
   requires com.esri.arcgisruntime;
 
@@ -22,6 +22,8 @@ module com.esri.samples.display_points_using_clustering {
 
   // require JavaFX modules that the application uses
   requires javafx.graphics;
+  requires java.desktop;
+  requires javafx.web;
 
-  exports com.esri.samples.display_points_using_clustering;
+  exports com.esri.samples.display_clusters;
 }

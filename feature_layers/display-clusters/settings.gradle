@@ -5,4 +5,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'display-points-using-clustering'
+rootProject.name = 'display-clusters'

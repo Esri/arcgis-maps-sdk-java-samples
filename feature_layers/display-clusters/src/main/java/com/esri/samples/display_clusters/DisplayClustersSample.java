@@ -14,29 +14,37 @@
  * the License.
  */
 
-package com.esri.samples.display_points_using_clustering;
+package com.esri.samples.display_clusters;
 
 import java.util.concurrent.ExecutionException;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.layers.FeatureLayer;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.popup.Popup;
+import com.esri.arcgisruntime.mapping.view.Callout;
 import com.esri.arcgisruntime.mapping.view.IdentifyLayerResult;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.portal.Portal;
 import com.esri.arcgisruntime.portal.PortalItem;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class DisplayPointsUsingClusteringSample extends Application {
+
+public class DisplayClustersSample extends Application {
 
   private ArcGISMap map;
   private MapView mapView;
@@ -88,14 +96,32 @@ public class DisplayPointsUsingClusteringSample extends Application {
             ListenableFuture<IdentifyLayerResult> identifiedLayerResults = mapView.identifyLayerAsync(powerPlantsLayer, point, 3.0, false);
             identifiedLayerResults.addDoneListener(() -> {
               try {
-                if (identifiedLayerResults.get().getPopups().isEmpty()) {
+                if (identifiedLayerResults.get() == null || identifiedLayerResults.get().getPopups().isEmpty()) {
                   return;
                 }
 
                 Popup popup = identifiedLayerResults.get().getPopups().get(0);
 
-                mapView.getCallout().screenToLocal(point);
-                mapView.getCallout().setVisible(true);
+                Callout callout = mapView.getCallout();
+                String htmlText = popup.getDescription();
+
+                WebView webView = new WebView();
+                VBox region = new VBox();
+                WebEngine webEngine = new WebEngine();
+                webEngine = webView.getEngine();
+                webEngine.loadContent(htmlText);
+                webView.setMaxHeight(100);
+                webView.setMaxWidth(150);
+                region.getChildren().add(webView);
+
+                callout.setCustomView(region);
+
+                callout.screenToLocal(point);
+                callout.setVisible(true);
+                // show the callout where the user clicked
+                Point mapPoint = mapView.screenToLocation(point);
+                callout.showCalloutAt(mapPoint);
+
               } catch (ExecutionException | InterruptedException e) {
                 throw new RuntimeException(e);
               }
