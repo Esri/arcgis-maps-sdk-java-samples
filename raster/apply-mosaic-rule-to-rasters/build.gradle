@@ -22,7 +22,7 @@ javafx {
 }
 
 application {
-    mainModule = "apply.mosaic.rule.to.rasters.main"
+    mainModule = "com.esri.samples.apply_mosaic_rule_to_rasters"
     mainClass = "com.esri.samples.apply_mosaic_rule_to_rasters.ApplyMosaicRuleToRastersSample"
 }
 
