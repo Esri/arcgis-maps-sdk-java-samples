@@ -1,0 +1,33 @@
+{
+    "category": "Map",
+    "description": "Apply basemap style parameters customization for a basemap, such as displaying all labels in a specific language or displaying every label in their corresponding local language.",
+    "ignore": false,
+    "images": [
+        "ConfigureBasemapStyleParameters.png"
+    ],
+    "keywords": [
+        "basemap",
+        "map",
+        "viewpoint",
+        "point",
+        "ArcGISMap",
+        "Basemap",
+        "BasemapStyleParameters",
+        "BasemapStyleLanguageStrategy",
+        "MapView"
+    ],
+    "redirect_from": [
+        "/java/latest/sample-code/configure-basemap-style-parameters.htm"
+    ],
+    "relevant_apis": [
+        "ArcGISMap",
+        "Basemap",
+        "BasemapStyleParameters",
+        "BasemapStyleLanguageStrategy",
+        "MapView"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/configure_basemap_style_language/ConfigureBasemapStyleParametersSample.java"
+    ],
+    "title": "Configure basemap style parameters"
+}
