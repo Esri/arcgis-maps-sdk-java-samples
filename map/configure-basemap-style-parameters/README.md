@@ -19,7 +19,7 @@ Pan and zoom to navigate the map and see how different labels are displayed in t
 1. Create a `BasemapStyleParameters` object.
 2. Configure customization preferences on the `BasemapStyleParameters` object, for instance:
     * setting the `LanguageStrategy` to `BasemapStyleLanguageStrategy.LOCAL` or 
-    * `setSpecificLanguage("el")` changes the label language to Greek. 
+    * `setSpecificLanguage("el")` changes the label language to Greek.
 3. The `SpecificLanguage` always overrides the `LanguageStrategy`, which means the specific language needs to be set to an empty string in order to use the language strategy.
 4. Create a basemap using a `BasemapStyle` and the `BasemapStyleParameters`.
 5. Assign the configured basemap to the `Map`'s `basemap` property.
