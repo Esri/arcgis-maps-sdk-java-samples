@@ -6,28 +6,30 @@
         "ConfigureBasemapStyleParameters.png"
     ],
     "keywords": [
-        "basemap",
+        "basemap style",
+        "language",
+        "language strategy",
         "map",
-        "viewpoint",
         "point",
-        "ArcGISMap",
+        "viewpoint",
         "Basemap",
-        "BasemapStyleParameters",
         "BasemapStyleLanguageStrategy",
+        "BasemapStyleParameters",
+        "Map",
         "MapView"
     ],
     "redirect_from": [
         "/java/latest/sample-code/configure-basemap-style-parameters.htm"
     ],
     "relevant_apis": [
-        "ArcGISMap",
         "Basemap",
-        "BasemapStyleParameters",
         "BasemapStyleLanguageStrategy",
+        "BasemapStyleParameters",
+        "Map",
         "MapView"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/configure_basemap_style_language/ConfigureBasemapStyleParametersSample.java"
+        "src/main/java/com/esri/samples/configure_basemap_style_parameters/ConfigureBasemapStyleParametersSample.java"
     ],
     "title": "Configure basemap style parameters"
 }
