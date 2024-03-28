@@ -59,6 +59,13 @@ public class MinMaxScaleSample extends Application {
       map.setMinScale(8000);
       map.setMaxScale(2000);
 
+      ArcGISMap.loadAsync();
+      ArcGISMap.addDoneLoadingListener(() -> {
+        // Overridden min & max scale values will be retained even when the resource finishes loading
+        System.out.println("Layer Status: " + ArcGISMap.getLoadStatus());
+        System.out.println("Min Scale: " + ArcGISMap.getMinScale() + " Max Scale: " + ArcGISMap.getMaxScale());
+      });
+
       // create a map view and set the map to it
       mapView = new MapView();
       mapView.setMap(map);
