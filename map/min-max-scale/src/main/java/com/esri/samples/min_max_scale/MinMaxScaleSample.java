@@ -16,6 +16,7 @@
 
 package com.esri.samples.min_max_scale;
 
+import com.esri.arcgisruntime.loadable.LoadStatus;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -59,12 +60,20 @@ public class MinMaxScaleSample extends Application {
       map.setMinScale(8000);
       map.setMaxScale(2000);
 
-      ArcGISMap.loadAsync();
-      ArcGISMap.addDoneLoadingListener(() -> {
-        // Overridden min & max scale values will be retained even when the resource finishes loading
-        System.out.println("Layer Status: " + ArcGISMap.getLoadStatus());
-        System.out.println("Min Scale: " + ArcGISMap.getMinScale() + " Max Scale: " + ArcGISMap.getMaxScale());
-      });
+      System.out.println("Layer Status2: " + map.getLoadStatus());
+      System.out.println("Min Scale2: " + map.getMinScale() + " Max Scale: " + map.getMaxScale());
+
+      map.loadAsync();
+      map.addDoneLoadingListener(() -> {
+
+        if (map.getLoadStatus() == LoadStatus.LOADED) {
+
+          // Overridden min & max scale values will be retained even when the resource finishes loading
+          System.out.println("Layer Status: " + map.getLoadStatus());
+          System.out.println("Min Scale: " + map.getMinScale() + " Max Scale: " + map.getMaxScale());
+
+        }
+    });
 
       // create a map view and set the map to it
       mapView = new MapView();
