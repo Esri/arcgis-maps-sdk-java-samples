@@ -6,21 +6,21 @@
         "Add3dTilesLayer.png"
     ],
     "keywords": [
-        "Ogc3DTilesLayer",
-        "SceneView",
         "3d tiles",
         "layers",
         "OGC",
         "OGC API",
         "scene",
-        "service"
+        "service",
+        "Ogc3DTilesLayer",
+        "SceneView"
     ],
     "redirect_from": [
         "/java/latest/sample-code/add-3d-tiles-layer.htm"
     ],
     "relevant_apis": [
-        "SceneView",
-        "Ogc3DTilesLayer"
+        "Ogc3DTilesLayer",
+        "SceneView"
     ],
     "snippets": [
         "src/main/java/com/esri/samples/add_3d_tiles_layer/Add3dTilesLayer.java"
