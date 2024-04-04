@@ -13,7 +13,7 @@ idea {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '200.4.0'
+    arcgisVersion = '200.4.0-4197'
 }
 
 javafx {
@@ -43,7 +43,7 @@ configurations {
 }
 
 dependencies {
-    implementation 'commons-io:commons-io:2.15.0'
+    implementation 'commons-io:commons-io:2.16.0'
     implementation "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
