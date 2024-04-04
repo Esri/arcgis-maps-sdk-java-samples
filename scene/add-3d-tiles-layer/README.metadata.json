@@ -15,9 +15,7 @@
         "Ogc3DTilesLayer",
         "SceneView"
     ],
-    "redirect_from": [
-        "/java/latest/sample-code/add-3d-tiles-layer.htm"
-    ],
+    "redirect_from": "",
     "relevant_apis": [
         "Ogc3DTilesLayer",
         "SceneView"
