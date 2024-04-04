@@ -1,0 +1,27 @@
+{
+    "category": "Scene",
+    "description": "Add a layer to visualize 3D tiles data that conforms to the OGC 3D Tiles specification.",
+    "ignore": false,
+    "images": [
+        "Add3dTilesLayer.png"
+    ],
+    "keywords": [
+        "3d tiles",
+        "layers",
+        "OGC",
+        "OGC API",
+        "scene",
+        "service",
+        "Ogc3DTilesLayer",
+        "SceneView"
+    ],
+    "redirect_from": "",
+    "relevant_apis": [
+        "Ogc3DTilesLayer",
+        "SceneView"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/add_3d_tiles_layer/Add3dTilesLayer.java"
+    ],
+    "title": "Add 3d tiles layer"
+}
