@@ -23,7 +23,7 @@ javafx {
 
 application {
     mainModule = "com.esri.samples.add_3d_tiles_layer"
-    mainClass = "com.esri.samples.add_3d_tiles_layer.Add3dTilesLayer"
+    mainClass = "com.esri.samples.add_3d_tiles_layer.Add3dTilesLayerSample"
 }
 
 compileJava.options.encoding = 'UTF-8'
