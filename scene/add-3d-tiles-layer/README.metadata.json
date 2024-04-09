@@ -21,7 +21,7 @@
         "SceneView"
     ],
     "snippets": [
-        "src/main/java/com/esri/samples/add_3d_tiles_layer/Add3dTilesLayer.java"
+        "src/main/java/com/esri/samples/add_3d_tiles_layer/Add3dTilesLayerSample.java"
     ],
     "title": "Add 3d tiles layer"
 }

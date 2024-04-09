@@ -30,7 +30,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class Add3dTilesLayer extends Application {
+public class Add3dTilesLayerSample extends Application {
   private SceneView sceneView;
   private ArcGISScene arcGISScene;
 
