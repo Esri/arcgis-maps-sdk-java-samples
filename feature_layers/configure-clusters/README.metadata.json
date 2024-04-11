@@ -1,0 +1,41 @@
+{
+    "category": "Feature layers",
+    "description": "Add clustering feature reduction to a point feature layer.",
+    "ignore": false,
+    "images": [
+        "ConfigureClusters.png"
+    ],
+    "keywords": [
+      "aggregate",
+      "bin",
+      "cluster",
+      "group",
+      "merge",
+      "normalize",
+      "popup",
+      "reduce",
+      "renderer",
+      "summarize",
+      "AggregateGeoElement",
+      "ClassBreaksRenderer",
+      "FeatureLayer",
+      "FeatureReduction",
+      "GeoElement",
+      "IdentifyLayerResult"
+    ],
+    "redirect_from": [
+        "/java/latest/sample-code/configure-clusters.htm"
+    ],
+    "relevant_apis": [
+      "AggregateGeoElement",
+      "ClassBreaksRenderer",
+      "FeatureLayer",
+      "FeatureReduction",
+      "GeoElement",
+      "IdentifyLayerResult"
+    ],
+    "snippets": [
+        "src/main/java/com/esri/samples/configure_clusters/ConfigureClustersSample.java"
+    ],
+    "title": "Configure clusters"
+}

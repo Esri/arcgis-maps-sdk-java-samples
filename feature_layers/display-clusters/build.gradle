@@ -1,0 +1,87 @@
+plugins {
+    id 'application'
+    id 'idea'
+    id 'org.openjfx.javafxplugin' // version is defined in settings.gradle
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+    }
+}
+
+group = 'com.esri.samples'
+
+ext {
+    arcgisVersion = '200.4.0'
+}
+
+javafx {
+    version = "21.0.2"
+    modules = [ 'javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.web', 'javafx.media' ]
+}
+
+application {
+    mainModule = "com.esri.samples.display_clusters"
+    mainClass = "com.esri.samples.display_clusters.DisplayClustersSample"
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://esri.jfrog.io/artifactory/arcgis'
+    }
+    maven {
+        url 'https://olympus.esri.com/artifactory/arcgisruntime-repo'
+    }
+}
+
+configurations {
+    natives
+}
+
+dependencies {
+    implementation "com.esri.arcgisruntime:arcgis-java:$arcgisVersion"
+    natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
+    natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
+    // handle SLF4J http://www.slf4j.org/codes.html#StaticLoggerBinder
+    implementation 'org.slf4j:slf4j-nop:2.0.12'
+}
+
+task createGradlePropertiesAndWriteApiKey {
+    description = "Creates a new gradle.properties file with an empty API key variable in the user home ./gradle folder, if the file doesn't already exist."
+    group = "build"
+    def propertiesFile = new File("${System.properties.getProperty("user.home")}/.gradle/gradle.properties")
+    if (!propertiesFile.exists()) {
+        print("Go to " + new URL("https://developers.arcgis.com/dashboard") + " to get an API key.")
+        print(" Add your API key to ${System.properties.getProperty("user.home")}\\.gradle\\gradle.properties.")
+        propertiesFile.write("apiKey = ")
+    }
+}
+
+task copyNatives(type: Copy) {
+    description = "Copies the arcgis native libraries into the project build directory for development."
+    group = "build"
+    configurations.natives.asFileTree.each {
+        from(zipTree(it))
+    }
+    // store native libraries in a common location shared with other samples
+    into "${System.properties.getProperty("user.home")}/.arcgis/$arcgisVersion"
+}
+
+run {
+    doFirst {
+        // sets the API key from the gradle.properties file as a Java system property
+        systemProperty 'apiKey', apiKey
+    }
+    dependsOn copyNatives
+}
+
+if (rootProject == project) {
+    // the wrapper task is only used if this project is the root project i.e. not a subproject
+    wrapper {
+        gradleVersion = '8.4'
+    }
+}
