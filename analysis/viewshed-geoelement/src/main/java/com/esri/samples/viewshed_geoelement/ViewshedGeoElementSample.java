@@ -95,7 +95,8 @@ public class ViewshedGeoElementSample extends Application {
 
       // add base surface for elevation data
       Surface surface = new Surface();
-      final String localElevationImageService = "https://scene.arcgis.com/arcgis/rest/services/BREST_DTM_1M/ImageServer";
+      final String localElevationImageService = "https://elevation3d.arcgis.com" +
+          "/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer";
       surface.getElevationSources().add(new ArcGISTiledElevationSource(localElevationImageService));
       scene.setBaseSurface(surface);
 
