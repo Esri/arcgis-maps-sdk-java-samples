@@ -96,7 +96,7 @@ public class Add3dTilesLayerSample extends Application {
 
   private void add3DTilesLayer() {
     String tilePath =
-        "https://tiles.arcgis.com/tiles/N82JbI5EYtAkuUKU/arcgis/rest/services/Stuttgart/3DTilesServer/tileset.json";
+        "https://tiles.arcgis.com/tiles/ZQgQTuoyBrtmoGdP/arcgis/rest/services/Stuttgart/3DTilesServer/tileset.json";
 
     Ogc3DTilesLayer ogc3dTilesLayer = new Ogc3DTilesLayer(tilePath);
     arcGISScene.getOperationalLayers().add(ogc3dTilesLayer);
