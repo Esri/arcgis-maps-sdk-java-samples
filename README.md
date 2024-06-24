@@ -67,9 +67,10 @@ Note: *if you encounter the error `Could not get unknown property 'apiKey' for t
 4. Run `./gradlew run` on Linux/Mac or `gradlew.bat run` on Windows to run the app.
 
 ### Setup an API key
-Accessing Esri location services, including basemaps, routing, and geocoding, requires authentication using either an ArcGIS identity or an API Key:
-1. ArcGIS identity: An ArcGIS named user account that is a member of an organization in ArcGIS Online or ArcGIS Enterprise.
-2. API key: A permanent key that gives your application access to Esri location services. Visit your [ArcGIS Developers Dashboard](https://developers.arcgis.com/dashboard) to create a new API key or access an existing API key.
+Accessing ArcGIS location services, including basemaps, routing, and geocoding, requires authentication using either [user authentication](https://developers.arcgis.com/security-and-authentication/user-authentication/) or [API Key authentication](https://developers.arcgis.com/documentation/security-and-authentication/api-key-authentication/):
+
+1. User authentication. Allows a user to sign into the application with an ArcGIS account to access ArcGIS content, services, and resources.
+2. API key authentication: A long-lived access token that gives your application access to ArcGIS location services. Go to the [Create an API key](https://links.esri.com/create-an-api-key/) to obtain a new API key access token. Ensure the following privileges are enabled: Basemaps, Geocoding, and Routing.
 
 ### Offline sample data
 Some samples require offline data. A `samples-data` directory will automatically download to the project root when the Gradle project is configured/imported.
