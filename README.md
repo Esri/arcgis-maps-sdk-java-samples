@@ -8,9 +8,10 @@ Browse the category directories to explore the samples. Each sample is an indivi
 
 Installing Gradle is not necessary since each sample includes the Gradle wrapper.
 
-Accessing Esri location services, including basemaps, routing, and geocoding, requires authentication using either an ArcGIS identity or an API Key:
- 1. ArcGIS identity: An ArcGIS named user account that is a member of an organization in ArcGIS Online or ArcGIS Enterprise.
- 2. API key: A permanent key that gives your application access to Esri location services. Visit your [ArcGIS Developers Dashboard](https://developers.arcgis.com/dashboard) to create a new API key or access an existing API key.
+Accessing ArcGIS location services, including basemaps, routing, and geocoding services, requires authentication using either [user authentication](https://developers.arcgis.com/security-and-authentication/user-authentication/) or [API Key authentication](https://developers.arcgis.com/documentation/security-and-authentication/api-key-authentication/):
+
+1. User authentication. Allows a user to sign into the application with an ArcGIS account to access ArcGIS content, services, and resources.
+2. API key authentication: A long-lived access token that gives your application access to ArcGIS location services. Go to the [Create an API key](https://links.esri.com/create-an-api-key/) tutorial to obtain a new API key access token. Ensure the following privileges are enabled: Basemaps, Geocoding, and Routing.
 
 Note: *in the following instructions for setting the API key, if a `gradle.properties` file does not already exist in the `/.gradle` folder within your home directory, a Gradle task in the samples build.gradle file will generate one for you.*
 
