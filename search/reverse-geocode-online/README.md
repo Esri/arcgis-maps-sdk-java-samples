@@ -27,7 +27,7 @@ Click on the map to see the nearest address displayed in a callout.
 
 ## Additional information
 
-This sample uses the World Geocoding Service. For more information, see the [Geocoding service](https://developers.arcgis.com/documentation/mapping-apis-and-services/search/services/geocoding-service/) help topic on the ArcGIS Developer website.
+This sample uses the World Geocoding Service. For more information, see the [Geocoding service](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm) help topic on the ArcGIS REST APIs website.
 
 ## Tags
 
