@@ -13,11 +13,11 @@ idea {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '200.5.0'
+    arcgisVersion = '200.4.0'
 }
 
 javafx {
-    version = "21.0.3"
+    version = "21.0.2"
     modules = [ 'javafx.controls', 'javafx.graphics', 'javafx.fxml', 'javafx.web', 'javafx.media', 'javafx.swing' ]
 }
 
@@ -47,7 +47,7 @@ dependencies {
     natives "com.esri.arcgisruntime:arcgis-java-jnilibs:$arcgisVersion"
     natives "com.esri.arcgisruntime:arcgis-java-resources:$arcgisVersion"
     // handle SLF4J http://www.slf4j.org/codes.html#StaticLoggerBinder
-    implementation 'org.slf4j:slf4j-nop:2.0.13'
+    implementation 'org.slf4j:slf4j-nop:2.0.12'
 }
 
 task createGradlePropertiesAndWriteApiKey {
