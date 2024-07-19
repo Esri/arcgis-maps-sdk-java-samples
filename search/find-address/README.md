@@ -28,7 +28,7 @@ Select an entry from the drop-down menu at the top left of the screen to zoom to
 
 ## Additional information
 
-This sample uses the World Geocoding Service. For more information, see the [Geocoding service](https://developers.arcgis.com/documentation/mapping-apis-and-services/search/services/geocoding-service/) help topic on the ArcGIS Developer website.
+This sample uses the World Geocoding Service. For more information, see the [Geocoding service](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm) help topic on the ArcGIS REST APIs website.
 
 ## Tags
 
