@@ -7,8 +7,8 @@
     ],
     "keywords": [
         "OGC",
-        "web map service",
         "WMS",
+        "web map service",
         "ArcGISMap",
         "MapView",
         "WmsLayer"
