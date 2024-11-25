@@ -13,7 +13,7 @@ idea {
 group = 'com.esri.samples'
 
 ext {
-    arcgisVersion = '200.5.0'
+    arcgisVersion = '200.6.0'
 }
 
 javafx {
