@@ -16,6 +16,8 @@
 
 Welcome to the ArcGIS Maps SDK for Java Samples repository.
 
+*Please note that the ArcGIS Maps SDK for Java is [deprecated](https://support.esri.com/en-us/knowledge-base/deprecation-arcgis-maps-sdk-for-java-000032164).*  
+
 The ArcGIS Maps SDK for Java is used to build mapping, location, and GIS applications for desktop applications running on Windows, Mac, or Linux. This repo contains a set of sample projects demonstrating how to accomplish various mapping and geospatial tasks with the ArcGIS Maps SDK for Java.
 
 ### Sections
